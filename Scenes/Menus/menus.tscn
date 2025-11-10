@@ -1,0 +1,133 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkuvjgsgfd3xb"]
+
+[ext_resource type="Script" uid="uid://c4pbxw5b7p6mp" path="res://Scenes/Menus/menus.gd" id="1_goel8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_goel8"]
+font_size = 146
+
+[node name="Menus" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_goel8")
+
+[node name="MainMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -169.25
+offset_top = -107.25
+offset_right = 169.25
+offset_bottom = 107.25
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Play Game"
+
+[node name="SettingsButton" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="HighScoresButton" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "High Scores"
+
+[node name="GameTitle" type="Label" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -282.5
+offset_right = 282.5
+offset_bottom = 200.0
+grow_horizontal = 2
+text = "Wave Game"
+label_settings = SubResource("LabelSettings_goel8")
+horizontal_alignment = 1
+
+[node name="SettingsMenu" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackButton" type="Button" parent="SettingsMenu"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Back"
+
+[node name="SettingsLabel" type="Label" parent="SettingsMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -282.5
+offset_top = -100.0
+offset_right = 282.5
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Settings"
+label_settings = SubResource("LabelSettings_goel8")
+horizontal_alignment = 1
+
+[node name="HighScoresMenu" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackButton2" type="Button" parent="HighScoresMenu"]
+layout_mode = 0
+offset_right = 45.0
+offset_bottom = 31.0
+text = "Back"
+
+[node name="HighScoresLabel" type="Label" parent="HighScoresMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -11.5
+offset_right = 31.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "High Scores"
+label_settings = SubResource("LabelSettings_goel8")
+horizontal_alignment = 1
+
+[connection signal="pressed" from="MainMenu/VBoxContainer/PlayButton" to="." method="handle_start_game"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/SettingsButton" to="." method="handle_settings_press"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/HighScoresButton" to="." method="handle_high_scores_press"]
+[connection signal="pressed" from="SettingsMenu/BackButton" to="." method="handle_menu_press"]
+[connection signal="pressed" from="HighScoresMenu/BackButton2" to="." method="handle_menu_press"]

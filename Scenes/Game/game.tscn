@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://gf4gu3r0d4ub"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
+font_size = 46
+
+[node name="Game" type="Node2D"]
+
+[node name="UICanvas" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="UICanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScoreDisplay" type="Label" parent="UICanvas/UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "000000"
+label_settings = SubResource("LabelSettings_ev4jc")
