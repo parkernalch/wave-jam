@@ -24,6 +24,10 @@ size = Vector2(50, 50)
 scale = Vector2(0.6400006, 0.6400006)
 script = ExtResource("1_1des2")
 
+[node name="BulletSpawn" type="Node2D" parent="."]
+position = Vector2(0, -135.93738)
+scale = Vector2(1.0000001, 1.0000001)
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.43, 0.43)
 sprite_frames = SubResource("SpriteFrames_q3lat")

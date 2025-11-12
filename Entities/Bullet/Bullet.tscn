@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://bu6085dc6v642"]
+
+[ext_resource type="Texture2D" uid="uid://bve4tgd36vyvf" path="res://icon.svg" id="1_1thq3"]
+[ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Entities/Bullet/Bullet.gdshader" id="1_2bdyw"]
+[ext_resource type="Script" uid="uid://dm4flb48kbjnv" path="res://Entities/Bullet/Bullet.gd" id="1_084bd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qa4od"]
+shader = ExtResource("1_2bdyw")
+shader_parameter/tint_color = Color(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2bdyw"]
+shader = ExtResource("1_2bdyw")
+shader_parameter/tint_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_084bd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1thq3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2bdyw"]
+size = Vector2(6, 26)
+
+[node name="Bullet" type="RigidBody2D"]
+material = SubResource("ShaderMaterial_qa4od")
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_084bd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_2bdyw")
+scale = Vector2(0.05, 0.2)
+sprite_frames = SubResource("SpriteFrames_084bd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2bdyw")
