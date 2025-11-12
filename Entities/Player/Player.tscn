@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://cgbo4s8g2xsx7"]
 
-[ext_resource type="Script" uid="uid://bakerdq5wxjs0" path="res://Entities/Player/Player.gd" id="1_1des2"]
+[ext_resource type="Script" uid="uid://buwdvu2cebbwk" path="res://Entities/Player/Player.gd" id="1_1des2"]
 [ext_resource type="Texture2D" uid="uid://bve4tgd36vyvf" path="res://icon.svg" id="1_3qydi"]
-[ext_resource type="Script" uid="uid://c26clyli7nif4" path="res://Entities/Player/States/Move.gd" id="3_an6q6"]
-[ext_resource type="Script" uid="uid://ch5ks4m7ijeku" path="res://Globals/StateMachine/StateMachine.gd" id="3_t38ms"]
-[ext_resource type="Script" uid="uid://bg1tj38ykui53" path="res://Entities/Player/States/Idle.gd" id="4_t38ms"]
+[ext_resource type="Script" uid="uid://fv8jaqcasljx" path="res://Entities/Player/States/Move.gd" id="3_an6q6"]
+[ext_resource type="Script" uid="uid://cox4b2bxb2jic" path="res://Globals/StateMachine/StateMachine.gd" id="3_t38ms"]
+[ext_resource type="Script" uid="uid://chstpwhwviufu" path="res://Entities/Player/States/Idle.gd" id="4_t38ms"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q3lat"]
 animations = [{
@@ -18,13 +18,14 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3qydi"]
-size = Vector2(123, 123)
+size = Vector2(50, 50)
 
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.6400006, 0.6400006)
 script = ExtResource("1_1des2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.43, 0.43)
 sprite_frames = SubResource("SpriteFrames_q3lat")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

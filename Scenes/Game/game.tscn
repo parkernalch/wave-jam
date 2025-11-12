@@ -3,12 +3,12 @@
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
-font_size = 46
+font_size = 36
 
 [node name="Game" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_mv0hc")]
-position = Vector2(570, 287)
+speed = 200
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 
@@ -20,13 +20,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ScoreDisplay" type="Label" parent="UICanvas/UI"]
+[node name="ColorRect" type="ColorRect" parent="UICanvas/UI"]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 23.0
+anchor_bottom = 1.0
+offset_left = -200.0
 grow_horizontal = 0
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScoreDisplay" type="Label" parent="UICanvas/UI/ColorRect"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
 text = "000000"
 label_settings = SubResource("LabelSettings_ev4jc")
+horizontal_alignment = 1
+vertical_alignment = 1

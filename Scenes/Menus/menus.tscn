@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c4pbxw5b7p6mp" path="res://Scenes/Menus/menus.gd" id="1_goel8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_goel8"]
-font_size = 146
+font_size = 70
 
 [node name="Menus" type="Control"]
 layout_mode = 3
@@ -15,6 +15,7 @@ grow_vertical = 2
 script = ExtResource("1_goel8")
 
 [node name="MainMenu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -63,7 +64,6 @@ label_settings = SubResource("LabelSettings_goel8")
 horizontal_alignment = 1
 
 [node name="SettingsMenu" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
