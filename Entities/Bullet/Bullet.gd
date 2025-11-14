@@ -1,6 +1,7 @@
 extends RigidBody2D
 
 @export var bullet_speed = 200;
+# TODO Change to wave name
 var left_bullet: bool
 
 # Called when the node enters the scene tree for the first time.

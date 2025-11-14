@@ -5,27 +5,55 @@ class_name Player extends CharacterBody2D
 @export var bullet_speed = 600;
 @export var speed = 300
 
-
+# TODO get rid of isLeft 
+const FORMS = {
+	"SIN": {"name": "SIN", "color": Vector4(1.0, 0.0, 0.0, 1.0), "isLeft": true},
+	"TRIANGLE": {"name": "TRIANGLE", "color": Vector4(0.0, 0.0, 1.0, 1.0), "isLeft": false}
+	# "SQUARE": {"name": "SQUARE", "color": Vector4(0.0, 0.0, 1.0, 1.0)} 
+}
 var shoot_cooldown_timer
 var shoot_cooldown = 0.2
 var can_shoot = true
+var form_index = 0
+var current_form = FORMS.SIN
 
 func _ready() -> void:
 	shoot_cooldown_timer = TimerHelper.make_timer(self, shoot_cooldown, _reset_shoot_cooldown, false, false)
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("Shoot_Left"):
-		shoot(true)
-	elif Input.is_action_just_pressed("Shoot_Right"):
-		shoot(false)
+	if Input.is_action_just_pressed("change_form"):
+		change_form()
+	elif Input.is_action_just_pressed("shoot"):
+		shoot()
 
-func shoot(is_left: bool):
+func change_form():
+	form_index = (form_index + 1) % FORMS.size()
+	current_form = FORMS.values()[form_index]
+	set_tint(current_form["color"])
+
+
+func set_tint(color: Vector4) -> void:
+	# Root node material
+	if material and material is ShaderMaterial:
+		var mat := (material as ShaderMaterial).duplicate(true) as ShaderMaterial
+		material = mat
+		mat.set_shader_parameter("tint_color", color)
+	
+	# AnimatedSprite2D material
+	if has_node("AnimatedSprite2D"):
+		var anim := $AnimatedSprite2D
+		if anim.material and anim.material is ShaderMaterial:
+			var amat := (anim.material as ShaderMaterial).duplicate(true) as ShaderMaterial
+			anim.material = amat
+			amat.set_shader_parameter("tint_color", color)
+
+func shoot():
 	var bullet = Bullet.instantiate()
 
 	if get_parent() && can_shoot:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
-		bullet.shoot(bullet_speed, is_left)
+		bullet.shoot(bullet_speed, current_form["isLeft"])
 		can_shoot = false
 		shoot_cooldown_timer.start()
 

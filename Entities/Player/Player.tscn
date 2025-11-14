@@ -1,10 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgbo4s8g2xsx7"]
+[gd_scene load_steps=10 format=3 uid="uid://cgbo4s8g2xsx7"]
 
 [ext_resource type="Script" uid="uid://bakerdq5wxjs0" path="res://Entities/Player/Player.gd" id="1_1des2"]
 [ext_resource type="Texture2D" uid="uid://bve4tgd36vyvf" path="res://icon.svg" id="1_3qydi"]
+[ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Entities/Bullet/Bullet.gdshader" id="2_t38ms"]
 [ext_resource type="Script" uid="uid://c26clyli7nif4" path="res://Entities/Player/States/Move.gd" id="3_an6q6"]
 [ext_resource type="Script" uid="uid://ch5ks4m7ijeku" path="res://Globals/StateMachine/StateMachine.gd" id="3_t38ms"]
 [ext_resource type="Script" uid="uid://bg1tj38ykui53" path="res://Entities/Player/States/Idle.gd" id="4_t38ms"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hj1c0"]
+shader = ExtResource("2_t38ms")
+shader_parameter/tint_color = Color(1, 0, 0, 1)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q3lat"]
 animations = [{
@@ -18,7 +23,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3qydi"]
-size = Vector2(50, 50)
+size = Vector2(56.24994, 56.24994)
 
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.6400006, 0.6400006)
@@ -29,11 +34,13 @@ position = Vector2(0, -48.752)
 scale = Vector2(2.385526, 222.15538)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_hj1c0")
 scale = Vector2(0.43, 0.43)
 sprite_frames = SubResource("SpriteFrames_q3lat")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -0.5)
+position = Vector2(6.519253e-07, -4.1909485e-07)
+scale = Vector2(1.0000001, 1.0000001)
 shape = SubResource("RectangleShape2D_3qydi")
 
 [node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]

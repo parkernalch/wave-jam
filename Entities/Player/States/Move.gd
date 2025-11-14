@@ -37,8 +37,6 @@ func physics_update(_delta: float) -> void:
 	player.velocity.x = player.speed * input_direction_x
 	player.velocity.y = player.speed * input_direction_y
 
-	print(str(player.global_position))
-
 	if (is_in_bounds()):
 		player.move_and_slide()
 		if (!is_in_bounds()):
