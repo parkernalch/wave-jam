@@ -6,7 +6,7 @@ class_name Player extends CharacterBody2D
 @export var speed = 300
 
 var shoot_cooldown_timer
-var shoot_cooldown = 0.2
+var shoot_cooldown = 0.00001
 var can_shoot = true
 var form_index = 0
 var FORMS = CONSTANTS.DEFAULT_WAVE_FORMS
@@ -18,7 +18,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("change_form"):
 		change_form()
-	elif Input.is_action_just_pressed("shoot"):
+	elif Input.is_action_pressed("shoot"):
 		shoot()
 
 func change_form():

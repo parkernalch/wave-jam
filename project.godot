@@ -18,7 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 timer_helper="*res://Globals/TimerHelper.gd"
-Constants="*res://Globals/Constants.gd"
+constants="*res://Globals/Constants.gd"
+spatial_hash="*res://Globals/SpatialHash.gd"
 
 [display]
 

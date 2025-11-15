@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bu6085dc6v642"]
+[gd_scene load_steps=7 format=3 uid="uid://bu6085dc6v642"]
 
 [ext_resource type="Texture2D" uid="uid://bve4tgd36vyvf" path="res://icon.svg" id="1_1thq3"]
 [ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Entities/Bullet/Bullet.gdshader" id="1_2bdyw"]
@@ -23,9 +23,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2bdyw"]
-size = Vector2(6, 26)
-
 [node name="Bullet" type="RigidBody2D"]
 material = SubResource("ShaderMaterial_qa4od")
 collision_layer = 2
@@ -36,6 +33,3 @@ script = ExtResource("1_084bd")
 material = SubResource("ShaderMaterial_2bdyw")
 scale = Vector2(0.05, 0.2)
 sprite_frames = SubResource("SpriteFrames_084bd")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_2bdyw")
