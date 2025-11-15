@@ -2,16 +2,17 @@ extends RigidBody2D
 
 @export var bullet_speed = 200;
 # TODO Change to wave name
-var left_bullet: bool
+var wave_form
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
-func shoot(bulletSpeed, leftBullet):
+func shoot(bulletSpeed, waveForm):
 	bullet_speed = bulletSpeed
-	left_bullet = leftBullet
-	var color = Vector4(1.0,0.0,0.0,.5) if left_bullet else Vector4(0.0,0.0,1.0,1.0)
+	wave_form = waveForm
+	var color = wave_form["color"]
 	set_tint(color)
 
 func set_tint(color: Vector4) -> void:

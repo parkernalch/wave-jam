@@ -5,21 +5,16 @@ class_name Player extends CharacterBody2D
 @export var bullet_speed = 600;
 @export var speed = 300
 
-# TODO get rid of isLeft 
-const FORMS = {
-	"SIN": {"name": "SIN", "color": Vector4(1.0, 0.0, 0.0, 1.0), "isLeft": true},
-	"TRIANGLE": {"name": "TRIANGLE", "color": Vector4(0.0, 0.0, 1.0, 1.0), "isLeft": false}
-	# "SQUARE": {"name": "SQUARE", "color": Vector4(0.0, 0.0, 1.0, 1.0)} 
-}
 var shoot_cooldown_timer
 var shoot_cooldown = 0.2
 var can_shoot = true
 var form_index = 0
+var FORMS = CONSTANTS.DEFAULT_WAVE_FORMS
 var current_form = FORMS.SIN
 
 func _ready() -> void:
 	shoot_cooldown_timer = TimerHelper.make_timer(self, shoot_cooldown, _reset_shoot_cooldown, false, false)
-
+	
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("change_form"):
 		change_form()
@@ -53,7 +48,7 @@ func shoot():
 	if get_parent() && can_shoot:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
-		bullet.shoot(bullet_speed, current_form["isLeft"])
+		bullet.shoot(bullet_speed, current_form)
 		can_shoot = false
 		shoot_cooldown_timer.start()
 
