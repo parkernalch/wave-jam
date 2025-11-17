@@ -1,31 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://gf4gu3r0d4ub"]
-
-[ext_resource type="PackedScene" uid="uid://bgq25fqnnfvvr" path="res://Entities/Enemy2/Enemy2.tscn" id="3_qikps"]
-[gd_scene load_steps=5 format=3 uid="uid://gf4gu3r0d4ub"]
+[gd_scene load_steps=12 format=3 uid="uid://gf4gu3r0d4ub"]
 
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
 [ext_resource type="PackedScene" uid="uid://bjt85faac56m6" path="res://Scenes/Game/AmplitudeBar/AmplitudeBar.tscn" id="2_qikps"]
 [ext_resource type="PackedScene" uid="uid://d3pvvcxo50ind" path="res://Entities/Enemy/Enemy.tscn" id="2_qxfds"]
+[ext_resource type="PackedScene" uid="uid://bgq25fqnnfvvr" path="res://Entities/Enemy2/Enemy2.tscn" id="3_qikps"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
 font_size = 36
-
-[sub_resource type="Animation" id="Animation_qikps"]
-resource_name = "move"
-length = 2.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5, 1.99),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(440, 150), Vector2(-50, 300), Vector2(-50, 300)]
-}
 
 [sub_resource type="Animation" id="Animation_i1e5p"]
 length = 1.5
@@ -52,6 +33,23 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(441, 115.000015)]
+}
+
+[sub_resource type="Animation" id="Animation_qikps"]
+resource_name = "move"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 1.99),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(440, 150), Vector2(-50, 300), Vector2(-50, 300)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ciybh"]

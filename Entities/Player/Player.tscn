@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=3 uid="uid://cgbo4s8g2xsx7"]
 
-[ext_resource type="Script" uid="uid://cn6xgdk4bybhw" path="res://Entities/Player/Player.gd" id="1_1des2"]
-[ext_resource type="Shader" uid="uid://bmcedfhtiuolr" path="res://Entities/Bullet/Bullet.gdshader" id="2_t38ms"]
-[ext_resource type="Script" uid="uid://42xnhr5x5icj" path="res://Entities/Player/States/Move.gd" id="3_an6q6"]
+[ext_resource type="Script" uid="uid://bakerdq5wxjs0" path="res://Entities/Player/Player.gd" id="1_1des2"]
+[ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Entities/Bullet/Bullet.gdshader" id="2_t38ms"]
+[ext_resource type="Script" uid="uid://c26clyli7nif4" path="res://Entities/Player/States/Move.gd" id="3_an6q6"]
 [ext_resource type="Texture2D" uid="uid://6paw08xhfkas" path="res://Assets/Ships/ChatGPT Image Nov 16, 2025, 03_40_20 PM.png" id="3_hj1c0"]
-[ext_resource type="Script" uid="uid://c2keum5apgn42" path="res://Globals/StateMachine/StateMachine.gd" id="3_t38ms"]
-[ext_resource type="Script" uid="uid://chstpwhwviufu" path="res://Entities/Player/States/Idle.gd" id="4_t38ms"]
+[ext_resource type="Script" uid="uid://ch5ks4m7ijeku" path="res://Globals/StateMachine/StateMachine.gd" id="3_t38ms"]
+[ext_resource type="Script" uid="uid://bg1tj38ykui53" path="res://Entities/Player/States/Idle.gd" id="4_t38ms"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hj1c0"]
 shader = ExtResource("2_t38ms")
