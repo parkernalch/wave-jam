@@ -31,7 +31,7 @@ func clamp_to_play_space(_delta: float) -> void:
 	return
 
 func physics_update(_delta: float) -> void:
-	var dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var dir := Input.get_vector("left", "right", "up", "down")
     
 	player.velocity = dir * player.speed
 
