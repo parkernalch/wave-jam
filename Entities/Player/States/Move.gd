@@ -31,11 +31,14 @@ func clamp_to_play_space(_delta: float) -> void:
 	return
 
 func physics_update(_delta: float) -> void:
-	var input_direction_y := Input.get_axis("up", "down")
-	var input_direction_x := Input.get_axis("left", "right")
-	
-	player.velocity.x = player.speed * input_direction_x
-	player.velocity.y = player.speed * input_direction_y
+	var dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+    
+	player.velocity = dir * player.speed
+
+	if Input.is_action_pressed("boost") && player.amplitude > 1:
+		player.velocity *= player.boost_multiplier
+		player.amplitude -= 20 * _delta
+		signal_bus.amplitude_changed.emit(player.amplitude)
 
 	if (is_in_bounds()):
 		player.move_and_slide()
