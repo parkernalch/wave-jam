@@ -10,7 +10,6 @@ func _process(delta: float) -> void:
 
 func on_hit(wave_form) -> void:
 	signal_bus.enemy_hit.emit()
-	print("Bullet hit! ", wave_form["name"])
 
 func get_aabb() -> Rect2:
 	# If using a CollisionShape2D with RectangleShape2D

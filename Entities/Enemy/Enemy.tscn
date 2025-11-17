@@ -47,21 +47,22 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bkf3j"]
-size = Vector2(17, 60.000004)
+size = Vector2(14.666668, 20.333334)
 
 [node name="Enemy" type="CharacterBody2D"]
+z_index = 99
 script = ExtResource("1_jd44d")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -161)
 rotation = -3.1415925
+scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_xhe1s")
 animation = &"idle"
 autoplay = "idle"
 frame_progress = 0.65647364
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.5000134, -109)
+position = Vector2(-2.2737368e-13, 20)
 rotation = -3.1415925
 scale = Vector2(3, 3)
 shape = SubResource("RectangleShape2D_bkf3j")

@@ -2,14 +2,14 @@ class_name Player extends CharacterBody2D
 
 @onready var Bullet = preload("res://Entities/Bullet/Bullet.tscn")
 @onready var bullet_spawn: Node2D = $BulletSpawn
-@export var bullet_speed = 600;
+@export var bullet_speed = 1000;
 @export var speed = 300
 @export var boost_multiplier = 2.0
 
 var max_amplitude = 100.0
 var amplitude = 100.0
 var shoot_cooldown_timer
-var shoot_cooldown = 0.00001
+var shoot_cooldown = 0.3
 var can_shoot = true
 var form_index = 0
 var FORMS = CONSTANTS.DEFAULT_WAVE_FORMS
