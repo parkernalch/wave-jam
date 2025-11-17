@@ -37,6 +37,11 @@ func _physics_process(delta: float) -> void:
 	var aabb = Rect2(global_position - hit_box_size * 0.5, hit_box_size)
 
 	var candidates = spatial_hash.query(aabb)
+
+	if (global_position.y < -100):
+		queue_free()
+		return
+
 	for obj in candidates:
 		# ensure candidate has get_aabb or else skip
 		if not obj.has_method("get_aabb"):

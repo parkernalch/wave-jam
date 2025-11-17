@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjt85faac56m6"]
+
+[ext_resource type="Texture2D" uid="uid://358ew66x0dje" path="res://Scenes/Game/AmplitudeBar/outlinetohealthbar.png" id="1_2egt3"]
+[ext_resource type="Script" uid="uid://qo5jixekmrfi" path="res://Scenes/Game/AmplitudeBar/AmplitudeBar.gd" id="1_hcs0h"]
+[ext_resource type="Texture2D" uid="uid://06mly6vji3ws" path="res://Scenes/Game/AmplitudeBar/progress.png" id="2_r5lmy"]
+
+[node name="AmplitudeBar" type="TextureProgressBar"]
+offset_right = 600.0
+offset_bottom = 300.0
+rotation = -1.5707964
+value = 100.0
+texture_under = ExtResource("1_2egt3")
+texture_over = ExtResource("1_2egt3")
+texture_progress = ExtResource("2_r5lmy")
+script = ExtResource("1_hcs0h")

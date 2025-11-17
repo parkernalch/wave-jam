@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://gf4gu3r0d4ub"]
+
+[ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
+[ext_resource type="Script" uid="uid://qo5jixekmrfi" path="res://Scenes/Game/AmplitudeBar.gd" id="2_qikps"]
+[ext_resource type="PackedScene" uid="uid://d3pvvcxo50ind" path="res://Entities/Enemy/Enemy.tscn" id="2_qxfds"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
+font_size = 36
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_mv0hc")]
+speed = 200
+
+[node name="UICanvas" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="UICanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="UICanvas/UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScoreDisplay" type="Label" parent="UICanvas/UI/ColorRect"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+text = "000000"
+label_settings = SubResource("LabelSettings_ev4jc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AmplitudeBar" type="ProgressBar" parent="UICanvas" node_paths=PackedStringArray("Player")]
+offset_left = 405.99997
+offset_top = 792.00006
+offset_right = 700.19006
+offset_bottom = 830.2976
+rotation = -1.5707964
+scale = Vector2(2.5199995, 1.1600006)
+value = 100.0
+show_percentage = false
+script = ExtResource("2_qikps")
+Player = NodePath("../../Player")
+
+[node name="Enemy" parent="." instance=ExtResource("2_qxfds")]
+position = Vector2(196, 38)

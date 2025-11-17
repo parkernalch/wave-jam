@@ -1,6 +1,5 @@
 extends RigidBody2D
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -10,6 +9,7 @@ func _process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
 
 func on_hit(wave_form) -> void:
+	signal_bus.enemy_hit.emit()
 	print("Bullet hit! ", wave_form["name"])
 
 func get_aabb() -> Rect2:

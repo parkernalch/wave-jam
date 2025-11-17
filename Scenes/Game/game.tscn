@@ -1,8 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://gf4gu3r0d4ub"]
 
-[ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
-[ext_resource type="PackedScene" uid="uid://d3pvvcxo50ind" path="res://Entities/Enemy/test_enemy.tscn" id="2_qxfds"]
 [ext_resource type="PackedScene" uid="uid://bgq25fqnnfvvr" path="res://Entities/Enemy2/Enemy2.tscn" id="3_qikps"]
+[gd_scene load_steps=5 format=3 uid="uid://gf4gu3r0d4ub"]
+
+[ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
+[ext_resource type="PackedScene" uid="uid://bjt85faac56m6" path="res://Scenes/Game/AmplitudeBar/AmplitudeBar.tscn" id="2_qikps"]
+[ext_resource type="PackedScene" uid="uid://d3pvvcxo50ind" path="res://Entities/Enemy/Enemy.tscn" id="2_qxfds"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
 font_size = 36
@@ -132,6 +135,13 @@ text = "000000"
 label_settings = SubResource("LabelSettings_ev4jc")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AmplitudeBar" parent="UICanvas" instance=ExtResource("2_qikps")]
+offset_left = 352.0
+offset_top = 787.0
+offset_right = 952.0
+offset_bottom = 1087.0
+scale = Vector2(1.2400012, 1)
 
 [node name="Enemy" parent="." instance=ExtResource("2_qxfds")]
 position = Vector2(134, 61)
