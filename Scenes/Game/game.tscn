@@ -1,14 +1,104 @@
-[gd_scene load_steps=4 format=3 uid="uid://gf4gu3r0d4ub"]
+[gd_scene load_steps=11 format=3 uid="uid://gf4gu3r0d4ub"]
 
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
-[ext_resource type="PackedScene" uid="uid://d3pvvcxo50ind" path="res://Entities/Enemy/Enemy.tscn" id="2_qxfds"]
+[ext_resource type="PackedScene" uid="uid://d3pvvcxo50ind" path="res://Entities/Enemy/test_enemy.tscn" id="2_qxfds"]
+[ext_resource type="PackedScene" uid="uid://bgq25fqnnfvvr" path="res://Entities/Enemy2/Enemy2.tscn" id="3_qikps"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
 font_size = 36
 
+[sub_resource type="Animation" id="Animation_qikps"]
+resource_name = "move"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 1.99),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(440, 150), Vector2(-50, 300), Vector2(-50, 300)]
+}
+
+[sub_resource type="Animation" id="Animation_i1e5p"]
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Enemy3:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-43, 362)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(441, 115.000015)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ciybh"]
+_data = {
+&"RESET": SubResource("Animation_i1e5p"),
+&"move": SubResource("Animation_qikps")
+}
+
+[sub_resource type="Animation" id="Animation_flgk0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(427, 145)]
+}
+
+[sub_resource type="Animation" id="Animation_ciybh"]
+resource_name = "move enemy 2"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(440, 150), Vector2(440, 150), Vector2(-50, 300)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vifcx"]
+_data = {
+&"RESET": SubResource("Animation_flgk0"),
+&"move enemy 2": SubResource("Animation_ciybh")
+}
+
 [node name="Game" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_mv0hc")]
+position = Vector2(200, 700)
 speed = 200
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
@@ -44,4 +134,24 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Enemy" parent="." instance=ExtResource("2_qxfds")]
-position = Vector2(196, 38)
+position = Vector2(134, 61)
+
+[node name="Enemy2" parent="." instance=ExtResource("3_qikps")]
+position = Vector2(441, 115.000015)
+scale = Vector2(0.3, 0.3)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy2"]
+libraries = {
+&"": SubResource("AnimationLibrary_ciybh")
+}
+autoplay = "move"
+
+[node name="Enemy3" parent="." instance=ExtResource("3_qikps")]
+position = Vector2(427, 145)
+scale = Vector2(0.3, 0.3)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy3"]
+libraries = {
+&"": SubResource("AnimationLibrary_vifcx")
+}
+autoplay = "move enemy 2"

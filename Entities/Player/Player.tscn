@@ -1,29 +1,49 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgbo4s8g2xsx7"]
+[gd_scene load_steps=14 format=3 uid="uid://cgbo4s8g2xsx7"]
 
-[ext_resource type="Script" uid="uid://bakerdq5wxjs0" path="res://Entities/Player/Player.gd" id="1_1des2"]
-[ext_resource type="Texture2D" uid="uid://bve4tgd36vyvf" path="res://icon.svg" id="1_3qydi"]
-[ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Entities/Bullet/Bullet.gdshader" id="2_t38ms"]
-[ext_resource type="Script" uid="uid://c26clyli7nif4" path="res://Entities/Player/States/Move.gd" id="3_an6q6"]
-[ext_resource type="Script" uid="uid://ch5ks4m7ijeku" path="res://Globals/StateMachine/StateMachine.gd" id="3_t38ms"]
-[ext_resource type="Script" uid="uid://bg1tj38ykui53" path="res://Entities/Player/States/Idle.gd" id="4_t38ms"]
+[ext_resource type="Script" uid="uid://cn6xgdk4bybhw" path="res://Entities/Player/Player.gd" id="1_1des2"]
+[ext_resource type="Shader" uid="uid://bmcedfhtiuolr" path="res://Entities/Bullet/Bullet.gdshader" id="2_t38ms"]
+[ext_resource type="Script" uid="uid://42xnhr5x5icj" path="res://Entities/Player/States/Move.gd" id="3_an6q6"]
+[ext_resource type="Texture2D" uid="uid://6paw08xhfkas" path="res://Assets/Ships/ChatGPT Image Nov 16, 2025, 03_40_20 PM.png" id="3_hj1c0"]
+[ext_resource type="Script" uid="uid://c2keum5apgn42" path="res://Globals/StateMachine/StateMachine.gd" id="3_t38ms"]
+[ext_resource type="Script" uid="uid://chstpwhwviufu" path="res://Entities/Player/States/Idle.gd" id="4_t38ms"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hj1c0"]
 shader = ExtResource("2_t38ms")
 shader_parameter/tint_color = Color(1, 0, 0, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_x44r4"]
+atlas = ExtResource("3_hj1c0")
+region = Rect2(125, 130, 205, 254)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_761t5"]
+atlas = ExtResource("3_hj1c0")
+region = Rect2(412, 130, 205, 254)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hacra"]
+atlas = ExtResource("3_hj1c0")
+region = Rect2(699, 130, 205, 254)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_q3lat"]
 animations = [{
 "frames": [{
+"duration": 1.21,
+"texture": SubResource("AtlasTexture_x44r4")
+}, {
 "duration": 1.0,
-"texture": ExtResource("1_3qydi")
+"texture": SubResource("AtlasTexture_761t5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hacra")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t38ms"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3qydi"]
-size = Vector2(56.24994, 56.24994)
+size = Vector2(84.37491, 78.124916)
 
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.6400006, 0.6400006)
@@ -35,11 +55,16 @@ scale = Vector2(2.385526, 222.15538)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_hj1c0")
-scale = Vector2(0.43, 0.43)
+use_parent_material = true
+position = Vector2(-0.1625196, 0.8199762)
+scale = Vector2(0.42841446, 0.4364565)
 sprite_frames = SubResource("SpriteFrames_q3lat")
+autoplay = "default"
+frame_progress = 0.16513899
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(6.519253e-07, -4.1909485e-07)
+material = SubResource("ShaderMaterial_t38ms")
+position = Vector2(-1.5624986, -12.499992)
 scale = Vector2(1.0000001, 1.0000001)
 shape = SubResource("RectangleShape2D_3qydi")
 
