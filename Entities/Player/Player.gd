@@ -24,8 +24,6 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("change_form"):
 		change_form()
 	elif Input.is_action_pressed("shoot"):
-		amplitude -= 10 * delta
-		signal_bus.amplitude_changed.emit(amplitude)
 		shoot()
 
 func change_form():
@@ -56,10 +54,12 @@ func shoot():
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_form)
 		can_shoot = false
+		amplitude -= 1
+		signal_bus.amplitude_changed.emit(amplitude)
 		shoot_cooldown_timer.start()
 
 func _on_enemy_hit():
-	amplitude = min(amplitude + 1, max_amplitude)
+	amplitude = min(amplitude + 5, max_amplitude)
 	signal_bus.amplitude_changed.emit(amplitude)
 
 func _reset_shoot_cooldown():

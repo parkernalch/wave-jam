@@ -144,7 +144,6 @@ scale = Vector2(1.2400012, 1)
 position = Vector2(204.00002, 147)
 
 [node name="Enemy2" parent="." instance=ExtResource("3_qikps")]
-visible = false
 position = Vector2(441, 115.000015)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy2"]
@@ -154,7 +153,6 @@ libraries = {
 autoplay = "move"
 
 [node name="Enemy3" parent="." instance=ExtResource("3_qikps")]
-visible = false
 position = Vector2(427, 145)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy3"]
