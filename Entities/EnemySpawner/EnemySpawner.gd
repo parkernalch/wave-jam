@@ -1,0 +1,68 @@
+extends Node2D
+
+@export var wave_duration : float = 30.0
+@export var enemy_count_per_wave : int = 5
+@export var time_between_waves : float = 5.0
+@export var initial_delay : float = 3.0
+@export var spawn_min_x: int = 0
+@export var spawn_max_x: int = 400
+@export var spawn_y: int = 10
+@export var spawn_min_distance: float = 20.0
+
+var wave: int = 0
+
+@onready var Enemy = preload("res://Entities/Enemy/Enemy.tscn")
+
+var enemies = []
+var current_enemies = []
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	enemies.append(Enemy);
+	TimerHelper.make_timer(self, wave_duration + time_between_waves, spawn_enemy_wave, false, true)
+	TimerHelper.make_timer(self, initial_delay, spawn_enemy_wave, true, true)
+
+
+func get_spawn_point() -> Vector2:
+	# Try to find a spawn X that is at least `spawn_min_distance` away
+	# from any existing enemy. After MAX_TRIES we fall back to a random
+	# position to avoid an infinite loop.
+	randomize()
+	const MAX_TRIES := 50
+	var tries := 0
+	while tries < MAX_TRIES:
+		var random_x = spawn_min_x + (randi() % max(1, spawn_max_x - spawn_min_x + 1))
+		var candidate = Vector2(random_x, spawn_y)
+		var ok := true
+		for e in current_enemies:
+			if e == null:
+				continue
+			var e_pos = e.position
+			if e.get_parent() != null:
+				e_pos = e.global_position
+			if candidate.distance_to(e_pos) <= spawn_min_distance:
+				ok = false
+				break
+		if ok:
+			return candidate
+		tries += 1
+	# fallback
+	var fallback_x = spawn_min_x + (randi() % max(1, spawn_max_x - spawn_min_x + 1))
+	return Vector2(fallback_x, spawn_y)
+
+func spawn_enemy_wave() -> void:
+	wave += 1
+	print("Spawning wave %d" % wave)
+	for i in range(0, enemy_count_per_wave + wave - 1):
+		if i == 0:
+			spawn_enemy_instance()
+		else:
+			TimerHelper.make_timer(self, i, spawn_enemy_instance, true, true)
+		
+func spawn_enemy_instance() -> void:
+	randomize()
+	var random_enemy = randi() % enemies.size() - 1
+	var enemy_instance = enemies[random_enemy].instantiate()
+	enemy_instance.position = get_spawn_point()
+	current_enemies.append(enemy_instance)
+	get_parent().add_child(enemy_instance)

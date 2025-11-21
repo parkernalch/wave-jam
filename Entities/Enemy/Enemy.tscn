@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bgq25fqnnfvvr"]
+[gd_scene load_steps=14 format=3 uid="uid://bgq25fqnnfvvr"]
 
 [ext_resource type="Script" uid="uid://c31wxi1aat0bk" path="res://Entities/Enemy/Enemy.gd" id="1_jd44d"]
 [ext_resource type="Texture2D" uid="uid://cixl751gq28wa" path="res://Assets/Ships/sprite sheet ai2.png" id="2_t7hpb"]
@@ -49,8 +49,51 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bkf3j"]
 size = Vector2(14.666668, 20.333334)
 
+[sub_resource type="Animation" id="Animation_flgk0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(427, 145)]
+}
+
+[sub_resource type="Animation" id="Animation_ciybh"]
+resource_name = "move enemy 2"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(440, 150), Vector2(440, 150), Vector2(-50, 300)]
+}
+
+[sub_resource type="Animation" id="Animation_t7hpb"]
+resource_name = "idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vifcx"]
+_data = {
+&"RESET": SubResource("Animation_flgk0"),
+&"idle": SubResource("Animation_t7hpb"),
+&"move enemy 2": SubResource("Animation_ciybh")
+}
+
 [node name="Enemy" type="CharacterBody2D"]
 z_index = 99
+position = Vector2(427, 145)
 script = ExtResource("1_jd44d")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -66,3 +109,9 @@ position = Vector2(-2.2737368e-13, 20)
 rotation = -3.1415925
 scale = Vector2(3, 3)
 shape = SubResource("RectangleShape2D_bkf3j")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_vifcx")
+}
+autoplay = "idle"

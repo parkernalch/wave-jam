@@ -50,7 +50,7 @@ scale = Vector2(0.6400006, 0.6400006)
 script = ExtResource("1_1des2")
 
 [node name="BulletSpawn" type="Node2D" parent="."]
-position = Vector2(0, -48.752)
+position = Vector2(-1.5624986, -54.687447)
 scale = Vector2(2.385526, 222.15538)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
