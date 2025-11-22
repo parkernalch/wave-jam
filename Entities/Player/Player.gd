@@ -5,11 +5,11 @@ class_name Player extends CharacterBody2D
 @export var bullet_speed = 1000;
 @export var speed = 300
 @export var boost_multiplier = 2.0
+@export var shoot_cooldown = 0.3
 
 var max_amplitude = 100.0
 var amplitude = 100.0
 var shoot_cooldown_timer
-var shoot_cooldown = 0.3
 var can_shoot = true
 var form_index = 0
 var FORMS = CONSTANTS.DEFAULT_WAVE_FORMS
@@ -60,14 +60,19 @@ func shoot():
 		signal_bus.amplitude_changed.emit(amplitude)
 		shoot_cooldown_timer.start()
 
-func take_damage(damage):
-	amplitude = max(amplitude - damage, 0)
-	signal_bus.amplitude_changed.emit(amplitude)
+func take_damage(damage, wave_form):
+	if wave_form != current_form:
+		amplitude = max(amplitude - damage, 0)
+		signal_bus.amplitude_changed.emit(amplitude)
+	
 
 func enemy_collision(wave_form):
-	# Handle collision with enemy
-	amplitude = max(amplitude - 10, 0)
-	signal_bus.amplitude_changed.emit(amplitude)
+	if wave_form != current_form:
+		amplitude = max(amplitude - 30, 0)
+		signal_bus.amplitude_changed.emit(amplitude)
+	else:
+		amplitude = min(amplitude + 10, max_amplitude)
+		signal_bus.amplitude_changed.emit(amplitude)
 
 func _on_enemy_hit():
 	amplitude = min(amplitude + 5, max_amplitude)

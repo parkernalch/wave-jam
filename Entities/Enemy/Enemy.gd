@@ -25,10 +25,26 @@ var current_wave_form
 var t: float = 0.0
 var _base_x: float = 0.0
 
+func set_tint(color: Vector4) -> void:
+	# Root node material
+	if material and material is ShaderMaterial:
+		var mat := (material as ShaderMaterial).duplicate(true) as ShaderMaterial
+		material = mat
+		mat.set_shader_parameter("tint_color", color)
+	
+	# AnimatedSprite2D material
+	if has_node("AnimatedSprite2D"):
+		var anim := $AnimatedSprite2D
+		if anim.material and anim.material is ShaderMaterial:
+			var amat := (anim.material as ShaderMaterial).duplicate(true) as ShaderMaterial
+			anim.material = amat
+			amat.set_shader_parameter("tint_color", color)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
 	current_wave_form = CONSTANTS.DEFAULT_WAVE_FORMS.values()[randi() % CONSTANTS.DEFAULT_WAVE_FORMS.values().size()]
+	set_tint(current_wave_form["color"])
 	# Timer to handle shooting
 	TimerHelper.make_timer(self, shot_cooldown, shoot, false, true)
 	_base_x = global_position.x
@@ -41,9 +57,11 @@ func _physics_process(delta: float) -> void:
 
 	detect_player_collision()
 
-	if (health <= 0):
+	if (global_position.y > bounds_bottom + 100):
 		destroy()
 
+	if (health <= 0):
+		destroy()
 
 func sine_wave_movement(delta: float) -> void:
 	t += delta
@@ -78,7 +96,6 @@ func detect_player_collision() -> void:
 			# narrow-phase: call enemy's hit method or do more precise shape checks
 			if obj.has_method("enemy_collision"):
 				obj.enemy_collision(current_wave_form)
-				
 				destroy()
 			return
 
@@ -99,14 +116,13 @@ func get_aabb() -> Rect2:
 	# fallback: small box around position
 	return Rect2(global_position - Vector2(8,8), Vector2(16,16))
 
-
 func shoot() -> void:
 	var bullet = Bullet.instantiate()
 
 	if get_parent():
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
-		bullet.shoot(bullet_speed)
+		bullet.shoot(bullet_speed, current_wave_form)
 		
 func destroy() -> void:
 	# Add animation

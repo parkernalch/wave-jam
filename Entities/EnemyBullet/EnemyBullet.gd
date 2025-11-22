@@ -3,14 +3,31 @@ extends RigidBody2D
 @export var bullet_speed = 200;
 @export var hit_box_size: Vector2 = Vector2(8, 8) # bullet AABB size (tune as needed)
 
-var wave_form
+var current_wave_form
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
-func shoot(bulletSpeed):
+func shoot(bulletSpeed, wave_form):
+	current_wave_form = wave_form
 	bullet_speed = bulletSpeed
+	set_tint(current_wave_form["color"])
+
+func set_tint(color: Vector4) -> void:
+	# Root node material
+	if material and material is ShaderMaterial:
+		var mat := (material as ShaderMaterial).duplicate(true) as ShaderMaterial
+		material = mat
+		mat.set_shader_parameter("tint_color", color)
+	
+	if has_node("AnimatedSprite2D"):
+		var anim := $AnimatedSprite2D
+		if anim.material and anim.material is ShaderMaterial:
+			var amat := (anim.material as ShaderMaterial).duplicate(true) as ShaderMaterial
+			anim.material = amat
+			amat.set_shader_parameter("tint_color", color)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -29,7 +46,7 @@ func _physics_process(delta: float) -> void:
 		var obj_rect = obj.get_aabb()
 		if aabb.intersects(obj_rect):
 			if obj.has_method("take_damage"):
-				obj.take_damage(1)
+				obj.take_damage(1, current_wave_form)
 				spatial_hash.remove(self)
 				queue_free()
 			return

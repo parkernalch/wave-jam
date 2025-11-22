@@ -1,7 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://dpxho6x4ucfdl"]
+[gd_scene load_steps=6 format=3 uid="uid://dpxho6x4ucfdl"]
 
 [ext_resource type="Texture2D" uid="uid://bve4tgd36vyvf" path="res://icon.svg" id="1_f17ve"]
 [ext_resource type="Script" uid="uid://bfalqcnmvo6i8" path="res://Entities/EnemyBullet/EnemyBullet.gd" id="1_vv6mp"]
+[ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="2_hf6su"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uh4qg"]
+shader = ExtResource("2_hf6su")
+shader_parameter/tint_color = Color(1, 0, 0, 1)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vv6mp"]
 animations = [{
@@ -18,6 +23,7 @@ animations = [{
 script = ExtResource("1_vv6mp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_uh4qg")
 position = Vector2(0, -2.5000002)
 scale = Vector2(0.011718752, 0.1953125)
 sprite_frames = SubResource("SpriteFrames_vv6mp")

@@ -1,11 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://cgbo4s8g2xsx7"]
+[gd_scene load_steps=15 format=3 uid="uid://cgbo4s8g2xsx7"]
 
 [ext_resource type="Script" uid="uid://bakerdq5wxjs0" path="res://Entities/Player/Player.gd" id="1_1des2"]
-[ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Entities/Bullet/Bullet.gdshader" id="2_t38ms"]
+[ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="2_t38ms"]
 [ext_resource type="Script" uid="uid://c26clyli7nif4" path="res://Entities/Player/States/Move.gd" id="3_an6q6"]
 [ext_resource type="Texture2D" uid="uid://6paw08xhfkas" path="res://Assets/Ships/ChatGPT Image Nov 16, 2025, 03_40_20 PM.png" id="3_hj1c0"]
 [ext_resource type="Script" uid="uid://ch5ks4m7ijeku" path="res://Globals/StateMachine/StateMachine.gd" id="3_t38ms"]
 [ext_resource type="Script" uid="uid://bg1tj38ykui53" path="res://Entities/Player/States/Idle.gd" id="4_t38ms"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x44r4"]
+shader = ExtResource("2_t38ms")
+shader_parameter/tint_color = Color(1, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hj1c0"]
 shader = ExtResource("2_t38ms")
@@ -46,8 +50,10 @@ animations = [{
 size = Vector2(84.37491, 78.124916)
 
 [node name="Player" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_x44r4")
 scale = Vector2(0.6400006, 0.6400006)
 script = ExtResource("1_1des2")
+shoot_cooldown = 0.1
 
 [node name="BulletSpawn" type="Node2D" parent="."]
 position = Vector2(-1.5624986, -54.687447)
