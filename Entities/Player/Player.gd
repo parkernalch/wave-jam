@@ -64,6 +64,11 @@ func take_damage(damage):
 	amplitude = max(amplitude - damage, 0)
 	signal_bus.amplitude_changed.emit(amplitude)
 
+func enemy_collision(wave_form):
+	# Handle collision with enemy
+	amplitude = max(amplitude - 10, 0)
+	signal_bus.amplitude_changed.emit(amplitude)
+
 func _on_enemy_hit():
 	amplitude = min(amplitude + 5, max_amplitude)
 	signal_bus.amplitude_changed.emit(amplitude)
