@@ -58,5 +58,6 @@ scale = Vector2(1.2400012, 1)
 [node name="EnemySpawner" parent="." instance=ExtResource("3_qikps")]
 script = ExtResource("4_i1e5p")
 wave_duration = 10.0
+enemy_count_per_wave = 8
 spawn_min_x = 100
 spawn_max_x = 300

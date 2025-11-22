@@ -11,14 +11,16 @@ extends Node2D
 
 var wave: int = 0
 
-@onready var Enemy = preload("res://Entities/Enemy/Enemy.tscn")
+@onready var ScrollingEnemyEnemy = preload("res://Entities/ScrollingEnemy/ScrollingEnemy.tscn")
+@onready var HoverEnemyEnemy = preload("res://Entities/HoverEnemy/HoverEnemy.tscn")
 
 var enemies = []
 var current_enemies = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	enemies.append(Enemy);
+	enemies.append(ScrollingEnemyEnemy);
+	enemies.append(HoverEnemyEnemy);
 	TimerHelper.make_timer(self, wave_duration + time_between_waves, spawn_enemy_wave, false, true)
 	TimerHelper.make_timer(self, initial_delay, spawn_enemy_wave, true, true)
 
@@ -61,8 +63,12 @@ func spawn_enemy_wave() -> void:
 		
 func spawn_enemy_instance() -> void:
 	randomize()
-	var random_enemy = randi() % enemies.size() - 1
-	var enemy_instance = enemies[random_enemy].instantiate()
+	var random_enemy_index = randi() % enemies.size()
+	var enemy_instance = enemies[random_enemy_index].instantiate()
+	if random_enemy_index > 0:
+		spawn_y = 50
+	else:
+		spawn_y = 10
 	enemy_instance.position = get_spawn_point()
 	current_enemies.append(enemy_instance)
 	get_parent().add_child(enemy_instance)
