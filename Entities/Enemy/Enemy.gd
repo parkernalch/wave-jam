@@ -78,7 +78,6 @@ func sine_wave_movement(delta: float) -> void:
 	global_position.x = target_x
 
 func on_hit(wave_form) -> void:
-	signal_bus.enemy_hit.emit()
 	if (wave_form == current_wave_form):
 		health -= 1
 
@@ -125,6 +124,7 @@ func shoot() -> void:
 		bullet.shoot(bullet_speed, current_wave_form)
 		
 func destroy() -> void:
+	signal_bus.enemy_destroyed.emit()
 	# Add animation
 	spatial_hash.remove(self)
 	queue_free()

@@ -16,7 +16,7 @@ var FORMS = CONSTANTS.DEFAULT_WAVE_FORMS
 var current_form = FORMS.SIN
 
 func _ready() -> void:
-	signal_bus.enemy_hit.connect(_on_enemy_hit)
+	signal_bus.enemy_destroyed.connect(_on_enemy_destroy)
 	signal_bus.amplitude_changed.emit(100)
 	shoot_cooldown_timer = TimerHelper.make_timer(self, shoot_cooldown, _reset_shoot_cooldown, false, false)
 	
@@ -74,7 +74,7 @@ func enemy_collision(wave_form):
 		amplitude = min(amplitude + 10, max_amplitude)
 		signal_bus.amplitude_changed.emit(amplitude)
 
-func _on_enemy_hit():
+func _on_enemy_destroy():
 	amplitude = min(amplitude + 5, max_amplitude)
 	signal_bus.amplitude_changed.emit(amplitude)
 
