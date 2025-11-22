@@ -1,8 +1,16 @@
 extends CharacterBody2D
 
+@onready var Bullet = preload("res://Entities/EnemyBullet/EnemyBullet.tscn")
+@onready var bullet_spawn: Node2D = $BulletSpawn
+
+@export var bullet_speed = 1000;
+@export var shot_cooldown : float = 1.0
+@export var health : int = 2
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	# Timer to handle shooting
+	TimerHelper.make_timer(self, shot_cooldown, shoot, false, true)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -26,3 +34,13 @@ func get_aabb() -> Rect2:
 			return Rect2(global_position - Vector2(r, r), Vector2(r*2, r*2))
 	# fallback: small box around position
 	return Rect2(global_position - Vector2(8,8), Vector2(16,16))
+
+
+func shoot() -> void:
+	var bullet = Bullet.instantiate()
+
+	if get_parent():
+		get_parent().add_child(bullet)
+		bullet.global_position = bullet_spawn.global_position
+		bullet.shoot(bullet_speed)
+		

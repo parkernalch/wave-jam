@@ -21,6 +21,8 @@ func _ready() -> void:
 	shoot_cooldown_timer = TimerHelper.make_timer(self, shoot_cooldown, _reset_shoot_cooldown, false, false)
 	
 func _physics_process(delta: float) -> void:
+	spatial_hash.update(self, get_aabb())
+	
 	if Input.is_action_just_pressed("change_form"):
 		change_form()
 	elif Input.is_action_pressed("shoot"):
@@ -58,9 +60,29 @@ func shoot():
 		signal_bus.amplitude_changed.emit(amplitude)
 		shoot_cooldown_timer.start()
 
+func take_damage(damage):
+	amplitude = max(amplitude - damage, 0)
+	signal_bus.amplitude_changed.emit(amplitude)
+
 func _on_enemy_hit():
 	amplitude = min(amplitude + 5, max_amplitude)
 	signal_bus.amplitude_changed.emit(amplitude)
 
 func _reset_shoot_cooldown():
 	can_shoot = true
+
+func get_aabb() -> Rect2:
+	# If using a CollisionShape2D with RectangleShape2D
+	if has_node("CollisionShape2D"):
+		var cs = $CollisionShape2D
+		var shape = cs.shape
+		# rectangle shape
+		if shape is RectangleShape2D:
+			var ext = shape.extents
+			# extents are in local space; we approximate by using global_position (no rotation)
+			return Rect2(global_position - ext, ext * 2)
+		if shape is CircleShape2D:
+			var r = shape.radius
+			return Rect2(global_position - Vector2(r, r), Vector2(r*2, r*2))
+	# fallback: small box around position
+	return Rect2(global_position - Vector2(8,8), Vector2(16,16))

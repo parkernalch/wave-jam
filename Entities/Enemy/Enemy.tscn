@@ -64,6 +64,9 @@ tracks/0/keys = {
 "values": [Vector2(427, 145)]
 }
 
+[sub_resource type="Animation" id="Animation_t7hpb"]
+resource_name = "idle"
+
 [sub_resource type="Animation" id="Animation_ciybh"]
 resource_name = "move enemy 2"
 length = 2.0
@@ -81,9 +84,6 @@ tracks/0/keys = {
 "values": [Vector2(440, 150), Vector2(440, 150), Vector2(-50, 300)]
 }
 
-[sub_resource type="Animation" id="Animation_t7hpb"]
-resource_name = "idle"
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vifcx"]
 _data = {
 &"RESET": SubResource("Animation_flgk0"),
@@ -95,6 +95,8 @@ _data = {
 z_index = 99
 position = Vector2(427, 145)
 script = ExtResource("1_jd44d")
+shot_cooldown = null
+health = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 rotation = -3.1415925
@@ -115,3 +117,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_vifcx")
 }
 autoplay = "idle"
+
+[node name="BulletSpawn" type="Node2D" parent="."]
+position = Vector2(0, 51)
