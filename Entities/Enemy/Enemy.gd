@@ -124,6 +124,7 @@ func shoot() -> void:
 		bullet.shoot(bullet_speed, current_wave_form)
 		
 func destroy() -> void:
+	score.add_points(100)
 	signal_bus.enemy_destroyed.emit()
 	# Add animation
 	spatial_hash.remove(self)

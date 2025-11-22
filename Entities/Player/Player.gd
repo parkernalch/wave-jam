@@ -70,6 +70,7 @@ func enemy_collision(wave_form):
 	if wave_form != current_form:
 		amplitude = max(amplitude - 30, 0)
 		signal_bus.amplitude_changed.emit(amplitude)
+		score.add_points(-100)
 	else:
 		amplitude = min(amplitude + 10, max_amplitude)
 		signal_bus.amplitude_changed.emit(amplitude)

@@ -21,6 +21,7 @@ timer_helper="*res://Globals/TimerHelper.gd"
 constants="*res://Globals/Constants.gd"
 spatial_hash="*res://Globals/SpatialHash.gd"
 signal_bus="*res://Globals/SignalBus.gd"
+score="*res://Globals/Score.gd"
 
 [display]
 

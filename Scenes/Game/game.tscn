@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://gf4gu3r0d4ub"]
+[gd_scene load_steps=7 format=3 uid="uid://gf4gu3r0d4ub"]
 
+[ext_resource type="Script" uid="uid://bduo2tx0wx2xp" path="res://Scenes/Game/game.gd" id="1_ciybh"]
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
 [ext_resource type="PackedScene" uid="uid://bjt85faac56m6" path="res://Scenes/Game/AmplitudeBar/AmplitudeBar.tscn" id="2_qikps"]
 [ext_resource type="PackedScene" uid="uid://rlp4rxc1x15o" path="res://Entities/EnemySpawner/EnemySpawner.tscn" id="3_qikps"]
@@ -9,6 +10,7 @@
 font_size = 36
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_ciybh")
 
 [node name="Player" parent="." instance=ExtResource("1_mv0hc")]
 position = Vector2(200, 700)
@@ -55,6 +57,6 @@ scale = Vector2(1.2400012, 1)
 
 [node name="EnemySpawner" parent="." instance=ExtResource("3_qikps")]
 script = ExtResource("4_i1e5p")
-wave_duration = 5.0
+wave_duration = 10.0
 spawn_min_x = 100
 spawn_max_x = 300
