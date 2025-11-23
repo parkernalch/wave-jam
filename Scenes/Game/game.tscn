@@ -55,9 +55,36 @@ offset_right = 952.0
 offset_bottom = 1087.0
 scale = Vector2(1.2400012, 1)
 
+[node name="DeathUI" type="Control" parent="UICanvas"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 400.0
+offset_bottom = 798.0
+
+[node name="Label" type="Label" parent="UICanvas/DeathUI"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 140.0
+offset_right = 275.0
+offset_bottom = 210.0
+text = "You Died!"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="UICanvas/DeathUI"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 200.0
+offset_right = 324.0
+offset_bottom = 236.0
+text = "Main Menu"
+
 [node name="EnemySpawner" parent="." instance=ExtResource("3_qikps")]
 script = ExtResource("4_i1e5p")
 wave_duration = 10.0
 enemy_count_per_wave = 8
 spawn_min_x = 100
 spawn_max_x = 300
+
+[connection signal="pressed" from="UICanvas/DeathUI/Button" to="." method="_on_menu_button_pressed"]

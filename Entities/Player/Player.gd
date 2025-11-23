@@ -28,6 +28,10 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_pressed("shoot"):
 		shoot()
 
+	if amplitude <= 0:
+		die()
+		return
+
 func change_form():
 	form_index = (form_index + 1) % FORMS.size()
 	current_form = FORMS.values()[form_index]
@@ -51,7 +55,7 @@ func set_tint(color: Vector4) -> void:
 func shoot():
 	var bullet = Bullet.instantiate()
 
-	if get_parent() && can_shoot:
+	if get_parent() && can_shoot && amplitude > 1:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_form)
@@ -62,13 +66,15 @@ func shoot():
 
 func take_damage(damage, wave_form):
 	if wave_form != current_form:
-		amplitude = max(amplitude - damage, 0)
+		amplitude = amplitude - damage
 		signal_bus.amplitude_changed.emit(amplitude)
-	
+	else:
+		amplitude = min(amplitude + damage, max_amplitude)
+		signal_bus.amplitude_changed.emit(amplitude)
 
 func enemy_collision(wave_form):
 	if wave_form != current_form:
-		amplitude = max(amplitude - 30, 0)
+		amplitude = amplitude - 30
 		signal_bus.amplitude_changed.emit(amplitude)
 		score.add_points(-100)
 	else:
@@ -97,3 +103,6 @@ func get_aabb() -> Rect2:
 			return Rect2(global_position - Vector2(r, r), Vector2(r*2, r*2))
 	# fallback: small box around position
 	return Rect2(global_position - Vector2(8,8), Vector2(16,16))
+
+func die() -> void:
+	signal_bus.player_died.emit()
