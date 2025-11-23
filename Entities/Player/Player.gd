@@ -62,12 +62,14 @@ func shoot():
 		can_shoot = false
 		amplitude -= 1
 		signal_bus.amplitude_changed.emit(amplitude)
+		$LaserAudioPlayer.play()
 		shoot_cooldown_timer.start()
 
 func take_damage(damage, wave_form):
 	if wave_form != current_form:
 		amplitude = amplitude - damage
 		signal_bus.amplitude_changed.emit(amplitude)
+		$DamageAudioPlayer.play()
 	else:
 		amplitude = min(amplitude + damage, max_amplitude)
 		signal_bus.amplitude_changed.emit(amplitude)
@@ -77,6 +79,7 @@ func enemy_collision(wave_form):
 		amplitude = amplitude - 30
 		signal_bus.amplitude_changed.emit(amplitude)
 		score.add_points(-100)
+		$DamageAudioPlayer.play()
 	else:
 		amplitude = min(amplitude + 10, max_amplitude)
 		signal_bus.amplitude_changed.emit(amplitude)

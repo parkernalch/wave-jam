@@ -7,15 +7,18 @@ func _ready() -> void:
 	signal_bus.connect("enemy_destroyed", on_enemy_destroyed)
 	ScoreLabel = $UICanvas/UI/ColorRect/ScoreDisplay
 	signal_bus.connect("player_died", show_game_over)
-
-func on_enemy_destroyed():
-	ScoreLabel.text = str(score.score)
+	signal_bus.connect("enemy_destroyed", on_enemy_destroyed)
 
 func show_game_over():
 	var panel = get_tree().get_current_scene().get_node("UICanvas/DeathUI")  # adjust path
 
 	panel.visible = true
 	get_tree().paused = true
+
+func  on_enemy_destroyed() -> void:
+	$ExplosionPlayer.play()
+	ScoreLabel.text = str(score.score)
+
 
 func _on_menu_button_pressed() -> void:
 	get_tree().paused = false

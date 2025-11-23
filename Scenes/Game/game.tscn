@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://gf4gu3r0d4ub"]
+[gd_scene load_steps=8 format=3 uid="uid://gf4gu3r0d4ub"]
 
 [ext_resource type="Script" uid="uid://bduo2tx0wx2xp" path="res://Scenes/Game/game.gd" id="1_ciybh"]
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
 [ext_resource type="PackedScene" uid="uid://bjt85faac56m6" path="res://Scenes/Game/AmplitudeBar/AmplitudeBar.tscn" id="2_qikps"]
 [ext_resource type="PackedScene" uid="uid://rlp4rxc1x15o" path="res://Entities/EnemySpawner/EnemySpawner.tscn" id="3_qikps"]
 [ext_resource type="Script" uid="uid://r1wxwl14sbcy" path="res://Entities/EnemySpawner/EnemySpawner.gd" id="4_i1e5p"]
+[ext_resource type="AudioStream" uid="uid://kyde7o3pfxli" path="res://Assets/Audio/explosion.wav" id="6_flgk0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
 font_size = 36
@@ -86,5 +87,8 @@ wave_duration = 10.0
 enemy_count_per_wave = 8
 spawn_min_x = 100
 spawn_max_x = 300
+
+[node name="ExplosionPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_flgk0")
 
 [connection signal="pressed" from="UICanvas/DeathUI/Button" to="." method="_on_menu_button_pressed"]

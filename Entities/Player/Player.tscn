@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cgbo4s8g2xsx7"]
+[gd_scene load_steps=17 format=3 uid="uid://cgbo4s8g2xsx7"]
 
 [ext_resource type="Script" uid="uid://bakerdq5wxjs0" path="res://Entities/Player/Player.gd" id="1_1des2"]
 [ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="2_t38ms"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://6paw08xhfkas" path="res://Assets/Ships/ChatGPT Image Nov 16, 2025, 03_40_20 PM.png" id="3_hj1c0"]
 [ext_resource type="Script" uid="uid://ch5ks4m7ijeku" path="res://Globals/StateMachine/StateMachine.gd" id="3_t38ms"]
 [ext_resource type="Script" uid="uid://bg1tj38ykui53" path="res://Entities/Player/States/Idle.gd" id="4_t38ms"]
+[ext_resource type="AudioStream" uid="uid://gnslmmd3piut" path="res://Assets/Audio/laserShoot.wav" id="7_hj1c0"]
+[ext_resource type="AudioStream" uid="uid://dauwlldpofxxe" path="res://Assets/Audio/hitHurt.wav" id="8_x44r4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x44r4"]
 shader = ExtResource("2_t38ms")
@@ -84,3 +86,11 @@ script = ExtResource("4_t38ms")
 
 [node name="Move" type="Node2D" parent="StateMachine"]
 script = ExtResource("3_an6q6")
+
+[node name="LaserAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_hj1c0")
+volume_db = 0.5
+pitch_scale = 0.8
+
+[node name="DamageAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_x44r4")
