@@ -10,7 +10,6 @@ func _ready() -> void:
 	signal_bus.connect("enemy_destroyed", on_enemy_destroyed)
 	ScoreLabel = $UICanvas/UI/ColorRect/ScoreDisplay
 	signal_bus.connect("player_died", show_game_over)
-	signal_bus.connect("enemy_destroyed", on_enemy_destroyed)
 	signal_bus.connect("powerup_collected", _on_powerup_collected)
 	damage_progress_bar.max_value = damage_timer.wait_time
 	damage_timer.start()
@@ -30,7 +29,7 @@ func _on_menu_button_pressed() -> void:
 	spatial_hash.clear()
 	get_tree().change_scene_to_file("res://Scenes/Menus/menus.tscn")
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Update the progress bar's value to the remaining time of the damage_timer
 	# As the time_left goes from wait_time down to 0, the bar decreases
 	damage_progress_bar.value = damage_timer.time_left
