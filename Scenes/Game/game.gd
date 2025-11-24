@@ -33,6 +33,7 @@ func  on_enemy_destroyed() -> void:
 func _on_menu_button_pressed() -> void:
 	get_tree().paused = false
 	spatial_hash.clear()
+	score.reset()
 	get_tree().change_scene_to_file("res://Scenes/Menus/menus.tscn")
 
 func _process(_delta: float) -> void:

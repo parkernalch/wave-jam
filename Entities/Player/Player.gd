@@ -48,7 +48,7 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_pressed("shoot"):
 		if bullet_spread:
 			for angle in bullet_spread_angles:
-				shoot(angle, false)
+				shoot(angle)
 			can_shoot = false
 		else:
 			shoot()
@@ -79,15 +79,15 @@ func set_tint(color: Vector4) -> void:
 			anim.material = amat
 			amat.set_shader_parameter("tint_color", color)
 
-func shoot(angle=0, lose_amplitude=true) -> void:
+func shoot(angle=0) -> void:
 	var bullet = Bullet.instantiate()
 
 	if get_parent() && can_shoot && amplitude > 1:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_form, damage, all_waves, angle, bullet_piercing)
-		if lose_amplitude:
-			amplitude -= 1
+		
+		if not bullet_spread:
 			can_shoot = false
 		
 		signal_bus.amplitude_changed.emit(amplitude)
