@@ -6,7 +6,10 @@ const POWER_UP_TYPES = [
 	"SPEED",
 	"FIRE_RATE",
 	"DAMAGE",
-	"MAX_HEALTH"
+	"MAX_HEALTH",
+	"ALL_WAVES",
+	"BULLET_SPREAD",
+	"BULLET_PIERCING"
 ]
 
 var powerup_type: String = ""
@@ -16,7 +19,7 @@ func _ready() -> void:
 	powerup_type = POWER_UP_TYPES[randi() % POWER_UP_TYPES.size()]
 	var powerup_image_path = "Assets/Powerups/%s.png" % powerup_type
 	$Sprite2D.texture = load(powerup_image_path)
-	$Sprite2D.scale = Vector2(0.3, 0.3)
+	$Sprite2D.scale = Vector2(0.1, 0.1)
 
 func _on_pickup(body) -> void:
 	signal_bus.powerup_collected.emit(powerup_type)

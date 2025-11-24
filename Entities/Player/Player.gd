@@ -17,6 +17,13 @@ var form_index = 0
 var FORMS = CONSTANTS.DEFAULT_WAVE_FORMS
 var current_form = FORMS.SIN
 var damage_boost_timer
+var all_waves_timer
+var all_waves = false
+var bullet_spread = false
+var bullet_spread_timer
+var bullet_spread_angles = [-90, 0, 90]
+var bullet_piercing = false
+var bullet_piercing_timer
 
 func _ready() -> void:
 	signal_bus.enemy_destroyed.connect(_on_enemy_destroy)
@@ -24,7 +31,12 @@ func _ready() -> void:
 	shoot_cooldown_timer = TimerHelper.make_timer(self, shoot_cooldown, _reset_shoot_cooldown, false, false)
 	signal_bus.powerup_collected.connect(_on_powerup_collected)
 	get_parent().find_child("DamageBoostTimer").connect("timeout", _on_damage_boost_timeout)
-
+	all_waves_timer = get_parent().find_child("AllWavesTimer")
+	all_waves_timer.connect("timeout", _on_all_waves_timeout)
+	bullet_spread_timer = get_parent().find_child("BulletSpreadTimer")
+	bullet_spread_timer.connect("timeout", _on_bullet_spread_timeout)
+	bullet_piercing_timer = get_parent().find_child("BulletPiercingTimer")
+	bullet_piercing_timer.connect("timeout", _on_bullet_piercing_timeout)
 
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
@@ -32,7 +44,12 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("change_form"):
 		change_form()
 	elif Input.is_action_pressed("shoot"):
-		shoot()
+		if bullet_spread:
+			for angle in bullet_spread_angles:
+				shoot(angle, false)
+			can_shoot = false
+		else:
+			shoot()
 
 	if amplitude <= 0:
 		die()
@@ -58,15 +75,17 @@ func set_tint(color: Vector4) -> void:
 			anim.material = amat
 			amat.set_shader_parameter("tint_color", color)
 
-func shoot():
+func shoot(angle=0, lose_amplitude=true) -> void:
 	var bullet = Bullet.instantiate()
 
 	if get_parent() && can_shoot && amplitude > 1:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
-		bullet.shoot(bullet_speed, current_form, damage)
-		can_shoot = false
-		amplitude -= 1
+		bullet.shoot(bullet_speed, current_form, damage, all_waves, angle, bullet_piercing)
+		if lose_amplitude:
+			amplitude -= 1
+			can_shoot = false
+		
 		signal_bus.amplitude_changed.emit(amplitude)
 		$LaserAudioPlayer.play()
 		shoot_cooldown_timer.start()
@@ -90,9 +109,6 @@ func enemy_collision(wave_form):
 		amplitude = min(amplitude + 10, max_amplitude)
 		signal_bus.amplitude_changed.emit(amplitude)
 
-func _on_enemy_destroy():
-	amplitude = min(amplitude + 5, max_amplitude)
-	signal_bus.amplitude_changed.emit(amplitude)
 
 func _reset_shoot_cooldown():
 	can_shoot = true
@@ -127,8 +143,28 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "MAX_HEALTH":
 		amplitude = 100
 		signal_bus.amplitude_changed.emit(amplitude)
-
+	elif powerup_type == "ALL_WAVES":
+		all_waves = true
+		all_waves_timer.start()
+	elif powerup_type == "BULLET_SPREAD":
+		bullet_spread = true
+		bullet_spread_timer.start()
+	elif powerup_type == "BULLET_PIERCING":
+		bullet_piercing = true
+		bullet_piercing_timer.start()
 
 func _on_damage_boost_timeout() -> void:
 	damage = 1
+
+func _on_bullet_spread_timeout() -> void:
+	pass
 	
+func _on_enemy_destroy():
+	amplitude = min(amplitude + 5, max_amplitude)
+	signal_bus.amplitude_changed.emit(amplitude)
+
+func _on_all_waves_timeout() -> void:
+	all_waves = false
+
+func _on_bullet_piercing_timeout() -> void:
+	bullet_piercing = false

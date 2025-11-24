@@ -59,10 +59,10 @@ func _physics_process(delta: float) -> void:
 	detect_player_collision()
 
 	if (global_position.y > bounds_bottom + 100):
-		destroy()
+		destroy(false)
 
 	if (health <= 0):
-		destroy()
+		destroy(true)
 
 func sine_wave_movement(delta: float) -> void:
 	t += delta
@@ -78,7 +78,10 @@ func sine_wave_movement(delta: float) -> void:
 	target_x = clamp(target_x, min_x, max_x)
 	global_position.x = target_x
 
-func on_hit(wave_form, damage) -> void:
+func on_hit(wave_form, damage, all_waves) -> void:
+
+	if (wave_form == current_wave_form || all_waves):
+		health -= damage
 	if (wave_form == current_wave_form):
 		health -= damage
 
@@ -96,7 +99,7 @@ func detect_player_collision() -> void:
 			# narrow-phase: call enemy's hit method or do more precise shape checks
 			if obj.has_method("enemy_collision"):
 				obj.enemy_collision(current_wave_form)
-				destroy()
+				destroy(false)
 			return
 
 
@@ -124,12 +127,12 @@ func shoot() -> void:
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_wave_form)
 		
-func destroy() -> void:
+func destroy(spawn_drop) -> void:
 	score.add_points(100)
 	signal_bus.enemy_destroyed.emit()
 	# Add animation
 	randomize()
-	if randi() % 3 == 0:
+	if randi() % 3 == 0 && spawn_drop:
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)

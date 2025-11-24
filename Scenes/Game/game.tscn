@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://gf4gu3r0d4ub"]
+[gd_scene load_steps=12 format=3 uid="uid://gf4gu3r0d4ub"]
 
 [ext_resource type="Script" uid="uid://bduo2tx0wx2xp" path="res://Scenes/Game/game.gd" id="1_ciybh"]
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
@@ -6,7 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://rlp4rxc1x15o" path="res://Entities/EnemySpawner/EnemySpawner.tscn" id="3_qikps"]
 [ext_resource type="Texture2D" uid="uid://dnbslw7b0l7wv" path="res://Assets/Powerups/DAMAGE.png" id="3_xfil1"]
 [ext_resource type="Script" uid="uid://r1wxwl14sbcy" path="res://Entities/EnemySpawner/EnemySpawner.gd" id="4_i1e5p"]
+[ext_resource type="Texture2D" uid="uid://lsw6rcrexnwr" path="res://Assets/Powerups/ALL_WAVES.png" id="5_xfil1"]
+[ext_resource type="Texture2D" uid="uid://c7k0f0b5syioq" path="res://Assets/Powerups/BULLET_SPREAD.png" id="6_7jvlm"]
 [ext_resource type="AudioStream" uid="uid://kyde7o3pfxli" path="res://Assets/Audio/explosion.wav" id="6_flgk0"]
+[ext_resource type="Texture2D" uid="uid://bewv84a04hanp" path="res://Assets/Powerups/BULLET_PIERCING.png" id="7_qtymf"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
 font_size = 36
@@ -56,26 +59,26 @@ visible = false
 layout_mode = 0
 offset_left = 495.0
 offset_top = 387.0
-offset_right = 599.0
-offset_bottom = 414.0
+offset_right = 600.0
+offset_bottom = 414.2596
 value = 100.0
 show_percentage = false
 
 [node name="TextureRect" type="TextureRect" parent="UICanvas/UI/DamageIncreaseBar"]
 layout_mode = 0
-offset_left = 79.99999
-offset_top = 2.9999998
-offset_right = 261.0
-offset_bottom = 214.0
+offset_left = 78.0
+offset_top = 2.0
+offset_right = 278.0
+offset_bottom = 235.14917
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xfil1")
 
 [node name="AmplitudeBar" parent="UICanvas/UI" instance=ExtResource("2_qikps")]
 layout_mode = 0
 offset_left = 352.0
-offset_top = 787.0
+offset_top = 784.0
 offset_right = 952.0
-offset_bottom = 1087.0
+offset_bottom = 1084.0
 scale = Vector2(1.2400012, 1)
 
 [node name="WaveCounter" type="Label" parent="UICanvas/UI"]
@@ -85,6 +88,66 @@ offset_top = 65.0
 offset_right = 190.0
 offset_bottom = 134.0
 theme_override_font_sizes/font_size = 50
+
+[node name="AllWavesBar" type="ProgressBar" parent="UICanvas/UI"]
+visible = false
+layout_mode = 0
+offset_left = 496.0
+offset_top = 417.0
+offset_right = 600.0
+offset_bottom = 444.52942
+max_value = 5.0
+value = 5.0
+show_percentage = false
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/AllWavesBar"]
+layout_mode = 0
+offset_left = 76.999985
+offset_top = 1.9999999
+offset_right = 503.0
+offset_bottom = 472.0
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("5_xfil1")
+
+[node name="BulletSpreadBar" type="ProgressBar" parent="UICanvas/UI"]
+visible = false
+layout_mode = 0
+offset_left = 496.0
+offset_top = 357.0
+offset_right = 600.0
+offset_bottom = 384.52942
+max_value = 5.0
+value = 5.0
+show_percentage = false
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/BulletSpreadBar"]
+layout_mode = 0
+offset_left = 75.99999
+offset_top = 0.99999994
+offset_right = 522.0
+offset_bottom = 484.0
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("6_7jvlm")
+
+[node name="BulletPiercingBar" type="ProgressBar" parent="UICanvas/UI"]
+visible = false
+layout_mode = 0
+offset_left = 496.0
+offset_top = 328.0
+offset_right = 600.0
+offset_bottom = 355.0
+max_value = 5.0
+value = 5.0
+show_percentage = false
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/BulletPiercingBar"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 2.0
+offset_right = 1290.7894
+offset_bottom = 1102.0
+scale = Vector2(0.02, 0.02)
+texture = ExtResource("7_qtymf")
 
 [node name="DeathUI" type="Control" parent="UICanvas"]
 process_mode = 3
@@ -120,7 +183,19 @@ spawn_max_x = 300
 [node name="ExplosionPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_flgk0")
 
+[node name="AllWavesTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
 [node name="DamageBoostTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="BulletPiercingTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="BulletSpreadTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 

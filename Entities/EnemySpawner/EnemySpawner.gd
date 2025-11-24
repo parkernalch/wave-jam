@@ -60,7 +60,6 @@ func spawn_enemy_wave() -> void:
 	wave += 1
 	wave_count_label.text = "Wave: %d" % wave
 	display_wave_count_label_timer.start()
-	print("Spawning wave %d" % wave)
 	for i in range(0, enemy_count_per_wave + wave - 1):
 		if i == 0:
 			spawn_enemy_instance()

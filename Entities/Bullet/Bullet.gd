@@ -5,17 +5,23 @@ extends RigidBody2D
 
 var wave_form
 var damage
+var all_waves
+var bullet_angle
+var bullet_piercing
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
-func shoot(bulletSpeed, waveForm, damage):
+func shoot(bulletSpeed, waveForm, damage, all_waves, angle, bullet_piercing):
 	bullet_speed = bulletSpeed
 	wave_form = waveForm
 	self.damage = damage
+	self.all_waves = all_waves
 	var color = wave_form["color"]
 	set_tint(color)
+	bullet_angle = angle
+	self.bullet_piercing = bullet_piercing
 
 func set_tint(color: Vector4) -> void:
 	# Root node material
@@ -50,10 +56,11 @@ func _physics_process(delta: float) -> void:
 		if aabb.intersects(obj_rect):
 			# narrow-phase: call enemy's hit method or do more precise shape checks
 			if obj.has_method("on_hit"):
-				obj.on_hit(wave_form, damage)
+				obj.on_hit(wave_form, damage, all_waves)
 				# destroy bullet after hit (adjust to your logic)
-				queue_free()
+				if not bullet_piercing:
+					queue_free()
 			return
 
-	linear_velocity = Vector2(0, -bullet_speed)	
+	linear_velocity = Vector2(bullet_angle, -bullet_speed)	
 	pass
