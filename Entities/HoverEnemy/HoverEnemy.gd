@@ -66,10 +66,10 @@ func _physics_process(delta: float) -> void:
 	detect_player_collision()
 
 	if (global_position.y > bounds_bottom + 100):
-		destroy(false)
+		destroy(false, false)
 
 	if (health <= 0):
-		destroy(true)
+		destroy(true, true)
 
 func figure8_movement(delta: float) -> void:
 	# Lissajous-style figure-8 movement: x = base_x + A*sin(t), y = base_y + B*sin(2*t)
@@ -108,7 +108,7 @@ func detect_player_collision() -> void:
 			# narrow-phase: call enemy's hit method or do more precise shape checks
 			if obj.has_method("enemy_collision"):
 				obj.enemy_collision(current_wave_form)
-				destroy(false)
+				destroy(false, true)
 			return
 
 func get_aabb() -> Rect2:
@@ -135,15 +135,17 @@ func shoot() -> void:
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_wave_form)
 		
-func destroy(spawn_drop) -> void:
+func destroy(spawn_drop, give_points) -> void:
 	# Add animation
 	spatial_hash.remove(self)
 	randomize()
+
+	if give_points:
+		score.add_points(100)
+		signal_bus.enemy_destroyed.emit()
+
 	# 50% chance to drop a powerup
 	if randi() % 5 == 0 && spawn_drop:
-		score.add_points(100)
-
-		signal_bus.enemy_destroyed.emit()
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)
