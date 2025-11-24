@@ -83,10 +83,10 @@ scale = Vector2(1.2400012, 1)
 
 [node name="WaveCounter" type="Label" parent="UICanvas/UI"]
 layout_mode = 0
-offset_left = 150.0
-offset_top = 65.0
-offset_right = 190.0
-offset_bottom = 134.0
+offset_left = 52.0
+offset_top = 68.0
+offset_right = 92.0
+offset_bottom = 137.0
 theme_override_font_sizes/font_size = 50
 
 [node name="AllWavesBar" type="ProgressBar" parent="UICanvas/UI"]

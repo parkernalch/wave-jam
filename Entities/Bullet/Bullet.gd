@@ -1,7 +1,7 @@
 extends RigidBody2D
 
 @export var bullet_speed = 200;
-@export var hit_box_size: Vector2 = Vector2(8, 8) # bullet AABB size (tune as needed)
+@export var hit_box_size: Vector2 = Vector2(15, 10) # bullet AABB size (tune as needed)
 
 var wave_form
 var damage

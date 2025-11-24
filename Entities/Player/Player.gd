@@ -25,6 +25,7 @@ var bullet_spread_angles = [-90, 0, 90]
 var bullet_piercing = false
 var bullet_piercing_timer
 
+
 func _ready() -> void:
 	signal_bus.enemy_destroyed.connect(_on_enemy_destroy)
 	signal_bus.amplitude_changed.emit(100)
@@ -37,6 +38,7 @@ func _ready() -> void:
 	bullet_spread_timer.connect("timeout", _on_bullet_spread_timeout)
 	bullet_piercing_timer = get_parent().find_child("BulletPiercingTimer")
 	bullet_piercing_timer.connect("timeout", _on_bullet_piercing_timeout)
+	globals.available_wave_forms = FORMS.values().slice(0,2)
 
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
@@ -56,8 +58,10 @@ func _physics_process(delta: float) -> void:
 		return
 
 func change_form():
-	form_index = (form_index + 1) % FORMS.size()
-	current_form = FORMS.values()[form_index]
+	# form_index = (form_index + 1) % FORMS.size()
+	form_index = (form_index + 1) % globals.available_wave_forms.size()
+	# current_form = FORMS.values()[form_index]
+	current_form = globals.available_wave_forms[form_index]
 	set_tint(current_form["color"])
 
 func set_tint(color: Vector4) -> void:
@@ -157,7 +161,7 @@ func _on_damage_boost_timeout() -> void:
 	damage = 1
 
 func _on_bullet_spread_timeout() -> void:
-	pass
+	bullet_spread = false
 	
 func _on_enemy_destroy():
 	amplitude = min(amplitude + 5, max_amplitude)

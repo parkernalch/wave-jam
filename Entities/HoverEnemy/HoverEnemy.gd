@@ -50,7 +50,7 @@ func set_tint(color: Vector4) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
-	current_wave_form = CONSTANTS.DEFAULT_WAVE_FORMS.values()[randi() % CONSTANTS.DEFAULT_WAVE_FORMS.values().size()]
+	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
 	set_tint(current_wave_form["color"])
 	# Timer to handle shooting
 	TimerHelper.make_timer(self, shot_cooldown, shoot, false, true)

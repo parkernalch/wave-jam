@@ -58,8 +58,18 @@ func get_spawn_point() -> Vector2:
 
 func spawn_enemy_wave() -> void:
 	wave += 1
-	wave_count_label.text = "Wave: %d" % wave
+	enemy_count_per_wave += 1
 	display_wave_count_label_timer.start()
+	if (wave == 5):
+		globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SAWTOOTH)
+		wave_count_label.text = "Wave: %d Sawtooth Form Added" % wave
+	elif (wave == 10):
+		globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SQUARE)
+		wave_count_label.text = "Wave: %d Square Form Added" % wave
+	else:
+		wave_count_label.text = "Wave: %d" % wave
+	
+	signal_bus.wave_changed.emit(wave)
 	for i in range(0, enemy_count_per_wave + wave - 1):
 		if i == 0:
 			spawn_enemy_instance()
