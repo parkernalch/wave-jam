@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @onready var Bullet = preload("res://Entities/EnemyBullet/EnemyBullet.tscn")
 @onready var bullet_spawn: Node2D = $BulletSpawn
+@onready var Powerup = preload("res://Entities/Powerup/Powerup.tscn")
 
 @export var bullet_speed = 1000;
 @export var shot_cooldown : float = 1.0
@@ -89,9 +90,9 @@ func figure8_movement(delta: float) -> void:
 	global_position.x = target_x
 	global_position.y = target_y
 
-func on_hit(wave_form) -> void:
+func on_hit(wave_form, damage) -> void:
 	if (wave_form == current_wave_form):
-		health -= 1
+		health -= damage
 
 func detect_player_collision() -> void:
 	var aabb = Rect2(global_position - hit_box_size * 0.5, hit_box_size)
@@ -139,4 +140,12 @@ func destroy() -> void:
 	signal_bus.enemy_destroyed.emit()
 	# Add animation
 	spatial_hash.remove(self)
+	randomize()
+	# 50% chance to drop a powerup
+	if randi() % 5 == 0:
+		var powerup_instance = Powerup.instantiate()
+		if get_parent():
+			get_parent().add_child(powerup_instance)
+			powerup_instance.global_position = global_position
+			
 	queue_free()

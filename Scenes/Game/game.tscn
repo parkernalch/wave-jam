@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://gf4gu3r0d4ub"]
+[gd_scene load_steps=9 format=3 uid="uid://gf4gu3r0d4ub"]
 
 [ext_resource type="Script" uid="uid://bduo2tx0wx2xp" path="res://Scenes/Game/game.gd" id="1_ciybh"]
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
 [ext_resource type="PackedScene" uid="uid://bjt85faac56m6" path="res://Scenes/Game/AmplitudeBar/AmplitudeBar.tscn" id="2_qikps"]
 [ext_resource type="PackedScene" uid="uid://rlp4rxc1x15o" path="res://Entities/EnemySpawner/EnemySpawner.tscn" id="3_qikps"]
+[ext_resource type="Texture2D" uid="uid://dnbslw7b0l7wv" path="res://Assets/Powerups/DAMAGE.png" id="3_xfil1"]
 [ext_resource type="Script" uid="uid://r1wxwl14sbcy" path="res://Entities/EnemySpawner/EnemySpawner.gd" id="4_i1e5p"]
 [ext_resource type="AudioStream" uid="uid://kyde7o3pfxli" path="res://Assets/Audio/explosion.wav" id="6_flgk0"]
 
@@ -16,6 +17,7 @@ script = ExtResource("1_ciybh")
 [node name="Player" parent="." instance=ExtResource("1_mv0hc")]
 position = Vector2(200, 700)
 speed = 200
+shoot_cooldown = 0.5
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 
@@ -49,12 +51,40 @@ label_settings = SubResource("LabelSettings_ev4jc")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AmplitudeBar" parent="UICanvas" instance=ExtResource("2_qikps")]
+[node name="DamageIncreaseBar" type="ProgressBar" parent="UICanvas/UI"]
+visible = false
+layout_mode = 0
+offset_left = 495.0
+offset_top = 387.0
+offset_right = 599.0
+offset_bottom = 414.0
+value = 100.0
+show_percentage = false
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/DamageIncreaseBar"]
+layout_mode = 0
+offset_left = 79.99999
+offset_top = 2.9999998
+offset_right = 261.0
+offset_bottom = 214.0
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xfil1")
+
+[node name="AmplitudeBar" parent="UICanvas/UI" instance=ExtResource("2_qikps")]
+layout_mode = 0
 offset_left = 352.0
 offset_top = 787.0
 offset_right = 952.0
 offset_bottom = 1087.0
 scale = Vector2(1.2400012, 1)
+
+[node name="WaveCounter" type="Label" parent="UICanvas/UI"]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 65.0
+offset_right = 190.0
+offset_bottom = 134.0
+theme_override_font_sizes/font_size = 50
 
 [node name="DeathUI" type="Control" parent="UICanvas"]
 process_mode = 3
@@ -84,11 +114,14 @@ text = "Main Menu"
 [node name="EnemySpawner" parent="." instance=ExtResource("3_qikps")]
 script = ExtResource("4_i1e5p")
 wave_duration = 10.0
-enemy_count_per_wave = 8
 spawn_min_x = 100
 spawn_max_x = 300
 
 [node name="ExplosionPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_flgk0")
+
+[node name="DamageBoostTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
 
 [connection signal="pressed" from="UICanvas/DeathUI/Button" to="." method="_on_menu_button_pressed"]

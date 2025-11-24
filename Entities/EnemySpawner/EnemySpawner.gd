@@ -8,7 +8,10 @@ extends Node2D
 @export var spawn_max_x: int = 400
 @export var spawn_y: int = 10
 @export var spawn_min_distance: float = 20.0
+@export var display_wave_count_duration: float = 3.0
 
+var wave_count_label
+var display_wave_count_label_timer
 var wave: int = 0
 
 @onready var ScrollingEnemyEnemy = preload("res://Entities/ScrollingEnemy/ScrollingEnemy.tscn")
@@ -23,7 +26,8 @@ func _ready() -> void:
 	enemies.append(HoverEnemyEnemy);
 	TimerHelper.make_timer(self, wave_duration + time_between_waves, spawn_enemy_wave, false, true)
 	TimerHelper.make_timer(self, initial_delay, spawn_enemy_wave, true, true)
-
+	wave_count_label = get_parent().find_child("UICanvas").find_child("UI").find_child("WaveCounter")
+	display_wave_count_label_timer = TimerHelper.make_timer(self, display_wave_count_duration, hide_wave_count_label, true, false)
 
 func get_spawn_point() -> Vector2:
 	# Try to find a spawn X that is at least `spawn_min_distance` away
@@ -54,6 +58,8 @@ func get_spawn_point() -> Vector2:
 
 func spawn_enemy_wave() -> void:
 	wave += 1
+	wave_count_label.text = "Wave: %d" % wave
+	display_wave_count_label_timer.start()
 	print("Spawning wave %d" % wave)
 	for i in range(0, enemy_count_per_wave + wave - 1):
 		if i == 0:
@@ -72,3 +78,6 @@ func spawn_enemy_instance() -> void:
 	enemy_instance.position = get_spawn_point()
 	current_enemies.append(enemy_instance)
 	get_parent().add_child(enemy_instance)
+
+func hide_wave_count_label() -> void:
+	wave_count_label.text = ""

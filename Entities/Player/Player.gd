@@ -2,10 +2,12 @@ class_name Player extends CharacterBody2D
 
 @onready var Bullet = preload("res://Entities/Bullet/Bullet.tscn")
 @onready var bullet_spawn: Node2D = $BulletSpawn
+
 @export var bullet_speed = 1000;
 @export var speed = 300
 @export var boost_multiplier = 2.0
-@export var shoot_cooldown = 0.3
+@export var shoot_cooldown = .5
+@export var damage = 1
 
 var max_amplitude = 100.0
 var amplitude = 100.0
@@ -14,12 +16,16 @@ var can_shoot = true
 var form_index = 0
 var FORMS = CONSTANTS.DEFAULT_WAVE_FORMS
 var current_form = FORMS.SIN
+var damage_boost_timer
 
 func _ready() -> void:
 	signal_bus.enemy_destroyed.connect(_on_enemy_destroy)
 	signal_bus.amplitude_changed.emit(100)
 	shoot_cooldown_timer = TimerHelper.make_timer(self, shoot_cooldown, _reset_shoot_cooldown, false, false)
-	
+	signal_bus.powerup_collected.connect(_on_powerup_collected)
+	get_parent().find_child("DamageBoostTimer").connect("timeout", _on_damage_boost_timeout)
+
+
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
 	
@@ -58,7 +64,7 @@ func shoot():
 	if get_parent() && can_shoot && amplitude > 1:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
-		bullet.shoot(bullet_speed, current_form)
+		bullet.shoot(bullet_speed, current_form, damage)
 		can_shoot = false
 		amplitude -= 1
 		signal_bus.amplitude_changed.emit(amplitude)
@@ -109,3 +115,20 @@ func get_aabb() -> Rect2:
 
 func die() -> void:
 	signal_bus.player_died.emit()
+
+func _on_powerup_collected(powerup_type):
+	if powerup_type == "DAMAGE":
+		damage += 1
+	elif powerup_type == "SPEED":
+		speed += 50
+	elif powerup_type == "FIRE_RATE":
+		shoot_cooldown = max(0.1, shoot_cooldown - 0.09)
+		shoot_cooldown_timer.wait_time = shoot_cooldown
+	elif powerup_type == "MAX_HEALTH":
+		amplitude = 100
+		signal_bus.amplitude_changed.emit(amplitude)
+
+
+func _on_damage_boost_timeout() -> void:
+	damage = 1
+	

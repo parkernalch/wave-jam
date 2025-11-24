@@ -4,14 +4,16 @@ extends RigidBody2D
 @export var hit_box_size: Vector2 = Vector2(8, 8) # bullet AABB size (tune as needed)
 
 var wave_form
+var damage
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
-func shoot(bulletSpeed, waveForm):
+func shoot(bulletSpeed, waveForm, damage):
 	bullet_speed = bulletSpeed
 	wave_form = waveForm
+	self.damage = damage
 	var color = wave_form["color"]
 	set_tint(color)
 
@@ -48,7 +50,7 @@ func _physics_process(delta: float) -> void:
 		if aabb.intersects(obj_rect):
 			# narrow-phase: call enemy's hit method or do more precise shape checks
 			if obj.has_method("on_hit"):
-				obj.on_hit(wave_form)
+				obj.on_hit(wave_form, damage)
 				# destroy bullet after hit (adjust to your logic)
 				queue_free()
 			return

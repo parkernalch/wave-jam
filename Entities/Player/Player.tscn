@@ -54,6 +54,7 @@ size = Vector2(84.37491, 78.124916)
 [node name="Player" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_x44r4")
 scale = Vector2(0.6400006, 0.6400006)
+collision_mask = 2
 script = ExtResource("1_1des2")
 shoot_cooldown = 0.1
 

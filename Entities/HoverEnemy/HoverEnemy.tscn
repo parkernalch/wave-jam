@@ -58,7 +58,6 @@ size = Vector2(14.666668, 20.333334)
 z_index = 99
 position = Vector2(427, 145)
 collision_layer = 2
-collision_mask = 2
 script = ExtResource("1_4axbq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -75,6 +74,7 @@ position = Vector2(-2.2737368e-13, 20)
 rotation = -3.1415925
 scale = Vector2(3, 3)
 shape = SubResource("RectangleShape2D_bkf3j")
+disabled = true
 
 [node name="BulletSpawn" type="Node2D" parent="."]
 position = Vector2(0, 51)

@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 		var obj_rect = obj.get_aabb()
 		if aabb.intersects(obj_rect):
 			if obj.has_method("take_damage"):
-				obj.take_damage(1, current_wave_form)
+				obj.take_damage(5, current_wave_form)
 				spatial_hash.remove(self)
 				queue_free()
 			return
