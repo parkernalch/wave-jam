@@ -128,11 +128,14 @@ func shoot() -> void:
 		bullet.shoot(bullet_speed, current_wave_form)
 		
 func destroy(spawn_drop) -> void:
-	score.add_points(100)
-	signal_bus.enemy_destroyed.emit()
 	# Add animation
+	spatial_hash.remove(self)
+
 	randomize()
 	if randi() % 3 == 0 && spawn_drop:
+		score.add_points(100)
+		signal_bus.enemy_destroyed.emit()
+
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)
