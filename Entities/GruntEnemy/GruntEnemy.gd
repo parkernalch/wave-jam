@@ -4,19 +4,12 @@ extends CharacterBody2D
 @onready var bullet_spawn: Node2D = $BulletSpawn
 @onready var Powerup = preload("res://Entities/Powerup/powerup.tscn")
 
-@export var bullet_speed = 1000;
-@export var shot_cooldown : float = 1.0
 @export var health : int = 2
 
-@export var speed: float = 200.0
+@export var speed: float = 150.0
 @export var amplitude: float = 60.0
 @export var freq: float = 3.0
 @export var screen_margin: float = 16.0
-
-# Lissajous (figure-8) parameters
-@export var figure8_amp_x: float = 60.0
-@export var figure8_amp_y: float = 40.0
-@export var figure8_freq: float = 1.5
 
 # explicit spawn/movement bounds (use these instead of viewport)
 var bounds_left: float = 0.0
@@ -30,7 +23,9 @@ var current_wave_form
 
 var t: float = 0.0
 var _base_x: float = 0.0
-var _base_y: float = 0.0
+var player: Player
+var vector_to_player: Vector2
+var move_vector: Vector2
 
 func set_tint(color: Vector4) -> void:
 	# Root node material
@@ -50,47 +45,32 @@ func set_tint(color: Vector4) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
-	# make this node queryable by group for fast counting
-	add_to_group("HoverEnemy")
 	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
 	set_tint(current_wave_form["color"])
 	# Timer to handle shooting
-	TimerHelper.make_timer(self, shot_cooldown, shoot, false, true)
 	_base_x = global_position.x
-	_base_y = global_position.y
 	hit_box_size = $CollisionShape2D.shape.extents * 2
+	player = get_parent().get_node("Player") as Player
 
 func _physics_process(delta: float) -> void:
-	figure8_movement(delta)
-
 	spatial_hash.update(self, get_aabb())
 
 	detect_player_collision()
 
+	vector_to_player = (player.global_position - global_position).normalized()
+	if global_position.y > player.global_position.y:
+		move_vector = Vector2(0, 1).normalized()
+	else:
+		move_vector = Vector2(vector_to_player.x, 1).normalized()
+
+	global_position += move_vector * speed * delta
+	
 	if (global_position.y > bounds_bottom + 100):
 		destroy(false, false)
 
 	if (health <= 0):
 		destroy(true, true)
 
-func figure8_movement(delta: float) -> void:
-	# Lissajous-style figure-8 movement: x = base_x + A*sin(t), y = base_y + B*sin(2*t)
-	t += delta
-
-	var target_x := _base_x + figure8_amp_x * sin(t * figure8_freq)
-	var target_y := _base_y + figure8_amp_y * sin(2.0 * t * figure8_freq)
-
-	# clamp to configured bounds (left/right/top/bottom) minus margin
-	var min_x := bounds_left + screen_margin
-	var max_x := bounds_right - screen_margin
-	var min_y := bounds_top + screen_margin
-	var max_y := bounds_bottom - screen_margin
-
-	target_x = clamp(target_x, min_x, max_x)
-	target_y = clamp(target_y, min_y, max_y)
-
-	global_position.x = target_x
-	global_position.y = target_y
 
 func on_hit(wave_form, damage, all_waves) -> void:
 	if (wave_form == current_wave_form || all_waves):
@@ -113,6 +93,7 @@ func detect_player_collision() -> void:
 				destroy(false, true)
 			return
 
+
 func get_aabb() -> Rect2:
 	# If using a CollisionShape2D with RectangleShape2D
 	if has_node("CollisionShape2D"):
@@ -129,28 +110,21 @@ func get_aabb() -> Rect2:
 	# fallback: small box around position
 	return Rect2(global_position - Vector2(8,8), Vector2(16,16))
 
-func shoot() -> void:
-	var bullet = Bullet.instantiate()
-
-	if get_parent():
-		get_parent().add_child(bullet)
-		bullet.global_position = bullet_spawn.global_position
-		bullet.shoot(bullet_speed, current_wave_form)
-		
 func destroy(spawn_drop, give_points) -> void:
 	# Add animation
 	spatial_hash.remove(self)
-	randomize()
 
 	if give_points:
 		score.add_points(100)
 		signal_bus.enemy_destroyed.emit()
 
-	# 33% chance to drop a powerup
-	if randi() % 3 == 0 && spawn_drop:
+
+	randomize()
+	if randi() % 5 == 0 && spawn_drop:
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)
 			powerup_instance.global_position = global_position
-			
+				
+	spatial_hash.remove(self)
 	queue_free()

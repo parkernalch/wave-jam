@@ -57,7 +57,6 @@ func query(rect: Rect2) -> Array:
 func get_aabb(obj: Object) -> Rect2:
 	return obj_aabbs.get(obj, Rect2())
 
-
 func clear() -> void:
 	cells.clear()
 	obj_cells.clear()

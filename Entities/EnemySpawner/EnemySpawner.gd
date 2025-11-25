@@ -14,16 +14,24 @@ extends Node2D
 var wave_count_label
 var display_wave_count_label_timer
 
-@onready var ScrollingEnemyEnemy = preload("res://Entities/ScrollingEnemy/ScrollingEnemy.tscn")
-@onready var HoverEnemyEnemy = preload("res://Entities/HoverEnemy/HoverEnemy.tscn")
+@onready var ScrollingEnemy = preload("res://Entities/ScrollingEnemy/ScrollingEnemy.tscn")
+@onready var HoverEnemy = preload("res://Entities/HoverEnemy/HoverEnemy.tscn")
+@onready var GruntEnemy = preload("res://Entities/GruntEnemy/GruntEnemy.tscn")
 
 var enemies = []
 var current_enemies = []
+var available_enemies = []
+
+var enemy_instance
+var random_enemy_index
+
+var hover_enemy_count
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	enemies.append(ScrollingEnemyEnemy);
-	enemies.append(HoverEnemyEnemy);
+	enemies.append(HoverEnemy);
+	enemies.append(ScrollingEnemy);
+	enemies.append(GruntEnemy);
 	TimerHelper.make_timer(self, wave_duration + time_between_waves, spawn_enemy_wave, false, true)
 	TimerHelper.make_timer(self, initial_delay, spawn_enemy_wave, true, true)
 	wave_count_label = get_parent().find_child("UICanvas").find_child("UI").find_child("WaveCounter")
@@ -56,6 +64,35 @@ func get_spawn_point() -> Vector2:
 	var fallback_x = spawn_min_x + (randi() % max(1, spawn_max_x - spawn_min_x + 1))
 	return Vector2(fallback_x, spawn_y)
 
+func _process(delta: float) -> void:
+	# print(spatial_hash.cells.keys())
+	pass
+
+func get_hover_enemy_count() -> int:
+	# Prefer group lookup for speed and reliability
+	var nodes := get_tree().get_nodes_in_group("HoverEnemy")
+	if nodes.size() > 0:
+		return nodes.size()
+
+	# Fallback: scan tracked `current_enemies` and try to detect hover enemy scripts/names
+	var count := 0
+	for e in current_enemies:
+		if e == null:
+			continue
+		# try script path detection
+		var scr = null
+		if e.has_method("get_script"):
+			scr = e.get_script()
+		if scr and scr.resource_path != "":
+			if str(scr.resource_path).to_lower().find("hoverenemy") != -1:
+				count += 1
+				continue
+		# fallback to name matching
+		if str(e.name).to_lower().find("hoverenemy") != -1:
+			count += 1
+
+	return count
+
 func spawn_enemy_wave() -> void:
 	wave += 1
 	enemy_count_per_wave += 1
@@ -78,8 +115,18 @@ func spawn_enemy_wave() -> void:
 		
 func spawn_enemy_instance() -> void:
 	randomize()
-	var random_enemy_index = randi() % enemies.size()
-	var enemy_instance = enemies[random_enemy_index].instantiate()
+	random_enemy_index = randi() % enemies.size()
+
+	# update hover count each spawn attempt
+	hover_enemy_count = get_hover_enemy_count()
+	
+	if hover_enemy_count > (wave + 4) / 2:
+		available_enemies = enemies.slice(1, enemies.size() - 1)
+	else:
+		available_enemies = enemies
+	
+	enemy_instance = available_enemies[random_enemy_index].instantiate()
+	
 	if random_enemy_index > 0:
 		spawn_y = 50
 	else:

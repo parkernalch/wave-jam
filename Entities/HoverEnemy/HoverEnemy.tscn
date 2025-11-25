@@ -54,7 +54,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bkf3j"]
 size = Vector2(14.666668, 20.333334)
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="HoverEnemy" type="CharacterBody2D"]
 z_index = 99
 position = Vector2(427, 145)
 collision_layer = 2

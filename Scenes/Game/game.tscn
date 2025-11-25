@@ -64,9 +64,9 @@ vertical_alignment = 1
 [node name="DamageIncreaseBar" type="ProgressBar" parent="UICanvas/UI"]
 layout_mode = 0
 offset_left = 495.0
-offset_top = 387.0
+offset_top = 413.0
 offset_right = 600.0
-offset_bottom = 414.2596
+offset_bottom = 440.2596
 max_value = 6.0
 value = 6.0
 show_percentage = false
@@ -79,6 +79,15 @@ offset_right = 278.0
 offset_bottom = 235.14917
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xfil1")
+
+[node name="Label" type="Label" parent="UICanvas/UI/DamageIncreaseBar"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = -18.0
+offset_right = 93.0
+offset_bottom = 5.0
+theme_override_font_sizes/font_size = 13
+text = "Damage Boost"
 
 [node name="AmplitudeBar" parent="UICanvas/UI" instance=ExtResource("2_qikps")]
 layout_mode = 0
@@ -100,9 +109,9 @@ theme_override_font_sizes/font_size = 50
 [node name="AllWavesBar" type="ProgressBar" parent="UICanvas/UI"]
 layout_mode = 0
 offset_left = 496.0
-offset_top = 417.0
+offset_top = 459.0
 offset_right = 600.0
-offset_bottom = 444.52942
+offset_bottom = 486.52942
 max_value = 6.0
 value = 5.0
 show_percentage = false
@@ -116,12 +125,20 @@ offset_bottom = 472.0
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("5_xfil1")
 
+[node name="Label" type="Label" parent="UICanvas/UI/AllWavesBar"]
+layout_mode = 0
+offset_top = -19.0
+offset_right = 99.0
+offset_bottom = 4.0
+theme_override_font_sizes/font_size = 13
+text = "Bullet All Forms"
+
 [node name="BulletSpreadBar" type="ProgressBar" parent="UICanvas/UI"]
 layout_mode = 0
 offset_left = 496.0
-offset_top = 357.0
+offset_top = 369.0
 offset_right = 600.0
-offset_bottom = 384.52942
+offset_bottom = 396.52942
 max_value = 6.0
 value = 5.0
 show_percentage = false
@@ -134,6 +151,15 @@ offset_right = 522.0
 offset_bottom = 484.0
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("6_7jvlm")
+
+[node name="Label" type="Label" parent="UICanvas/UI/BulletSpreadBar"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = -17.0
+offset_right = 86.0
+offset_bottom = 6.0
+theme_override_font_sizes/font_size = 13
+text = "Bullet Spread"
 
 [node name="BulletPiercingBar" type="ProgressBar" parent="UICanvas/UI"]
 layout_mode = 0
@@ -154,12 +180,21 @@ offset_bottom = 1102.0
 scale = Vector2(0.02, 0.02)
 texture = ExtResource("7_qtymf")
 
+[node name="Label" type="Label" parent="UICanvas/UI/BulletPiercingBar"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -19.0
+offset_right = 90.0
+offset_bottom = 4.0
+theme_override_font_sizes/font_size = 13
+text = "Bullet Piercing"
+
 [node name="AbsorbAllFormsBar" type="ProgressBar" parent="UICanvas/UI"]
 layout_mode = 0
 offset_left = 496.0
-offset_top = 299.0
+offset_top = 284.0
 offset_right = 600.0
-offset_bottom = 326.0
+offset_bottom = 311.0
 max_value = 3.0
 value = 3.0
 show_percentage = false
@@ -172,6 +207,15 @@ offset_right = 1290.7894
 offset_bottom = 1102.0
 scale = Vector2(0.02, 0.02)
 texture = ExtResource("8_oejk7")
+
+[node name="Label" type="Label" parent="UICanvas/UI/AbsorbAllFormsBar"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -21.0
+offset_right = 127.0
+offset_bottom = 2.0
+theme_override_font_sizes/font_size = 13
+text = "Absorb all forms"
 
 [node name="NextFormIndicator" type="TextureRect" parent="UICanvas/UI"]
 material = SubResource("ShaderMaterial_upfqs")
