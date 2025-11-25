@@ -23,6 +23,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu"]
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 400.0
+alignment = 1
+
+[node name="GameTitle" type="Label" parent="MainMenu/HBoxContainer"]
+layout_mode = 2
+text = "Wave Game"
+label_settings = SubResource("LabelSettings_goel8")
+horizontal_alignment = 1
+
 [node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
 layout_mode = 1
 anchors_preset = 8
@@ -50,19 +62,6 @@ text = "Settings"
 layout_mode = 2
 text = "High Scores"
 
-[node name="GameTitle" type="Label" parent="MainMenu"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -282.5
-offset_right = 282.5
-offset_bottom = 200.0
-grow_horizontal = 2
-text = "Wave Game"
-label_settings = SubResource("LabelSettings_goel8")
-horizontal_alignment = 1
-
 [node name="SettingsMenu" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -71,28 +70,91 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BackButton" type="Button" parent="SettingsMenu"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsMenu"]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Back"
+offset_right = 600.0
+offset_bottom = 400.0
+alignment = 1
 
-[node name="SettingsLabel" type="Label" parent="SettingsMenu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -282.5
-offset_top = -100.0
-offset_right = 282.5
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="SettingsLabel" type="Label" parent="SettingsMenu/HBoxContainer2"]
+layout_mode = 2
 text = "Settings"
 label_settings = SubResource("LabelSettings_goel8")
 horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsMenu"]
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 800.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsMenu/HBoxContainer"]
+custom_minimum_size = Vector2(600, 800)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Master" type="HBoxContainer" parent="SettingsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/Master"]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="HSlider" type="HSlider" parent="SettingsMenu/HBoxContainer/VBoxContainer/Master"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+min_value = -80.0
+max_value = 0.0
+tick_count = 20
+
+[node name="Value" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/Master"]
+layout_mode = 2
+text = "100%"
+
+[node name="Music" type="HBoxContainer" parent="SettingsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/Music"]
+layout_mode = 2
+text = "Music Volume"
+
+[node name="HSlider" type="HSlider" parent="SettingsMenu/HBoxContainer/VBoxContainer/Music"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+min_value = -80.0
+max_value = 0.0
+tick_count = 20
+
+[node name="Value" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/Music"]
+layout_mode = 2
+text = "100%"
+
+[node name="SFX" type="HBoxContainer" parent="SettingsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/SFX"]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="HSlider" type="HSlider" parent="SettingsMenu/HBoxContainer/VBoxContainer/SFX"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+min_value = -80.0
+max_value = 0.0
+tick_count = 20
+
+[node name="Value" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/SFX"]
+layout_mode = 2
+text = "100%"
+
+[node name="BackButton" type="Button" parent="SettingsMenu/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "Back"
 
 [node name="HighScoresMenu" type="Control" parent="."]
 visible = false
@@ -103,31 +165,37 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BackButton2" type="Button" parent="HighScoresMenu"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="HighScoresMenu"]
 layout_mode = 0
-offset_right = 45.0
-offset_bottom = 31.0
-text = "Back"
+offset_right = 600.0
+offset_bottom = 400.0
+alignment = 1
 
-[node name="HighScoresLabel" type="Label" parent="HighScoresMenu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -31.0
-offset_top = -11.5
-offset_right = 31.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
+[node name="HighScoresLabel" type="Label" parent="HighScoresMenu/HBoxContainer2"]
+layout_mode = 2
 text = "High Scores"
 label_settings = SubResource("LabelSettings_goel8")
 horizontal_alignment = 1
 
+[node name="HBoxContainer" type="HBoxContainer" parent="HighScoresMenu"]
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 800.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HighScoresMenu/HBoxContainer"]
+custom_minimum_size = Vector2(600, 800)
+layout_mode = 2
+alignment = 1
+
+[node name="BackButton2" type="Button" parent="HighScoresMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
 [connection signal="pressed" from="MainMenu/VBoxContainer/PlayButton" to="." method="handle_start_game"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/SettingsButton" to="." method="handle_settings_press"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/HighScoresButton" to="." method="handle_high_scores_press"]
-[connection signal="pressed" from="SettingsMenu/BackButton" to="." method="handle_menu_press"]
-[connection signal="pressed" from="HighScoresMenu/BackButton2" to="." method="handle_menu_press"]
+[connection signal="value_changed" from="SettingsMenu/HBoxContainer/VBoxContainer/Master/HSlider" to="." method="_on_master_slider_drag_ended"]
+[connection signal="value_changed" from="SettingsMenu/HBoxContainer/VBoxContainer/Music/HSlider" to="." method="_on_music_slider_changed"]
+[connection signal="value_changed" from="SettingsMenu/HBoxContainer/VBoxContainer/SFX/HSlider" to="." method="_on_sfx_slider_changed"]
+[connection signal="pressed" from="SettingsMenu/HBoxContainer/VBoxContainer/BackButton" to="." method="handle_menu_press"]
+[connection signal="pressed" from="HighScoresMenu/HBoxContainer/VBoxContainer/BackButton2" to="." method="handle_menu_press"]

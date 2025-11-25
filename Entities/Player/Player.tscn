@@ -91,7 +91,9 @@ script = ExtResource("3_an6q6")
 [node name="LaserAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_hj1c0")
 volume_db = 0.5
-pitch_scale = 0.8
+pitch_scale = 0.2
+bus = &"SFX"
 
 [node name="DamageAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_x44r4")
+bus = &"SFX"

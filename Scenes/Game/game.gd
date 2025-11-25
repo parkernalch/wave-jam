@@ -35,7 +35,8 @@ func _ready() -> void:
 	time_slow_timer.connect("timeout", _on_time_slow_timeout)
 	signal_bus.connect("time_slow_started", _start_time_slow)
 	signal_bus.connect("game_paused", _on_pause)
-	
+
+
 func set_tint(color: Vector4) -> void:
 	if next_form_indicator:
 		if next_form_indicator.material and next_form_indicator.material is ShaderMaterial:
