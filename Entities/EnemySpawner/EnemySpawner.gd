@@ -115,7 +115,6 @@ func spawn_enemy_wave() -> void:
 		
 func spawn_enemy_instance() -> void:
 	randomize()
-	random_enemy_index = randi() % enemies.size()
 
 	# update hover count each spawn attempt
 	hover_enemy_count = get_hover_enemy_count()
@@ -124,7 +123,9 @@ func spawn_enemy_instance() -> void:
 		available_enemies = enemies.slice(1, enemies.size() - 1)
 	else:
 		available_enemies = enemies
-	
+
+	random_enemy_index = randi() % available_enemies.size()
+
 	enemy_instance = available_enemies[random_enemy_index].instantiate()
 	
 	if random_enemy_index > 0:
