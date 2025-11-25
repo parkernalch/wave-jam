@@ -3,6 +3,7 @@ extends RigidBody2D
 @export var bullet_speed = 200;
 @export var hit_box_size: Vector2 = Vector2(8, 8) # bullet AABB size (tune as needed)
 
+var current_speed
 var current_wave_form
 
 # Called when the node enters the scene tree for the first time.
@@ -39,6 +40,11 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 		return
 
+	if globals.time_slow_active:
+		current_speed = bullet_speed * 0.25
+	else:
+		current_speed = bullet_speed
+
 	for obj in candidates:
 		# ensure candidate has get_aabb or else skip
 		if not obj.has_method("get_aabb") || obj.has_method("on_hit"):
@@ -52,4 +58,4 @@ func _physics_process(delta: float) -> void:
 			return
 	# avoid calling Vector2 constructor on some runtime setups; set components directly
 	linear_velocity.x = 0.0
-	linear_velocity.y = bullet_speed
+	linear_velocity.y = current_speed

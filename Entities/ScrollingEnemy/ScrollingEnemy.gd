@@ -8,6 +8,8 @@ extends CharacterBody2D
 @export var shot_cooldown : float = 1.0
 @export var health : int = 2
 
+var current_speed
+
 @export var speed: float = 200.0
 @export var amplitude: float = 60.0
 @export var freq: float = 3.0
@@ -25,6 +27,8 @@ var current_wave_form
 
 var t: float = 0.0
 var _base_x: float = 0.0
+var target_x: float = 0.0
+var current_target_x_modifier: float = 0.0
 
 func set_tint(color: Vector4) -> void:
 	# Root node material
@@ -64,14 +68,23 @@ func _physics_process(delta: float) -> void:
 	if (health <= 0):
 		destroy(true, 100)
 
+
 func sine_wave_movement(delta: float) -> void:
-	t += delta
-	# vertical movement (same as before)
-	global_position.y += speed / 2 * delta
+	# determine speed modifier (0.25 when time slow active)
+	var speed_factor: float = 1.0
+	if globals.time_slow_active:
+		speed_factor = 0.25
 
-	# horizontal sine oscillation around base X (do NOT multiply by delta)
-	var target_x := _base_x + sin(t * freq) * amplitude
+	# apply to time progression so horizontal oscillation slows
+	t += delta * speed_factor
 
+	# vertical movement scaled by factor
+	current_speed = speed * speed_factor
+	global_position.y += current_speed / 2 * delta
+
+	# horizontal sine oscillation around base X
+	# t already scaled by speed_factor so movement slows naturally
+	target_x = _base_x + sin(t * freq) * amplitude
 	# clamp to configured bounds (left/right/top/bottom) minus margin
 	var min_x := bounds_left + screen_margin
 	var max_x := bounds_right - screen_margin

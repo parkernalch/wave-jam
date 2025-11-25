@@ -12,6 +12,8 @@ var ScoreLabel
 @onready var bullet_piercing_timer: Timer = $BulletPiercingTimer
 @onready var absorb_all_forms_bar: ProgressBar = $UICanvas/UI/AbsorbAllFormsBar
 @onready var absorb_all_forms_timer: Timer = $AbsorbAllFormsTimer
+@onready var time_slow_timer: Timer = $TimeSlowTimer
+@onready var time_slow_progress_bar: ProgressBar = $UICanvas/UI/TimeSlowBar
 
 var next_form
 var next_form_indicator
@@ -29,7 +31,9 @@ func _ready() -> void:
 	signal_bus.connect("form_changed", _on_form_changed)
 	next_form_indicator = $UICanvas/UI/NextFormIndicator
 	set_tint(next_form["color"])
-
+	time_slow_timer.connect("timeout", _on_time_slow_timeout)
+	signal_bus.connect("time_slow_started", _start_time_slow)
+	
 func set_tint(color: Vector4) -> void:
 	if next_form_indicator:
 		if next_form_indicator.material and next_form_indicator.material is ShaderMaterial:
@@ -53,32 +57,23 @@ func _on_menu_button_pressed() -> void:
 	score.reset()
 	get_tree().change_scene_to_file("res://Scenes/Menus/menus.tscn")
 
+func handle_progress_bar(progress_bar, timer) -> void:
+	progress_bar.value = timer.time_left
+	
+	if timer.time_left <= 0:
+		progress_bar.visible = false
+	
 func _process(_delta: float) -> void:
-	# Update the progress bar's value to the remaining time of the damage_timer
-	# As the time_left goes from wait_time down to 0, the bar decreases
-	damage_progress_bar.value = damage_timer.time_left
-	
-	if damage_timer.time_left <= 0:
-		damage_progress_bar.visible = false
-	
-	all_waves_progress_bar.value = all_waves_timer.time_left
-	
-	if all_waves_timer.time_left <= 0:
-		all_waves_progress_bar.visible = false
+	handle_progress_bar(damage_progress_bar, damage_timer)
+	handle_progress_bar(all_waves_progress_bar, all_waves_timer)
+	handle_progress_bar(bullet_spread_bar, bullet_spread_timer)
+	handle_progress_bar(bullet_piercing_bar, bullet_piercing_timer)
+	handle_progress_bar(bullet_piercing_bar, bullet_piercing_timer)
+	handle_progress_bar(absorb_all_forms_bar, absorb_all_forms_timer)
+	handle_progress_bar(time_slow_progress_bar, time_slow_timer)
 
-	bullet_spread_bar.value = bullet_spread_timer.time_left
-	
-	if bullet_spread_timer.time_left <= 0:
-		bullet_spread_bar.visible = false
-
-	bullet_piercing_bar.value = bullet_piercing_timer.time_left
-
-	if bullet_piercing_timer.time_left <= 0:
-		bullet_piercing_bar.visible = false
-
-	absorb_all_forms_bar.value = absorb_all_forms_timer.time_left
-	if absorb_all_forms_timer.time_left <= 0:
-		absorb_all_forms_bar.visible = false
+func _start_time_slow():
+	time_slow_timer.start()
 
 func _on_powerup_collected(powerup_type):
 	if powerup_type == "DAMAGE":
@@ -96,8 +91,18 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "ABSORB_ALL_FORMS":
 		absorb_all_forms_timer.start()
 		absorb_all_forms_bar.visible = true
+	elif powerup_type == "TIME_SLOW":
+		time_slow_timer.start()
+		time_slow_progress_bar.visible = true
 
 func _on_form_changed(form_index):
 	next_form_index = (form_index + 1) % globals.available_wave_forms.size()
 	next_form = globals.available_wave_forms[next_form_index]
 	set_tint(next_form["color"])
+
+func _on_time_slow_timeout() -> void:
+	globals.time_slow_active = false
+
+
+func _on_time_slow_timer_timeout() -> void:
+	pass # Replace with function body.

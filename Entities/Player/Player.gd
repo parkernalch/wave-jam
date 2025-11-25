@@ -167,6 +167,9 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "ABSORB_ALL_FORMS":
 		absorb_all_forms = true
 		absorb_all_forms_timer.start()
+	elif powerup_type == "TIME_SLOW":
+		globals.time_slow_active = true
+		signal_bus.time_slow_started.emit()
 
 func _on_damage_boost_timeout() -> void:
 	damage = 1

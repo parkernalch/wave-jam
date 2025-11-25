@@ -8,6 +8,8 @@ extends CharacterBody2D
 @export var shot_cooldown : float = 1.0
 @export var health : int = 2
 
+var current_speed
+
 @export var speed: float = 200.0
 @export var amplitude: float = 60.0
 @export var freq: float = 3.0
@@ -75,7 +77,13 @@ func _physics_process(delta: float) -> void:
 
 func figure8_movement(delta: float) -> void:
 	# Lissajous-style figure-8 movement: x = base_x + A*sin(t), y = base_y + B*sin(2*t)
-	t += delta
+	# slow global time should reduce the progression of t so the figure-8 slows
+	var speed_factor: float = 1.0
+	if globals.time_slow_active:
+		speed_factor = 0.25
+
+	# advance time scaled by speed_factor so both axes slow
+	t += delta * speed_factor
 
 	var target_x := _base_x + figure8_amp_x * sin(t * figure8_freq)
 	var target_y := _base_y + figure8_amp_y * sin(2.0 * t * figure8_freq)

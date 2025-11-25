@@ -6,3 +6,4 @@ signal player_died
 signal powerup_collected(powerup_type)
 signal wave_changed(wave_number)
 signal form_changed(form_index)
+signal time_slow_started()

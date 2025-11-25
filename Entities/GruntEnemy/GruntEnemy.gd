@@ -10,6 +10,7 @@ extends CharacterBody2D
 @export var amplitude: float = 60.0
 @export var freq: float = 3.0
 @export var screen_margin: float = 16.0
+var current_speed
 
 # explicit spawn/movement bounds (use these instead of viewport)
 var bounds_left: float = 0.0
@@ -26,6 +27,8 @@ var _base_x: float = 0.0
 var player: Player
 var vector_to_player: Vector2
 var move_vector: Vector2
+
+var time_slow_timer
 
 func set_tint(color: Vector4) -> void:
 	# Root node material
@@ -51,6 +54,8 @@ func _ready() -> void:
 	_base_x = global_position.x
 	hit_box_size = $CollisionShape2D.shape.extents * 2
 	player = get_parent().get_node("Player") as Player
+	time_slow_timer = get_parent().get_node("TimeSlowTimer") as Timer
+	current_speed = speed
 
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
@@ -63,7 +68,12 @@ func _physics_process(delta: float) -> void:
 	else:
 		move_vector = Vector2(vector_to_player.x, 1).normalized()
 
-	global_position += move_vector * speed * delta
+	if globals.time_slow_active:
+		current_speed = speed * 0.25
+	else:
+		current_speed = speed
+
+	global_position += move_vector * current_speed * delta
 	
 	if (global_position.y > bounds_bottom + 100):
 		destroy(false)
@@ -120,7 +130,8 @@ func destroy(spawn_drop, point_increase=0) -> void:
 
 
 	randomize()
-	if randi() % 5 == 0 && spawn_drop:
+	if true:
+	# if randi() % 5 == 0 && spawn_drop:
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)
