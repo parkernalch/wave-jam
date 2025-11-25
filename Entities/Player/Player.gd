@@ -101,27 +101,29 @@ func shoot(angle=0) -> void:
 			can_shoot = false
 		
 		signal_bus.amplitude_changed.emit(amplitude)
-		$LaserAudioPlayer.play()
+		$Audio/LaserAudioPlayer.play()
 		shoot_cooldown_timer.start()
 
 func take_damage(damage, wave_form):
 	if wave_form != current_form && !absorb_all_forms:
 		amplitude = amplitude - damage
 		signal_bus.amplitude_changed.emit(amplitude)
-		$DamageAudioPlayer.play()
+		$Audio/DamageAudioPlayer.play()
 	else:
 		amplitude = min(amplitude + damage, max_amplitude)
 		signal_bus.amplitude_changed.emit(amplitude)
+		$Audio/HealPlayer.play()
 
 func enemy_collision(wave_form):
 	if wave_form != current_form && !absorb_all_forms:
 		amplitude = amplitude - 30
 		signal_bus.amplitude_changed.emit(amplitude)
 		score.add_points(-100)
-		$DamageAudioPlayer.play()
+		$Audio/DamageAudioPlayer.play()
 	else:
 		amplitude = min(amplitude + 10, max_amplitude)
 		signal_bus.amplitude_changed.emit(amplitude)
+		$Audio/HealPlayer.play()
 
 
 func _reset_shoot_cooldown():

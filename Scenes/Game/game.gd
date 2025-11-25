@@ -51,7 +51,7 @@ func show_game_over():
 	get_tree().paused = true
 
 func  on_enemy_destroyed() -> void:
-	$ExplosionPlayer.play()
+	$Audio/ExplosionPlayer.play()
 	ScoreLabel.text = str(score.score)
 
 func _on_exit() -> void:
@@ -79,6 +79,7 @@ func _start_time_slow():
 	time_slow_timer.start()
 
 func _on_powerup_collected(powerup_type):
+	$Audio/PowerupPlayer.play()
 	if powerup_type == "DAMAGE":
 		damage_timer.start()
 		damage_progress_bar.visible = true
@@ -97,6 +98,7 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "TIME_SLOW":
 		time_slow_timer.start()
 		time_slow_progress_bar.visible = true
+		
 
 func _on_form_changed(form_index):
 	next_form_index = (form_index + 1) % globals.available_wave_forms.size()
