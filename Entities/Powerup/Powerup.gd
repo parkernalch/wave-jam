@@ -9,7 +9,9 @@ const POWER_UP_TYPES = [
 	# "MAX_HEALTH",
 	"ALL_WAVES",
 	"BULLET_SPREAD",
-	"BULLET_PIERCING"
+	"BULLET_PIERCING",
+	"BULLET_SPEED",
+	"ABSORB_ALL_FORMS"
 ]
 
 var powerup_type: String = ""

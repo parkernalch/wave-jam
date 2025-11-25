@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://gf4gu3r0d4ub"]
+[gd_scene load_steps=16 format=3 uid="uid://gf4gu3r0d4ub"]
 
 [ext_resource type="Script" uid="uid://bduo2tx0wx2xp" path="res://Scenes/Game/game.gd" id="1_ciybh"]
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://c7k0f0b5syioq" path="res://Assets/Powerups/BULLET_SPREAD.png" id="6_7jvlm"]
 [ext_resource type="AudioStream" uid="uid://kyde7o3pfxli" path="res://Assets/Audio/explosion.wav" id="6_flgk0"]
 [ext_resource type="Texture2D" uid="uid://bewv84a04hanp" path="res://Assets/Powerups/BULLET_PIERCING.png" id="7_qtymf"]
+[ext_resource type="Texture2D" uid="uid://cb3fu4ouvb45s" path="res://Assets/Powerups/ABSORB_ALL_FORMS.png" id="8_oejk7"]
 [ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="8_ypmwd"]
 [ext_resource type="Texture2D" uid="uid://dmuxywvxa7nob" path="res://Assets/Ships/ShipIcon.png" id="9_oejk7"]
 
@@ -61,13 +62,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DamageIncreaseBar" type="ProgressBar" parent="UICanvas/UI"]
-visible = false
 layout_mode = 0
 offset_left = 495.0
 offset_top = 387.0
 offset_right = 600.0
 offset_bottom = 414.2596
-value = 100.0
+max_value = 6.0
+value = 6.0
 show_percentage = false
 
 [node name="TextureRect" type="TextureRect" parent="UICanvas/UI/DamageIncreaseBar"]
@@ -97,13 +98,12 @@ offset_bottom = 137.0
 theme_override_font_sizes/font_size = 50
 
 [node name="AllWavesBar" type="ProgressBar" parent="UICanvas/UI"]
-visible = false
 layout_mode = 0
 offset_left = 496.0
 offset_top = 417.0
 offset_right = 600.0
 offset_bottom = 444.52942
-max_value = 5.0
+max_value = 6.0
 value = 5.0
 show_percentage = false
 
@@ -117,13 +117,12 @@ scale = Vector2(0.05, 0.05)
 texture = ExtResource("5_xfil1")
 
 [node name="BulletSpreadBar" type="ProgressBar" parent="UICanvas/UI"]
-visible = false
 layout_mode = 0
 offset_left = 496.0
 offset_top = 357.0
 offset_right = 600.0
 offset_bottom = 384.52942
-max_value = 5.0
+max_value = 6.0
 value = 5.0
 show_percentage = false
 
@@ -137,13 +136,12 @@ scale = Vector2(0.05, 0.05)
 texture = ExtResource("6_7jvlm")
 
 [node name="BulletPiercingBar" type="ProgressBar" parent="UICanvas/UI"]
-visible = false
 layout_mode = 0
 offset_left = 496.0
 offset_top = 328.0
 offset_right = 600.0
 offset_bottom = 355.0
-max_value = 5.0
+max_value = 6.0
 value = 5.0
 show_percentage = false
 
@@ -155,6 +153,25 @@ offset_right = 1290.7894
 offset_bottom = 1102.0
 scale = Vector2(0.02, 0.02)
 texture = ExtResource("7_qtymf")
+
+[node name="AbsorbAllFormsBar" type="ProgressBar" parent="UICanvas/UI"]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 299.0
+offset_right = 600.0
+offset_bottom = 326.0
+max_value = 3.0
+value = 3.0
+show_percentage = false
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/AbsorbAllFormsBar"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 2.0
+offset_right = 1290.7894
+offset_bottom = 1102.0
+scale = Vector2(0.02, 0.02)
+texture = ExtResource("8_oejk7")
 
 [node name="NextFormIndicator" type="TextureRect" parent="UICanvas/UI"]
 material = SubResource("ShaderMaterial_upfqs")
@@ -209,19 +226,23 @@ spawn_max_x = 350
 stream = ExtResource("6_flgk0")
 
 [node name="AllWavesTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 6.0
 one_shot = true
 
 [node name="DamageBoostTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 6.0
 one_shot = true
 
 [node name="BulletPiercingTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 6.0
 one_shot = true
 
 [node name="BulletSpreadTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 6.0
+one_shot = true
+
+[node name="AbsorbAllFormsTimer" type="Timer" parent="."]
+wait_time = 3.0
 one_shot = true
 
 [connection signal="pressed" from="UICanvas/DeathUI/Button" to="." method="_on_menu_button_pressed"]

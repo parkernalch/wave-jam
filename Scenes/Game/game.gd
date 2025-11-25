@@ -10,6 +10,8 @@ var ScoreLabel
 @onready var bullet_spread_timer: Timer = $BulletSpreadTimer
 @onready var bullet_piercing_bar: ProgressBar = $UICanvas/UI/BulletPiercingBar
 @onready var bullet_piercing_timer: Timer = $BulletPiercingTimer
+@onready var absorb_all_forms_bar: ProgressBar = $UICanvas/UI/AbsorbAllFormsBar
+@onready var absorb_all_forms_timer: Timer = $AbsorbAllFormsTimer
 
 var next_form
 var next_form_indicator
@@ -24,7 +26,6 @@ func _ready() -> void:
 	signal_bus.connect("player_died", show_game_over)
 	signal_bus.connect("powerup_collected", _on_powerup_collected)
 	damage_progress_bar.max_value = damage_timer.wait_time
-	damage_timer.start()
 	signal_bus.connect("form_changed", _on_form_changed)
 	next_form_indicator = $UICanvas/UI/NextFormIndicator
 	set_tint(next_form["color"])
@@ -75,6 +76,10 @@ func _process(_delta: float) -> void:
 	if bullet_piercing_timer.time_left <= 0:
 		bullet_piercing_bar.visible = false
 
+	absorb_all_forms_bar.value = absorb_all_forms_timer.time_left
+	if absorb_all_forms_timer.time_left <= 0:
+		absorb_all_forms_bar.visible = false
+
 func _on_powerup_collected(powerup_type):
 	if powerup_type == "DAMAGE":
 		damage_timer.start()
@@ -88,6 +93,9 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "BULLET_PIERCING":
 		bullet_piercing_timer.start()
 		bullet_piercing_bar.visible = true
+	elif powerup_type == "ABSORB_ALL_FORMS":
+		absorb_all_forms_timer.start()
+		absorb_all_forms_bar.visible = true
 
 func _on_form_changed(form_index):
 	next_form_index = (form_index + 1) % globals.available_wave_forms.size()

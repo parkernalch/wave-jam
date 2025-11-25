@@ -25,7 +25,8 @@ var bullet_spread_timer
 var bullet_spread_angles = [-90, 0, 90]
 var bullet_piercing = false
 var bullet_piercing_timer
-
+var absorb_all_forms = false
+var absorb_all_forms_timer
 
 func _ready() -> void:
 	signal_bus.enemy_destroyed.connect(_on_enemy_destroy)
@@ -40,6 +41,8 @@ func _ready() -> void:
 	bullet_piercing_timer = get_parent().find_child("BulletPiercingTimer")
 	bullet_piercing_timer.connect("timeout", _on_bullet_piercing_timeout)
 	globals.available_wave_forms = FORMS.values().slice(0,2)
+	absorb_all_forms_timer = get_parent().find_child("AbsorbAllFormsTimer")
+	absorb_all_forms_timer.connect("timeout", _on_absorb_all_forms_timeout)
 
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
@@ -97,7 +100,7 @@ func shoot(angle=0) -> void:
 		shoot_cooldown_timer.start()
 
 func take_damage(damage, wave_form):
-	if wave_form != current_form:
+	if wave_form != current_form && !absorb_all_forms:
 		amplitude = amplitude - damage
 		signal_bus.amplitude_changed.emit(amplitude)
 		$DamageAudioPlayer.play()
@@ -106,7 +109,7 @@ func take_damage(damage, wave_form):
 		signal_bus.amplitude_changed.emit(amplitude)
 
 func enemy_collision(wave_form):
-	if wave_form != current_form:
+	if wave_form != current_form && !absorb_all_forms:
 		amplitude = amplitude - 30
 		signal_bus.amplitude_changed.emit(amplitude)
 		score.add_points(-100)
@@ -158,6 +161,11 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "BULLET_PIERCING":
 		bullet_piercing = true
 		bullet_piercing_timer.start()
+	elif powerup_type == "BULLET_SPEED":
+		bullet_speed += 100
+	elif powerup_type == "ABSORB_ALL_FORMS":
+		absorb_all_forms = true
+		absorb_all_forms_timer.start()
 
 func _on_damage_boost_timeout() -> void:
 	damage = 1
@@ -174,3 +182,6 @@ func _on_all_waves_timeout() -> void:
 
 func _on_bullet_piercing_timeout() -> void:
 	bullet_piercing = false
+
+func _on_absorb_all_forms_timeout() -> void:
+	absorb_all_forms = false
