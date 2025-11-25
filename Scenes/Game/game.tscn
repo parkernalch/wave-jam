@@ -25,8 +25,7 @@ shader_parameter/tint_color = Color(1, 0, 0, 1)
 script = ExtResource("1_ciybh")
 
 [node name="Player" parent="." instance=ExtResource("1_mv0hc")]
-position = Vector2(200, 700)
-speed = 200
+position = Vector2(199.99997, 695.99994)
 shoot_cooldown = 0.5
 
 [node name="UICanvas" type="CanvasLayer" parent="."]

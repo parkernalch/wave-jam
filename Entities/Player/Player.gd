@@ -4,11 +4,12 @@ class_name Player extends CharacterBody2D
 @onready var bullet_spawn: Node2D = $BulletSpawn
 
 @export var bullet_speed = 1000;
-@export var speed = 300
+@export var speed = 250
 @export var boost_multiplier = 2.0
 @export var shoot_cooldown = .5
 @export var damage = 1
 @export var max_speed = 600.0
+@export var max_bullet_speed = 3000.0
 
 var max_amplitude = 100.0
 var amplitude = 100.0
