@@ -66,10 +66,10 @@ func _physics_process(delta: float) -> void:
 	global_position += move_vector * speed * delta
 	
 	if (global_position.y > bounds_bottom + 100):
-		destroy(false, false)
+		destroy(false)
 
 	if (health <= 0):
-		destroy(true, true)
+		destroy(true, 100)
 
 
 func on_hit(wave_form, damage, all_waves) -> void:
@@ -90,7 +90,7 @@ func detect_player_collision() -> void:
 			# narrow-phase: call enemy's hit method or do more precise shape checks
 			if obj.has_method("enemy_collision"):
 				obj.enemy_collision(current_wave_form)
-				destroy(false, true)
+				destroy(false, 50)
 			return
 
 
@@ -110,12 +110,12 @@ func get_aabb() -> Rect2:
 	# fallback: small box around position
 	return Rect2(global_position - Vector2(8,8), Vector2(16,16))
 
-func destroy(spawn_drop, give_points) -> void:
+func destroy(spawn_drop, point_increase=0) -> void:
 	# Add animation
 	spatial_hash.remove(self)
 
-	if give_points:
-		score.add_points(100)
+	if point_increase:
+		score.add_points(point_increase)
 		signal_bus.enemy_destroyed.emit()
 
 

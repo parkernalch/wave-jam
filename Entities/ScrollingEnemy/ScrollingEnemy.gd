@@ -59,10 +59,10 @@ func _physics_process(delta: float) -> void:
 	detect_player_collision()
 
 	if (global_position.y > bounds_bottom + 100):
-		destroy(false, false)
+		destroy(false)
 
 	if (health <= 0):
-		destroy(true, true)
+		destroy(true, 100)
 
 func sine_wave_movement(delta: float) -> void:
 	t += delta
@@ -96,7 +96,7 @@ func detect_player_collision() -> void:
 			# narrow-phase: call enemy's hit method or do more precise shape checks
 			if obj.has_method("enemy_collision"):
 				obj.enemy_collision(current_wave_form)
-				destroy(false, true)
+				destroy(false, 50)
 			return
 
 
@@ -124,12 +124,12 @@ func shoot() -> void:
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_wave_form)
 		
-func destroy(spawn_drop, give_points) -> void:
+func destroy(spawn_drop, point_increase=0) -> void:
 	# Add animation
 	spatial_hash.remove(self)
 
-	if give_points:
-		score.add_points(100)
+	if point_increase:
+		score.add_points(point_increase)
 		signal_bus.enemy_destroyed.emit()
 
 
