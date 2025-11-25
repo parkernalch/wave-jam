@@ -288,6 +288,48 @@ offset_right = 324.0
 offset_bottom = 236.0
 text = "Main Menu"
 
+[node name="PauseMenu" type="Control" parent="UICanvas"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_top = 2.0
+offset_right = 40.0
+offset_bottom = 42.0
+
+[node name="ColorRect" type="ColorRect" parent="UICanvas/PauseMenu"]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 0
+offset_left = -6.999999
+offset_top = -27.0
+offset_right = 193.0
+offset_bottom = 273.0
+scale = Vector2(2.039654, 3.1423922)
+color = Color(0.5931336, 0.59313357, 0.59313357, 0.40392157)
+
+[node name="CenterContainer" type="CenterContainer" parent="UICanvas/PauseMenu"]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 800.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UICanvas/PauseMenu/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UICanvas/PauseMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Game Paused"
+
+[node name="Resume" type="Button" parent="UICanvas/PauseMenu/CenterContainer/VBoxContainer"]
+process_mode = 3
+layout_mode = 2
+text = "Resume"
+
+[node name="Exit" type="Button" parent="UICanvas/PauseMenu/CenterContainer/VBoxContainer"]
+process_mode = 3
+layout_mode = 2
+text = "Main Menu"
+
 [node name="EnemySpawner" parent="." instance=ExtResource("3_qikps")]
 script = ExtResource("4_i1e5p")
 wave_duration = 10.0
@@ -321,5 +363,7 @@ one_shot = true
 wait_time = 3.0
 one_shot = true
 
-[connection signal="pressed" from="UICanvas/DeathUI/Button" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="UICanvas/DeathUI/Button" to="." method="_on_exit"]
+[connection signal="pressed" from="UICanvas/PauseMenu/CenterContainer/VBoxContainer/Resume" to="." method="_on_resume"]
+[connection signal="pressed" from="UICanvas/PauseMenu/CenterContainer/VBoxContainer/Exit" to="." method="_on_exit"]
 [connection signal="timeout" from="TimeSlowTimer" to="." method="_on_time_slow_timer_timeout"]

@@ -48,6 +48,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
 	
+	if Input.is_action_pressed("pause"):
+		signal_bus.game_paused.emit()
+		return
+
 	if Input.is_action_just_pressed("change_form"):
 		change_form()
 	elif Input.is_action_pressed("shoot"):

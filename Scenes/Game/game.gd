@@ -14,6 +14,7 @@ var ScoreLabel
 @onready var absorb_all_forms_timer: Timer = $AbsorbAllFormsTimer
 @onready var time_slow_timer: Timer = $TimeSlowTimer
 @onready var time_slow_progress_bar: ProgressBar = $UICanvas/UI/TimeSlowBar
+@onready var pause_menu: Control = $UICanvas/PauseMenu
 
 var next_form
 var next_form_indicator
@@ -33,6 +34,7 @@ func _ready() -> void:
 	set_tint(next_form["color"])
 	time_slow_timer.connect("timeout", _on_time_slow_timeout)
 	signal_bus.connect("time_slow_started", _start_time_slow)
+	signal_bus.connect("game_paused", _on_pause)
 	
 func set_tint(color: Vector4) -> void:
 	if next_form_indicator:
@@ -51,7 +53,7 @@ func  on_enemy_destroyed() -> void:
 	$ExplosionPlayer.play()
 	ScoreLabel.text = str(score.score)
 
-func _on_menu_button_pressed() -> void:
+func _on_exit() -> void:
 	get_tree().paused = false
 	spatial_hash.clear()
 	score.reset()
@@ -103,6 +105,10 @@ func _on_form_changed(form_index):
 func _on_time_slow_timeout() -> void:
 	globals.time_slow_active = false
 
+func _on_resume() -> void:
+	get_tree().paused = false
+	pause_menu.visible = false
 
-func _on_time_slow_timer_timeout() -> void:
-	pass # Replace with function body.
+func _on_pause() -> void:
+	pause_menu.visible = true
+	get_tree().paused = true
