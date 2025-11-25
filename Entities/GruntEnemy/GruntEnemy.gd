@@ -130,8 +130,8 @@ func destroy(spawn_drop, point_increase=0) -> void:
 
 
 	randomize()
-	if true:
-	# if randi() % 5 == 0 && spawn_drop:
+	
+	if randi() % 5 == 0 && spawn_drop:
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)
