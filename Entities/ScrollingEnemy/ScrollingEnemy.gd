@@ -30,26 +30,32 @@ var _base_x: float = 0.0
 var target_x: float = 0.0
 var current_target_x_modifier: float = 0.0
 
-func set_tint(color: Vector4) -> void:
+# Hit flash shaders
+var tint_shader = preload("res://Assets/Shaders/TintShader.gdshader")
+var flash_shader = preload("res://Assets/Shaders/HitFlashShader.gdshader")
+
+func set_tint() -> void:
 	# Root node material
 	if material and material is ShaderMaterial:
 		var mat := (material as ShaderMaterial).duplicate(true) as ShaderMaterial
+		mat.shader = tint_shader
 		material = mat
-		mat.set_shader_parameter("tint_color", color)
+		mat.set_shader_parameter("tint_color", current_wave_form["color"])
 	
 	# AnimatedSprite2D material
 	if has_node("AnimatedSprite2D"):
 		var anim := $AnimatedSprite2D
 		if anim.material and anim.material is ShaderMaterial:
 			var amat := (anim.material as ShaderMaterial).duplicate(true) as ShaderMaterial
+			amat.shader = tint_shader
 			anim.material = amat
-			amat.set_shader_parameter("tint_color", color)
+			amat.set_shader_parameter("tint_color", current_wave_form["color"])
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
 	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
-	set_tint(current_wave_form["color"])
+	set_tint()
 	# Timer to handle shooting
 	TimerHelper.make_timer(self, shot_cooldown, shoot, false, true)
 	_base_x = global_position.x
@@ -94,6 +100,30 @@ func sine_wave_movement(delta: float) -> void:
 func on_hit(wave_form, damage, all_waves) -> void:
 	if (wave_form == current_wave_form || all_waves):
 		health -= damage
+		# trigger hit flash by switching to flash shader for 0.3 seconds
+		if material and material is ShaderMaterial:
+			(material as ShaderMaterial).shader = flash_shader
+		if has_node("AnimatedSprite2D"):
+			var anim := $AnimatedSprite2D
+			if anim.material and anim.material is ShaderMaterial:
+				var shader_material = anim.material as ShaderMaterial
+				shader_material.shader = flash_shader
+				shader_material.set_shader_parameter("flash_intensity", 1)
+				shader_material.set_shader_parameter("tint_color", current_wave_form["color"])
+				
+		# switch back to tint shader after 0.05 seconds
+		TimerHelper.make_timer(self, 0.05, set_tint, true, true)
+
+func _on_flash_complete() -> void:
+	# switch back to tint shader with proper color
+	if material and material is ShaderMaterial:
+		(material as ShaderMaterial).shader = tint_shader
+		(material as ShaderMaterial).set_shader_parameter("tint_color", current_wave_form["color"])
+	if has_node("AnimatedSprite2D"):
+		var anim := $AnimatedSprite2D
+		if anim.material and anim.material is ShaderMaterial:
+			(anim.material as ShaderMaterial).shader = tint_shader
+			(anim.material as ShaderMaterial).set_shader_parameter("tint_color", current_wave_form["color"])
 
 func detect_player_collision() -> void:
 	var aabb = Rect2(global_position - hit_box_size * 0.5, hit_box_size)
