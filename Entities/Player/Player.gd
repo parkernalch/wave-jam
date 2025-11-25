@@ -64,6 +64,7 @@ func change_form():
 	# current_form = FORMS.values()[form_index]
 	current_form = globals.available_wave_forms[form_index]
 	set_tint(current_form["color"])
+	signal_bus.form_changed.emit(form_index)
 
 func set_tint(color: Vector4) -> void:
 	# Root node material

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://gf4gu3r0d4ub"]
+[gd_scene load_steps=15 format=3 uid="uid://gf4gu3r0d4ub"]
 
 [ext_resource type="Script" uid="uid://bduo2tx0wx2xp" path="res://Scenes/Game/game.gd" id="1_ciybh"]
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
@@ -10,9 +10,15 @@
 [ext_resource type="Texture2D" uid="uid://c7k0f0b5syioq" path="res://Assets/Powerups/BULLET_SPREAD.png" id="6_7jvlm"]
 [ext_resource type="AudioStream" uid="uid://kyde7o3pfxli" path="res://Assets/Audio/explosion.wav" id="6_flgk0"]
 [ext_resource type="Texture2D" uid="uid://bewv84a04hanp" path="res://Assets/Powerups/BULLET_PIERCING.png" id="7_qtymf"]
+[ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="8_ypmwd"]
+[ext_resource type="Texture2D" uid="uid://dmuxywvxa7nob" path="res://Assets/Ships/ShipIcon.png" id="9_oejk7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
 font_size = 36
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_upfqs"]
+shader = ExtResource("8_ypmwd")
+shader_parameter/tint_color = Color(1, 0, 0, 1)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ciybh")
@@ -149,6 +155,24 @@ offset_right = 1290.7894
 offset_bottom = 1102.0
 scale = Vector2(0.02, 0.02)
 texture = ExtResource("7_qtymf")
+
+[node name="NextFormIndicator" type="TextureRect" parent="UICanvas/UI"]
+material = SubResource("ShaderMaterial_upfqs")
+layout_mode = 0
+offset_left = 503.0
+offset_top = 74.0
+offset_right = 677.0
+offset_bottom = 322.1217
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_oejk7")
+
+[node name="Label" type="Label" parent="UICanvas/UI/NextFormIndicator"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = -42.0
+offset_right = 165.0
+theme_override_font_sizes/font_size = 30
+text = "Next Form"
 
 [node name="DeathUI" type="Control" parent="UICanvas"]
 process_mode = 3

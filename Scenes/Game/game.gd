@@ -11,14 +11,30 @@ var ScoreLabel
 @onready var bullet_piercing_bar: ProgressBar = $UICanvas/UI/BulletPiercingBar
 @onready var bullet_piercing_timer: Timer = $BulletPiercingTimer
 
+var next_form
+var next_form_indicator
+var next_form_index
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	next_form_index = globals.available_wave_forms.size()-1
+	next_form = globals.available_wave_forms[next_form_index]
 	signal_bus.connect("enemy_destroyed", on_enemy_destroyed)
 	ScoreLabel = $UICanvas/UI/ColorRect/ScoreDisplay
 	signal_bus.connect("player_died", show_game_over)
 	signal_bus.connect("powerup_collected", _on_powerup_collected)
 	damage_progress_bar.max_value = damage_timer.wait_time
 	damage_timer.start()
+	signal_bus.connect("form_changed", _on_form_changed)
+	next_form_indicator = $UICanvas/UI/NextFormIndicator
+	set_tint(next_form["color"])
+
+func set_tint(color: Vector4) -> void:
+	if next_form_indicator:
+		if next_form_indicator.material and next_form_indicator.material is ShaderMaterial:
+			var amat := (next_form_indicator.material as ShaderMaterial).duplicate(true) as ShaderMaterial
+			next_form_indicator.material = amat
+			amat.set_shader_parameter("tint_color", color)
 
 func show_game_over():
 	var panel = get_tree().get_current_scene().get_node("UICanvas/DeathUI")  # adjust path
@@ -72,3 +88,8 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "BULLET_PIERCING":
 		bullet_piercing_timer.start()
 		bullet_piercing_bar.visible = true
+
+func _on_form_changed(form_index):
+	next_form_index = (form_index + 1) % globals.available_wave_forms.size()
+	next_form = globals.available_wave_forms[next_form_index]
+	set_tint(next_form["color"])

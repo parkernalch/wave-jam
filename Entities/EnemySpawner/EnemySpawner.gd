@@ -9,10 +9,10 @@ extends Node2D
 @export var spawn_y: int = 10
 @export var spawn_min_distance: float = 20.0
 @export var display_wave_count_duration: float = 3.0
+@export var wave: int = 0
 
 var wave_count_label
 var display_wave_count_label_timer
-var wave: int = 0
 
 @onready var ScrollingEnemyEnemy = preload("res://Entities/ScrollingEnemy/ScrollingEnemy.tscn")
 @onready var HoverEnemyEnemy = preload("res://Entities/HoverEnemy/HoverEnemy.tscn")
