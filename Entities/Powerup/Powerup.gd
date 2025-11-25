@@ -6,17 +6,28 @@ const POWER_UP_TYPES = [
 	"SPEED",
 	"FIRE_RATE",
 	"DAMAGE",
-	"MAX_HEALTH",
+	# "MAX_HEALTH",
 	"ALL_WAVES",
 	"BULLET_SPREAD",
 	"BULLET_PIERCING"
 ]
 
 var powerup_type: String = ""
+var available_wave_forms
+var player: Player
 
 func _ready() -> void:
+	player = get_tree().get_current_scene().get_node("Player")
 	randomize()	
-	powerup_type = POWER_UP_TYPES[randi() % POWER_UP_TYPES.size()]
+	
+	if player.amplitude <= 30:
+		available_wave_forms = ["MAX_HEALTH"]
+	elif player.speed >= player.max_speed:
+		available_wave_forms = POWER_UP_TYPES.slice(1, POWER_UP_TYPES.size())
+	else:
+		available_wave_forms = POWER_UP_TYPES
+		
+	powerup_type = available_wave_forms[randi() % available_wave_forms.size()]
 	var powerup_image_path = "Assets/Powerups/%s.png" % powerup_type
 	$Sprite2D.texture = load(powerup_image_path)
 	$Sprite2D.scale = Vector2(0.1, 0.1)

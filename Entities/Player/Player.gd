@@ -8,6 +8,7 @@ class_name Player extends CharacterBody2D
 @export var boost_multiplier = 2.0
 @export var shoot_cooldown = .5
 @export var damage = 1
+@export var max_speed = 600.0
 
 var max_amplitude = 100.0
 var amplitude = 100.0
@@ -82,7 +83,7 @@ func set_tint(color: Vector4) -> void:
 func shoot(angle=0) -> void:
 	var bullet = Bullet.instantiate()
 
-	if get_parent() && can_shoot && amplitude > 1:
+	if get_parent() && can_shoot:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_form, damage, all_waves, angle, bullet_piercing)

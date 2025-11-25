@@ -35,7 +35,7 @@ func physics_update(_delta: float) -> void:
     
 	player.velocity = dir * player.speed
 
-	if Input.is_action_pressed("boost") && player.amplitude > 1:
+	if Input.is_action_pressed("boost") && (player.amplitude - 20 * _delta) > 2:
 		player.velocity *= player.boost_multiplier
 		player.amplitude -= 20 * _delta
 		signal_bus.amplitude_changed.emit(player.amplitude)
