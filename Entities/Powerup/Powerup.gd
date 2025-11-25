@@ -1,6 +1,7 @@
 extends RigidBody2D
 
 @export var move_speed: float = 200.0
+var current_speed
 
 const POWER_UP_TYPES = [
 	"SPEED",
@@ -43,4 +44,9 @@ func _on_pickup(body) -> void:
 	queue_free()
 
 func _physics_process(delta: float) -> void:
-	linear_velocity = Vector2(0, move_speed)
+	if globals.time_slow_active:
+		current_speed = move_speed * 0.25
+	else:
+		current_speed = move_speed
+		
+	linear_velocity = Vector2(0, current_speed)
