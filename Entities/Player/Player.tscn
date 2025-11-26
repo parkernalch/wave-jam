@@ -1,9 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://cgbo4s8g2xsx7"]
+[gd_scene load_steps=15 format=3 uid="uid://cgbo4s8g2xsx7"]
 
 [ext_resource type="Script" uid="uid://bakerdq5wxjs0" path="res://Entities/Player/Player.gd" id="1_1des2"]
 [ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="2_t38ms"]
+[ext_resource type="Texture2D" uid="uid://b1tfkif5bgkik" path="res://Assets/Ships/Player.png" id="3_761t5"]
 [ext_resource type="Script" uid="uid://c26clyli7nif4" path="res://Entities/Player/States/Move.gd" id="3_an6q6"]
-[ext_resource type="Texture2D" uid="uid://6paw08xhfkas" path="res://Assets/Ships/ChatGPT Image Nov 16, 2025, 03_40_20 PM.png" id="3_hj1c0"]
 [ext_resource type="Script" uid="uid://ch5ks4m7ijeku" path="res://Globals/StateMachine/StateMachine.gd" id="3_t38ms"]
 [ext_resource type="Script" uid="uid://bg1tj38ykui53" path="res://Entities/Player/States/Idle.gd" id="4_t38ms"]
 [ext_resource type="AudioStream" uid="uid://gnslmmd3piut" path="res://Assets/Audio/laserShoot.wav" id="7_hj1c0"]
@@ -18,29 +18,11 @@ shader_parameter/tint_color = Color(1, 0, 0, 1)
 shader = ExtResource("2_t38ms")
 shader_parameter/tint_color = Color(1, 0, 0, 1)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x44r4"]
-atlas = ExtResource("3_hj1c0")
-region = Rect2(125, 130, 205, 254)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_761t5"]
-atlas = ExtResource("3_hj1c0")
-region = Rect2(412, 130, 205, 254)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hacra"]
-atlas = ExtResource("3_hj1c0")
-region = Rect2(699, 130, 205, 254)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_q3lat"]
 animations = [{
 "frames": [{
-"duration": 1.21,
-"texture": SubResource("AtlasTexture_x44r4")
-}, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_761t5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hacra")
+"texture": ExtResource("3_761t5")
 }],
 "loop": true,
 "name": &"default",
@@ -50,7 +32,7 @@ animations = [{
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t38ms"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3qydi"]
-size = Vector2(84.37491, 78.124916)
+size = Vector2(73.43742, 79.687416)
 
 [node name="Player" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_x44r4")
@@ -66,15 +48,13 @@ scale = Vector2(2.385526, 222.15538)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_hj1c0")
 use_parent_material = true
-position = Vector2(-0.1625196, 0.8199762)
-scale = Vector2(0.42841446, 0.4364565)
+position = Vector2(-0.1625197, -10.117516)
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_q3lat")
-autoplay = "default"
-frame_progress = 0.16513899
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 material = SubResource("ShaderMaterial_t38ms")
-position = Vector2(-1.5624986, -12.499992)
+position = Vector2(-0.7812486, -13.281239)
 scale = Vector2(1.0000001, 1.0000001)
 shape = SubResource("RectangleShape2D_3qydi")
 

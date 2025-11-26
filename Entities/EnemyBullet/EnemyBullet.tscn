@@ -1,22 +1,40 @@
-[gd_scene load_steps=6 format=3 uid="uid://dpxho6x4ucfdl"]
+[gd_scene load_steps=9 format=3 uid="uid://dpxho6x4ucfdl"]
 
-[ext_resource type="Texture2D" uid="uid://bve4tgd36vyvf" path="res://icon.svg" id="1_f17ve"]
 [ext_resource type="Script" uid="uid://bfalqcnmvo6i8" path="res://Entities/EnemyBullet/EnemyBullet.gd" id="1_vv6mp"]
 [ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="2_hf6su"]
+[ext_resource type="Texture2D" uid="uid://5r5tv3axs2pm" path="res://Assets/Projectiles/Kla'ed - Torpedo.png" id="3_hf6su"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uh4qg"]
 shader = ExtResource("2_hf6su")
 shader_parameter/tint_color = Color(1, 0, 0, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_uh4qg"]
+atlas = ExtResource("3_hf6su")
+region = Rect2(0, 0, 11, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y20qr"]
+atlas = ExtResource("3_hf6su")
+region = Rect2(11, 0, 11, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dpxf8"]
+atlas = ExtResource("3_hf6su")
+region = Rect2(22, 0, 11, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_vv6mp"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_f17ve")
+"texture": SubResource("AtlasTexture_uh4qg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y20qr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dpxf8")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 15.0
 }]
 
 [node name="EnemyBullet" type="RigidBody2D"]
@@ -24,6 +42,7 @@ script = ExtResource("1_vv6mp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_uh4qg")
-position = Vector2(0, -2.5000002)
-scale = Vector2(0.011718752, 0.1953125)
+position = Vector2(-1, -5)
+rotation = 3.1415927
 sprite_frames = SubResource("SpriteFrames_vv6mp")
+frame_progress = 0.8641322

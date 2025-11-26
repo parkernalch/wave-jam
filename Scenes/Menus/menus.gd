@@ -77,9 +77,7 @@ func _on_sfx_slider_changed(value: float) -> void:
 func _on_scores_received(fetched_scores) -> void:
 	clear_list()
 	add_scores_to_list(fetched_scores)
-	print(fetched_scores.size())
 	scores_loaded = true
-	print("Scores loaded.")
 
 
 func add_scores_to_list(scores) -> void:

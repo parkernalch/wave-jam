@@ -67,7 +67,6 @@ func  on_enemy_destroyed() -> void:
 	ScoreLabel.text = str(score.score)
 
 func _change_to_menu(request_type: String, response_code: int) -> void:
-	print(request_type, response_code)
 	if request_type == "scores_fetched":
 		get_tree().change_scene_to_file("res://Scenes/Menus/menus.tscn")
 
@@ -138,7 +137,6 @@ func _on_resume() -> void:
 	globals.is_paused = false
 	get_tree().paused = false
 	pause_menu.visible = false
-	print("Resumed Game")
 
 func _on_pause() -> void:
 	globals.is_paused = true

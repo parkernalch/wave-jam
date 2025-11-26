@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bu6085dc6v642"]
+[gd_scene load_steps=11 format=3 uid="uid://bu6085dc6v642"]
 
-[ext_resource type="Texture2D" uid="uid://bve4tgd36vyvf" path="res://icon.svg" id="1_1thq3"]
 [ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="1_2bdyw"]
 [ext_resource type="Script" uid="uid://dm4flb48kbjnv" path="res://Entities/Bullet/Bullet.gd" id="1_084bd"]
+[ext_resource type="Texture2D" uid="uid://f1cstd7bwvm5" path="res://Assets/Projectiles/Kla'ed - Bullet.png" id="3_vfwon"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qa4od"]
 shader = ExtResource("1_2bdyw")
@@ -12,15 +12,40 @@ shader_parameter/tint_color = Color(1, 0, 0, 1)
 shader = ExtResource("1_2bdyw")
 shader_parameter/tint_color = Color(1, 0, 0, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gftfo"]
+atlas = ExtResource("3_vfwon")
+region = Rect2(4, 0, 4, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07tx1"]
+atlas = ExtResource("3_vfwon")
+region = Rect2(0, 0, 4, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enq0h"]
+atlas = ExtResource("3_vfwon")
+region = Rect2(8, 0, 4, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnycl"]
+atlas = ExtResource("3_vfwon")
+region = Rect2(12, 0, 4, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_084bd"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_1thq3")
+"texture": SubResource("AtlasTexture_gftfo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07tx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enq0h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnycl")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [node name="Bullet" type="RigidBody2D"]
@@ -32,5 +57,6 @@ bullet_speed = 1000
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_2bdyw")
-scale = Vector2(0.05, 0.2)
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_084bd")
+frame_progress = 0.00431038
