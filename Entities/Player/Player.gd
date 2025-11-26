@@ -150,7 +150,7 @@ func die() -> void:
 
 func _on_powerup_collected(powerup_type):
 	if powerup_type == "DAMAGE":
-		damage += 1
+		damage = 3
 	elif powerup_type == "SPEED":
 		speed += 50
 	elif powerup_type == "FIRE_RATE":
