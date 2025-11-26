@@ -154,7 +154,7 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "SPEED":
 		speed += 50
 	elif powerup_type == "FIRE_RATE":
-		shoot_cooldown = max(0.1, shoot_cooldown - 0.09)
+		shoot_cooldown = max(0.0, shoot_cooldown - 0.09)
 		shoot_cooldown_timer.wait_time = shoot_cooldown
 	elif powerup_type == "MAX_HEALTH":
 		amplitude = 100

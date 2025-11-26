@@ -30,6 +30,12 @@ func _ready() -> void:
 	if player.bullet_speed >= player.max_bullet_speed:
 		available_wave_forms = available_wave_forms.filter(func(t): return t != "BULLET_SPEED")
 
+	if player.shoot_cooldown == 0:
+		available_wave_forms = available_wave_forms.filter(func(t): return t != "FIRE_RATE")
+
+	if player.shoot_cooldown >= .20 && randi() % 6 == 0:
+		available_wave_forms = ["FIRE_RATE"]
+
 	if player.amplitude <= 30:
 		available_wave_forms = ["MAX_HEALTH"]
 
