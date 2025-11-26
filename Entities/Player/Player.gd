@@ -47,10 +47,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
-	
-	if Input.is_action_pressed("pause"):
-		signal_bus.game_paused.emit()
-		return
+
 
 	if Input.is_action_just_pressed("change_form"):
 		change_form()
@@ -80,7 +77,7 @@ func set_tint(color: Vector4) -> void:
 		var mat := (material as ShaderMaterial).duplicate(true) as ShaderMaterial
 		material = mat
 		mat.set_shader_parameter("tint_color", color)
-	
+
 	# AnimatedSprite2D material
 	if has_node("AnimatedSprite2D"):
 		var anim := $AnimatedSprite2D
@@ -96,10 +93,10 @@ func shoot(angle=0) -> void:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_form, damage, all_waves, angle, bullet_piercing)
-		
+
 		if not bullet_spread:
 			can_shoot = false
-		
+
 		signal_bus.amplitude_changed.emit(amplitude)
 		$Audio/LaserAudioPlayer.play()
 		shoot_cooldown_timer.start()
@@ -182,7 +179,7 @@ func _on_damage_boost_timeout() -> void:
 
 func _on_bullet_spread_timeout() -> void:
 	bullet_spread = false
-	
+
 func _on_enemy_destroy():
 	amplitude = min(amplitude + 5, max_amplitude)
 	signal_bus.amplitude_changed.emit(amplitude)

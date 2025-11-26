@@ -11,6 +11,7 @@ var main_menu_visible = true
 var settings_menu_visible = false
 var high_scores_menu_visible = false
 var current_wave: int = 0
+var is_paused: bool = false
 
 # Map dB range [-50, 0] to percentage [0,100].
 # By default we use a linear mapping across the dB range so:

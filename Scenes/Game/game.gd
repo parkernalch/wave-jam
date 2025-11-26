@@ -39,6 +39,7 @@ func _ready() -> void:
 	time_slow_timer.connect("timeout", _on_time_slow_timeout)
 	signal_bus.connect("time_slow_started", _start_time_slow)
 	signal_bus.connect("game_paused", _on_pause)
+	signal_bus.connect("game_resumed", _on_resume)
 	game_jolt_helper.connect("scores_fetched", _change_to_menu)
 
 
@@ -96,6 +97,10 @@ func _process(_delta: float) -> void:
 	handle_progress_bar(absorb_all_forms_bar, absorb_all_forms_timer)
 	handle_progress_bar(time_slow_progress_bar, time_slow_timer)
 
+	if Input.is_action_pressed("pause"):
+		if !get_tree().paused:
+			signal_bus.game_resumed.emit()
+
 func _start_time_slow():
 	time_slow_timer.start()
 
@@ -130,12 +135,16 @@ func _on_time_slow_timeout() -> void:
 	globals.time_slow_active = false
 
 func _on_resume() -> void:
+	globals.is_paused = false
 	get_tree().paused = false
 	pause_menu.visible = false
+	print("Resumed Game")
 
 func _on_pause() -> void:
+	globals.is_paused = true
 	pause_menu.visible = true
 	get_tree().paused = true
+
 
 func clean_up_game() -> void:
 	globals.current_wave = 0
