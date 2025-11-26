@@ -7,23 +7,23 @@ var master_volume: float = 0.0
 var music_volume: float = 0.0
 var sfx_volume: float = 0.0
 
-# Map dB range [-80, 0] to percentage [0,100].
+# Map dB range [-50, 0] to percentage [0,100].
 # By default we use a linear mapping across the dB range so:
-#  -80 dB -> 0%
+#  -50 dB -> 0%
 #   0 dB -> 100%
 # This keeps the slider simple for users. If you prefer a
 # perceptual mapping, use `db_to_percent_perceptual` below.
-func db_to_percent(db: float, min_db: float = -80.0, max_db: float = 0.0) -> float:
+func db_to_percent(db: float, min_db: float = -50.0, max_db: float = 0.0) -> float:
 	var clamped = clamp(db, min_db, max_db)
 	# linear interpolation across the dB range
 	return ((clamped - min_db) / (max_db - min_db)) * 100.0
 
-func percent_to_db(percent: float, min_db: float = -80.0, max_db: float = 0.0) -> float:
+func percent_to_db(percent: float, min_db: float = -50.0, max_db: float = 0.0) -> float:
 	var p = clamp(percent, 0.0, 100.0) / 100.0
 	return lerp(min_db, max_db, p)
 
 # Perceptual option: map dB -> linear amplitude (0..1) then to percent.
-# This makes 0 dB -> 100% and -80 dB -> ~0.01% (very quiet) which
+# This makes 0 dB -> 100% and -50 dB -> ~0.01% (very quiet) which
 # reflects physical amplitude rather than a flat slider. Use if you want
 # the percentage to represent perceived loudness more faithfully.
 func db_to_percent_perceptual(db: float) -> float:

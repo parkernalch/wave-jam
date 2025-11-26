@@ -105,7 +105,7 @@ text = "Master Volume"
 [node name="HSlider" type="HSlider" parent="SettingsMenu/HBoxContainer/VBoxContainer/Master"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-min_value = -80.0
+min_value = -50.0
 max_value = 0.0
 tick_count = 20
 
@@ -124,7 +124,7 @@ text = "Music Volume"
 [node name="HSlider" type="HSlider" parent="SettingsMenu/HBoxContainer/VBoxContainer/Music"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-min_value = -80.0
+min_value = -50.0
 max_value = 0.0
 tick_count = 20
 
@@ -143,7 +143,7 @@ text = "SFX Volume"
 [node name="HSlider" type="HSlider" parent="SettingsMenu/HBoxContainer/VBoxContainer/SFX"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-min_value = -80.0
+min_value = -50.0
 max_value = 0.0
 tick_count = 20
 
