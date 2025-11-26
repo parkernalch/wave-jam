@@ -23,6 +23,7 @@ spatial_hash="*res://Globals/SpatialHash.gd"
 signal_bus="*res://Globals/SignalBus.gd"
 score="*res://Globals/Score.gd"
 globals="*res://Globals/Globals.gd"
+game_jolt_helper="*res://Globals/GameJoltHelper.gd"
 
 [display]
 

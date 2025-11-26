@@ -41,7 +41,7 @@ func set_tint() -> void:
 		mat.shader = tint_shader
 		material = mat
 		mat.set_shader_parameter("tint_color", current_wave_form["color"])
-	
+
 	# AnimatedSprite2D material
 	if has_node("AnimatedSprite2D"):
 		var anim := $AnimatedSprite2D
@@ -110,7 +110,7 @@ func on_hit(wave_form, damage, all_waves) -> void:
 				shader_material.shader = flash_shader
 				shader_material.set_shader_parameter("flash_intensity", 1)
 				shader_material.set_shader_parameter("tint_color", current_wave_form["color"])
-				
+
 		# switch back to tint shader after 0.05 seconds
 		TimerHelper.make_timer(self, 0.05, set_tint, true, true)
 
@@ -166,7 +166,7 @@ func shoot() -> void:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_wave_form)
-		
+
 func destroy(spawn_drop, point_increase=0) -> void:
 	# Add animation
 	spatial_hash.remove(self)
@@ -182,6 +182,6 @@ func destroy(spawn_drop, point_increase=0) -> void:
 		if get_parent():
 			get_parent().add_child(powerup_instance)
 			powerup_instance.global_position = global_position
-				
+
 	spatial_hash.remove(self)
 	queue_free()

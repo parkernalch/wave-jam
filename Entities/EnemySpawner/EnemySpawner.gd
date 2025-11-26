@@ -64,10 +64,6 @@ func get_spawn_point() -> Vector2:
 	var fallback_x = spawn_min_x + (randi() % max(1, spawn_max_x - spawn_min_x + 1))
 	return Vector2(fallback_x, spawn_y)
 
-func _process(delta: float) -> void:
-	# print(spatial_hash.cells.keys())
-	pass
-
 func get_hover_enemy_count() -> int:
 	# Prefer group lookup for speed and reliability
 	var nodes := get_tree().get_nodes_in_group("HoverEnemy")
@@ -105,20 +101,20 @@ func spawn_enemy_wave() -> void:
 		wave_count_label.text = "Wave: %d Square Form Added" % wave
 	else:
 		wave_count_label.text = "Wave: %d" % wave
-	
+
 	signal_bus.wave_changed.emit(wave)
 	for i in range(0, enemy_count_per_wave + wave - 1):
 		if i == 0:
 			spawn_enemy_instance()
 		else:
 			TimerHelper.make_timer(self, i, spawn_enemy_instance, true, true)
-		
+
 func spawn_enemy_instance() -> void:
 	randomize()
 
 	# update hover count each spawn attempt
 	hover_enemy_count = get_hover_enemy_count()
-	
+
 	if hover_enemy_count > (wave + 4) / 2:
 		available_enemies = enemies.slice(1, enemies.size() - 1)
 	else:
@@ -127,7 +123,7 @@ func spawn_enemy_instance() -> void:
 	random_enemy_index = randi() % available_enemies.size()
 
 	enemy_instance = available_enemies[random_enemy_index].instantiate()
-	
+
 	if random_enemy_index > 0:
 		spawn_y = 50
 	else:

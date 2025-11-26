@@ -2,3 +2,7 @@
 .godot/
 /android/
 *.uid
+
+# Local secrets (do not commit)
+.env
+secrets.cfg

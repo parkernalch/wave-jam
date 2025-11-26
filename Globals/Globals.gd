@@ -6,6 +6,10 @@ var time_slow_active = false
 var master_volume: float = 0.0
 var music_volume: float = 0.0
 var sfx_volume: float = 0.0
+var player_name: String = ""
+var main_menu_visible = true
+var settings_menu_visible = false
+var high_scores_menu_visible = false
 
 # Map dB range [-50, 0] to percentage [0,100].
 # By default we use a linear mapping across the dB range so:
@@ -37,3 +41,11 @@ func percent_to_db_perceptual(percent: float) -> float:
 	lin = max(lin, 1e-8)
 	# convert linear to dB: db = 20 * log10(linear) == 20 * (ln(linear)/ln(10))
 	return 20.0 * (log(lin) / log(10.0))
+
+
+func add_score(player_name_input):
+	player_name = player_name_input.text.strip_edges()
+
+	if player_name && score.score:
+			game_jolt_helper.add_score(str(score.score), str(score.score), '', '', player_name, 1045389)
+

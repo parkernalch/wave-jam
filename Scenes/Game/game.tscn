@@ -274,9 +274,9 @@ offset_bottom = 798.0
 
 [node name="Label" type="Label" parent="UICanvas/DeathUI"]
 layout_mode = 0
-offset_top = 271.0
+offset_top = 100.0
 offset_right = 400.0
-offset_bottom = 294.0
+offset_bottom = 169.0
 theme_override_font_sizes/font_size = 50
 text = "You Died!"
 horizontal_alignment = 1
@@ -291,6 +291,39 @@ alignment = 1
 custom_minimum_size = Vector2(400, 800)
 layout_mode = 2
 alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UICanvas/DeathUI/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="UICanvas/DeathUI/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Name:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="UICanvas/DeathUI/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(200, 35)
+layout_mode = 2
+text = "test"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UICanvas/DeathUI/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="UICanvas/DeathUI/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(254, 0)
+layout_mode = 2
+text = "Score:"
+
+[node name="PlayAgain" type="Button" parent="UICanvas/DeathUI/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Play Again"
+
+[node name="High Scores" type="Button" parent="UICanvas/DeathUI/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "High Scores"
 
 [node name="Button" type="Button" parent="UICanvas/DeathUI/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -377,6 +410,8 @@ bus = &"SFX"
 [node name="PowerupPlayer" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource("15_8e3kh")
 
+[connection signal="pressed" from="UICanvas/DeathUI/HBoxContainer/VBoxContainer/PlayAgain" to="." method="_on_play_again_pressed"]
+[connection signal="pressed" from="UICanvas/DeathUI/HBoxContainer/VBoxContainer/High Scores" to="." method="_on_high_scores_pressed"]
 [connection signal="pressed" from="UICanvas/DeathUI/HBoxContainer/VBoxContainer/Button" to="." method="_on_exit"]
 [connection signal="pressed" from="UICanvas/PauseMenu/CenterContainer/VBoxContainer/Resume" to="." method="_on_resume"]
 [connection signal="pressed" from="UICanvas/PauseMenu/CenterContainer/VBoxContainer/Exit" to="." method="_on_exit"]

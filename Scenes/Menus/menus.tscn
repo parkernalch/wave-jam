@@ -15,7 +15,6 @@ grow_vertical = 2
 script = ExtResource("1_goel8")
 
 [node name="MainMenu" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,7 +25,7 @@ grow_vertical = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu"]
 layout_mode = 0
 offset_right = 600.0
-offset_bottom = 400.0
+offset_bottom = 200.0
 alignment = 1
 
 [node name="GameTitle" type="Label" parent="MainMenu/HBoxContainer"]
@@ -63,6 +62,7 @@ layout_mode = 2
 text = "High Scores"
 
 [node name="SettingsMenu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,7 +73,7 @@ grow_vertical = 2
 [node name="HBoxContainer2" type="HBoxContainer" parent="SettingsMenu"]
 layout_mode = 0
 offset_right = 600.0
-offset_bottom = 400.0
+offset_bottom = 200.0
 alignment = 1
 
 [node name="SettingsLabel" type="Label" parent="SettingsMenu/HBoxContainer2"]
@@ -168,7 +168,7 @@ grow_vertical = 2
 [node name="HBoxContainer2" type="HBoxContainer" parent="HighScoresMenu"]
 layout_mode = 0
 offset_right = 600.0
-offset_bottom = 400.0
+offset_bottom = 200.0
 alignment = 1
 
 [node name="HighScoresLabel" type="Label" parent="HighScoresMenu/HBoxContainer2"]
@@ -178,13 +178,21 @@ label_settings = SubResource("LabelSettings_goel8")
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HighScoresMenu"]
+custom_minimum_size = Vector2(0, 800)
 layout_mode = 0
 offset_right = 600.0
 offset_bottom = 800.0
+theme_override_constants/separation = 20
+alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HighScoresMenu/HBoxContainer"]
-custom_minimum_size = Vector2(600, 800)
+custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
+
+[node name="Scores" type="VBoxContainer" parent="HighScoresMenu/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="BackButton2" type="Button" parent="HighScoresMenu/HBoxContainer/VBoxContainer"]

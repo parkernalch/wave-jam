@@ -15,10 +15,14 @@ var ScoreLabel
 @onready var time_slow_timer: Timer = $TimeSlowTimer
 @onready var time_slow_progress_bar: ProgressBar = $UICanvas/UI/TimeSlowBar
 @onready var pause_menu: Control = $UICanvas/PauseMenu
+@onready var player_name_input = $UICanvas/DeathUI/HBoxContainer/VBoxContainer/HBoxContainer2/TextEdit
+@onready var death_score_label = $UICanvas/DeathUI/HBoxContainer/VBoxContainer/HBoxContainer/Label
+@onready var menu_instance = preload("res://Scenes/Menus/menus.tscn").instantiate()
 
 var next_form
 var next_form_indicator
 var next_form_index
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -47,6 +51,12 @@ func set_tint(color: Vector4) -> void:
 func show_game_over():
 	var panel = get_tree().get_current_scene().get_node("UICanvas/DeathUI")  # adjust path
 
+	player_name_input.text = globals.player_name
+	death_score_label.text = "Score: " + str(score.score)
+
+	# Submit score as guest (no username/token needed for guest scores)
+	# Parameters: score, sort, username, token, guest_name, table_id
+
 	panel.visible = true
 	get_tree().paused = true
 
@@ -55,17 +65,18 @@ func  on_enemy_destroyed() -> void:
 	ScoreLabel.text = str(score.score)
 
 func _on_exit() -> void:
-	get_tree().paused = false
-	spatial_hash.clear()
-	score.reset()
+	globals.add_score(player_name_input)
+
+	clean_up_game()
+
 	get_tree().change_scene_to_file("res://Scenes/Menus/menus.tscn")
 
 func handle_progress_bar(progress_bar, timer) -> void:
 	progress_bar.value = timer.time_left
-	
+
 	if timer.time_left <= 0:
 		progress_bar.visible = false
-	
+
 func _process(_delta: float) -> void:
 	handle_progress_bar(damage_progress_bar, damage_timer)
 	handle_progress_bar(all_waves_progress_bar, all_waves_timer)
@@ -98,7 +109,7 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "TIME_SLOW":
 		time_slow_timer.start()
 		time_slow_progress_bar.visible = true
-		
+
 
 func _on_form_changed(form_index):
 	next_form_index = (form_index + 1) % globals.available_wave_forms.size()
@@ -115,3 +126,27 @@ func _on_resume() -> void:
 func _on_pause() -> void:
 	pause_menu.visible = true
 	get_tree().paused = true
+
+func clean_up_game() -> void:
+	spatial_hash.clear()
+	score.reset()
+	get_tree().paused = false
+
+func _on_play_again_pressed() -> void:
+	globals.add_score(player_name_input)
+
+	clean_up_game()
+
+	get_tree().change_scene_to_file("res://Scenes/Game/game.tscn")
+
+func _on_high_scores_pressed() -> void:
+	if !globals.high_scores_menu_visible:
+		globals.high_scores_menu_visible = true
+		globals.settings_menu_visible = false
+		globals.main_menu_visible = false
+		globals.add_score(player_name_input)
+		clean_up_game()
+		get_tree().change_scene_to_file("res://Scenes/Menus/menus.tscn")
+
+		print("HIGH")
+	# Always connect to wait for add_score to complete
