@@ -18,7 +18,7 @@ func shoot(bulletSpeed, waveForm, damage, all_waves, angle, bullet_piercing):
 	wave_form = waveForm
 	self.damage = damage
 	self.all_waves = all_waves
-	var color = wave_form["color"]
+	var color =  Vector4(0, 0, 0, 1) if all_waves else wave_form["color"]
 	set_tint(color)
 	bullet_angle = angle
 	self.bullet_piercing = bullet_piercing
