@@ -37,6 +37,9 @@ var _last_applied_wave: int = 0
 var tint_shader = preload("res://Assets/Shaders/TintShader.gdshader")
 var flash_shader = preload("res://Assets/Shaders/HitFlashShader.gdshader")
 
+var hit_stun_timer: Timer
+var hit_stunned: bool = false
+
 func set_tint() -> void:
 	# Root node material
 	if material and material is ShaderMaterial:
@@ -71,6 +74,7 @@ func _ready() -> void:
 	player = get_parent().get_node("Player") as Player
 	time_slow_timer = get_parent().get_node("TimeSlowTimer") as Timer
 	current_speed = speed
+	hit_stun_timer = TimerHelper.make_timer(self, 0.1, reset_stun, true, false)
 
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
@@ -88,7 +92,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		current_speed = speed
 
-	global_position += move_vector * current_speed * delta
+	if not hit_stunned:
+		global_position += move_vector * current_speed * delta
 
 	if (global_position.y > bounds_bottom + 100):
 		destroy(false)
@@ -99,6 +104,8 @@ func _physics_process(delta: float) -> void:
 
 func on_hit(wave_form, damage, all_waves) -> void:
 	if (wave_form == current_wave_form || all_waves):
+		hit_stunned = true
+		hit_stun_timer.start()
 		health -= damage
 		# trigger hit flash by switching to flash shader for 0.3 seconds
 		if material and material is ShaderMaterial:
@@ -176,3 +183,8 @@ func destroy(spawn_drop, point_increase=0) -> void:
 
 	spatial_hash.remove(self)
 	queue_free()
+
+
+func reset_stun() -> void:
+	hit_stunned = false
+

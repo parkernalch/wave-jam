@@ -40,6 +40,9 @@ var _last_applied_wave: int = 0
 var tint_shader = preload("res://Assets/Shaders/TintShader.gdshader")
 var flash_shader = preload("res://Assets/Shaders/HitFlashShader.gdshader")
 
+var hit_stun_timer: Timer
+var hit_stunned: bool = false
+
 func set_tint() -> void:
 	# Root node material
 	if material and material is ShaderMaterial:
@@ -72,9 +75,11 @@ func _ready() -> void:
 	_apply_wave_scaling(_last_applied_wave)
 	_base_x = global_position.x
 	hit_box_size = $CollisionShape2D.shape.extents * 2
+	hit_stun_timer = TimerHelper.make_timer(self, 0.05, reset_stun, true, false)
 
 func _physics_process(delta: float) -> void:
-	sine_wave_movement(delta)
+	if not hit_stunned:
+		sine_wave_movement(delta)
 
 	spatial_hash.update(self, get_aabb())
 
@@ -111,6 +116,8 @@ func sine_wave_movement(delta: float) -> void:
 
 func on_hit(wave_form, damage, all_waves) -> void:
 	if (wave_form == current_wave_form || all_waves):
+		hit_stunned = true
+		hit_stun_timer.start()
 		health -= damage
 		# trigger hit flash by switching to flash shader for 0.3 seconds
 		if material and material is ShaderMaterial:
@@ -212,3 +219,7 @@ func destroy(spawn_drop, point_increase=0) -> void:
 
 	spatial_hash.remove(self)
 	queue_free()
+
+
+func reset_stun() -> void:
+	hit_stunned = false
