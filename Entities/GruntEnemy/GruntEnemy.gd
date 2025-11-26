@@ -4,7 +4,7 @@ extends CharacterBody2D
 @onready var bullet_spawn: Node2D = $BulletSpawn
 @onready var Powerup = preload("res://Entities/Powerup/powerup.tscn")
 
-@export var health : int = 2
+@export var health : int = 3
 
 @export var speed: float = 150.0
 @export var amplitude: float = 60.0
