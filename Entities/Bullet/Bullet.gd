@@ -1,7 +1,7 @@
 extends RigidBody2D
 
 @export var bullet_speed = 200;
-@export var hit_box_size: Vector2 = Vector2(30, 35) # bullet AABB size (tune as needed)
+@export var hit_box_size: Vector2 = Vector2(25, 10) # bullet AABB size (tune as needed)
 
 var wave_form
 var damage
@@ -29,7 +29,7 @@ func set_tint(color: Vector4) -> void:
 		var mat := (material as ShaderMaterial).duplicate(true) as ShaderMaterial
 		material = mat
 		mat.set_shader_parameter("tint_color", color)
-
+	
 	# AnimatedSprite2D material
 	if has_node("AnimatedSprite2D"):
 		var anim := $AnimatedSprite2D
@@ -62,5 +62,5 @@ func _physics_process(delta: float) -> void:
 					queue_free()
 			return
 
-	linear_velocity = Vector2(bullet_angle, -bullet_speed)
+	linear_velocity = Vector2(bullet_angle, -bullet_speed)	
 	pass
