@@ -29,7 +29,7 @@ func _ready() -> void:
 	TimerHelper.make_timer(self, 1, check_scores, false, true)
 
 func get_scores():
-	game_jolt_helper.fetch_scores('', '', 10, 1045389)
+	game_jolt_helper.fetch_scores('', '', 99999, 1045389)
 
 func check_scores() -> void:
 	if !scores_loaded:
@@ -77,6 +77,7 @@ func _on_sfx_slider_changed(value: float) -> void:
 func _on_scores_received(fetched_scores) -> void:
 	clear_list()
 	add_scores_to_list(fetched_scores)
+	print(fetched_scores.size())
 	scores_loaded = true
 	print("Scores loaded.")
 
@@ -90,9 +91,9 @@ func add_scores_to_list(scores) -> void:
 		score_instance.get_node("HBoxContainer3").get_node("HBoxContainer2").get_node("Score").text = str(score["score"])
 		score_instance.get_node("HBoxContainer3").get_node("HBoxContainer").get_node("Place").text = str(score_index)
 		score_index += 1
-		$HighScoresMenu/HBoxContainer/VBoxContainer/Scores.add_child(score_instance)
+		$HighScoresMenu/VBoxContainer/HBoxContainer/Scores.add_child(score_instance)
 
 
 func clear_list() -> void:
-	for child in $HighScoresMenu/HBoxContainer/VBoxContainer/Scores.get_children():
+	for child in $HighScoresMenu/VBoxContainer/HBoxContainer/Scores.get_children():
 		child.queue_free()

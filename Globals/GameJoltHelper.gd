@@ -60,6 +60,7 @@ func add_score(score, sort, username: String = '', token: String = '', guest: St
 func _perform_request(url: String) -> void:
 	busy = true
 	var err := _http_request.request(url)
+	print(url)
 	if err != OK:
 		busy = false
 		push_warning('Failed to start HTTPRequest: %s' % str(err))
@@ -73,7 +74,7 @@ func _on_request_completed(_result, response_code, _headers, body) -> void:
 		# Use PackedByteArray.get_string_from_utf8() for proper decoding
 		out_body = body.get_string_from_utf8()
 
-
+	print("Response body: ", out_body)
 	# Parse JSON response if this is a fetch_scores request
 	if request_type == 'scores_fetched':
 		var scores = _parse_scores_response(out_body)
