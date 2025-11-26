@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-@export var bullet_speed = 200;
+@export var bullet_speed = 25;
 @export var hit_box_size: Vector2 = Vector2(8, 8) # bullet AABB size (tune as needed)
 
 var current_speed
@@ -21,7 +21,7 @@ func set_tint(color: Vector4) -> void:
 		var mat := (material as ShaderMaterial).duplicate(true) as ShaderMaterial
 		material = mat
 		mat.set_shader_parameter("tint_color", color)
-	
+
 	if has_node("AnimatedSprite2D"):
 		var anim := $AnimatedSprite2D
 		if anim.material and anim.material is ShaderMaterial:
