@@ -21,7 +21,7 @@ var player: Player
 
 func _ready() -> void:
 	player = get_tree().get_current_scene().get_node("Player")
-	randomize()	
+	randomize()
 	available_wave_forms = POWER_UP_TYPES.duplicate()
 
 	if player.speed >= player.max_speed:
@@ -54,5 +54,5 @@ func _physics_process(delta: float) -> void:
 		current_speed = move_speed * 0.25
 	else:
 		current_speed = move_speed
-		
+
 	linear_velocity = Vector2(0, current_speed)
