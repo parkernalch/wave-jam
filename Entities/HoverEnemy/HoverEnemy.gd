@@ -33,6 +33,12 @@ var current_wave_form
 var t: float = 0.0
 var _base_x: float = 0.0
 var _base_y: float = 0.0
+var _shot_timer: Timer
+var base_speed: float
+var base_shot_cooldown: float
+@export var max_speed_multiplier: float = 1.5
+@export var max_cooldown_reduction: float = 0.5 # reduce cooldown by up to 50%
+var _last_applied_wave: int = 0
 
 # Hit flash shaders
 var tint_shader = preload("res://Assets/Shaders/TintShader.gdshader")
@@ -45,7 +51,7 @@ func set_tint() -> void:
 		mat.shader = tint_shader
 		material = mat
 		mat.set_shader_parameter("tint_color", current_wave_form["color"])
-	
+
 	# AnimatedSprite2D material
 	if has_node("AnimatedSprite2D"):
 		var anim := $AnimatedSprite2D
@@ -62,8 +68,14 @@ func _ready() -> void:
 	add_to_group("HoverEnemy")
 	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
 	set_tint()
-	# Timer to handle shooting
-	TimerHelper.make_timer(self, shot_cooldown, shoot, false, true)
+	# initialize scaling bases
+	base_speed = speed
+	base_shot_cooldown = shot_cooldown
+	# Timer to handle shooting (store reference so we can update interval)
+	_shot_timer = TimerHelper.make_timer(self, shot_cooldown, shoot, false, true)
+	# apply current global wave scaling immediately and remember it
+	_last_applied_wave = globals.current_wave
+	_apply_wave_scaling(_last_applied_wave)
 	_base_x = global_position.x
 	_base_y = global_position.y
 	hit_box_size = $CollisionShape2D.shape.extents * 2
@@ -119,7 +131,7 @@ func on_hit(wave_form, damage, all_waves) -> void:
 				shader_material.shader = flash_shader
 				shader_material.set_shader_parameter("flash_intensity", 1)
 				shader_material.set_shader_parameter("tint_color", current_wave_form["color"])
-				
+
 		# switch back to tint shader after 0.05 seconds
 		TimerHelper.make_timer(self, 0.05, set_tint, true, true)
 
@@ -174,7 +186,24 @@ func shoot() -> void:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_wave_form)
-		
+
+
+func _apply_wave_scaling(wave: int) -> void:
+	# scale speed and shot cooldown gently with wave number
+	# multiplier grows slowly and is capped by max_speed_multiplier
+	var speed_inc: float = float(clamp(wave * 0.02, 0.0, max_speed_multiplier - 1.0))
+	var target_speed: float = base_speed * (1.0 + speed_inc)
+	# cooldown reduction: up to max_cooldown_reduction fraction
+	var cooldown_red: float = float(clamp(wave * 0.01, 0.0, max_cooldown_reduction))
+	var target_cooldown: float = max(base_shot_cooldown * (1.0 - cooldown_red), 0.05)
+
+	# apply smoothing so values don't jump too quickly
+	speed = lerp(speed, target_speed, 0.25)
+	shot_cooldown = lerp(shot_cooldown, target_cooldown, 0.4)
+	# update timer interval
+	if _shot_timer:
+		_shot_timer.wait_time = shot_cooldown
+
 func destroy(spawn_drop, point_increase=0) -> void:
 	# Add animation
 	spatial_hash.remove(self)
@@ -190,5 +219,5 @@ func destroy(spawn_drop, point_increase=0) -> void:
 		if get_parent():
 			get_parent().add_child(powerup_instance)
 			powerup_instance.global_position = global_position
-			
+
 	queue_free()

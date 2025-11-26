@@ -9,7 +9,6 @@ extends Node2D
 @export var spawn_y: int = 10
 @export var spawn_min_distance: float = 20.0
 @export var display_wave_count_duration: float = 3.0
-@export var wave: int = 0
 
 var wave_count_label
 var display_wave_count_label_timer
@@ -90,20 +89,20 @@ func get_hover_enemy_count() -> int:
 	return count
 
 func spawn_enemy_wave() -> void:
-	wave += 1
+	globals.current_wave += 1
 	enemy_count_per_wave += 1
 	display_wave_count_label_timer.start()
-	if (wave == 5):
+	if (globals.current_wave == 5):
 		globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SAWTOOTH)
-		wave_count_label.text = "Wave: %d Sawtooth Form Added" % wave
-	elif (wave == 10):
+		wave_count_label.text = "Wave: %d Sawtooth Form Added" % globals.current_wave
+	elif (globals.current_wave == 10):
 		globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SQUARE)
-		wave_count_label.text = "Wave: %d Square Form Added" % wave
+		wave_count_label.text = "Wave: %d Square Form Added" % globals.current_wave
 	else:
-		wave_count_label.text = "Wave: %d" % wave
+		wave_count_label.text = "Wave: %d" % globals.current_wave
 
-	signal_bus.wave_changed.emit(wave)
-	for i in range(0, enemy_count_per_wave + wave - 1):
+	signal_bus.wave_changed.emit(globals.current_wave)
+	for i in range(0, enemy_count_per_wave + globals.current_wave - 1):
 		if i == 0:
 			spawn_enemy_instance()
 		else:
@@ -115,7 +114,7 @@ func spawn_enemy_instance() -> void:
 	# update hover count each spawn attempt
 	hover_enemy_count = get_hover_enemy_count()
 
-	if hover_enemy_count > (wave + 4) / 2:
+	if hover_enemy_count > (globals.current_wave + 4) / 2:
 		available_enemies = enemies.slice(1, enemies.size() - 1)
 	else:
 		available_enemies = enemies

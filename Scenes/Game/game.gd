@@ -128,6 +128,7 @@ func _on_pause() -> void:
 	get_tree().paused = true
 
 func clean_up_game() -> void:
+	globals.current_wave = 0
 	spatial_hash.clear()
 	score.reset()
 	get_tree().paused = false

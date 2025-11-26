@@ -29,6 +29,9 @@ var vector_to_player: Vector2
 var move_vector: Vector2
 
 var time_slow_timer
+var base_speed: float
+@export var max_speed_multiplier: float = 1.5
+var _last_applied_wave: int = 0
 
 # Hit flash shaders
 var tint_shader = preload("res://Assets/Shaders/TintShader.gdshader")
@@ -41,7 +44,7 @@ func set_tint() -> void:
 		mat.shader = tint_shader
 		material = mat
 		mat.set_shader_parameter("tint_color", current_wave_form["color"])
-	
+
 	# AnimatedSprite2D material
 	if has_node("AnimatedSprite2D"):
 		var anim := $AnimatedSprite2D
@@ -57,6 +60,12 @@ func _ready() -> void:
 	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
 	set_tint()
 	# Timer to handle shooting
+	# initialize base speed for wave-scaling
+	base_speed = speed
+	# apply current global wave scaling immediately and remember it
+	_last_applied_wave = globals.current_wave
+	_apply_wave_scaling(_last_applied_wave)
+
 	_base_x = global_position.x
 	hit_box_size = $CollisionShape2D.shape.extents * 2
 	player = get_parent().get_node("Player") as Player
@@ -80,7 +89,7 @@ func _physics_process(delta: float) -> void:
 		current_speed = speed
 
 	global_position += move_vector * current_speed * delta
-	
+
 	if (global_position.y > bounds_bottom + 100):
 		destroy(false)
 
@@ -101,9 +110,17 @@ func on_hit(wave_form, damage, all_waves) -> void:
 				shader_material.shader = flash_shader
 				shader_material.set_shader_parameter("flash_intensity", 1)
 				shader_material.set_shader_parameter("tint_color", current_wave_form["color"])
-				
+
 		# switch back to tint shader after 0.06 seconds
 		TimerHelper.make_timer(self, 0.05, set_tint, true, true)
+
+
+func _apply_wave_scaling(wave: int) -> void:
+	# scale movement speed gently with wave number, capped by max_speed_multiplier
+	var speed_inc: float = float(clamp(wave * 0.02, 0.0, max_speed_multiplier - 1.0))
+	var target_speed: float = base_speed * (1.0 + speed_inc)
+	# smooth the change so enemies don't jump suddenly
+	speed = lerp(speed, target_speed, 0.25)
 
 
 func detect_player_collision() -> void:
@@ -150,12 +167,12 @@ func destroy(spawn_drop, point_increase=0) -> void:
 
 
 	randomize()
-	
+
 	if randi() % 5 == 0 && spawn_drop:
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)
 			powerup_instance.global_position = global_position
-				
+
 	spatial_hash.remove(self)
 	queue_free()

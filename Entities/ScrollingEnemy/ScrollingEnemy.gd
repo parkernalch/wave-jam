@@ -29,6 +29,12 @@ var t: float = 0.0
 var _base_x: float = 0.0
 var target_x: float = 0.0
 var current_target_x_modifier: float = 0.0
+var _shot_timer: Timer
+var base_speed: float
+var base_shot_cooldown: float
+@export var max_speed_multiplier: float = 1.5
+@export var max_cooldown_reduction: float = 0.5 # reduce cooldown by up to 50%
+var _last_applied_wave: int = 0
 
 # Hit flash shaders
 var tint_shader = preload("res://Assets/Shaders/TintShader.gdshader")
@@ -56,8 +62,14 @@ func _ready() -> void:
 	randomize()
 	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
 	set_tint()
-	# Timer to handle shooting
-	TimerHelper.make_timer(self, shot_cooldown, shoot, false, true)
+	# initialize scaling bases
+	base_speed = speed
+	base_shot_cooldown = shot_cooldown
+	# Timer to handle shooting (store reference so we can update interval)
+	_shot_timer = TimerHelper.make_timer(self, shot_cooldown, shoot, false, true)
+	# apply current global wave scaling immediately and remember it
+	_last_applied_wave = globals.current_wave
+	_apply_wave_scaling(_last_applied_wave)
 	_base_x = global_position.x
 	hit_box_size = $CollisionShape2D.shape.extents * 2
 
@@ -166,6 +178,21 @@ func shoot() -> void:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
 		bullet.shoot(bullet_speed, current_wave_form)
+
+
+func _apply_wave_scaling(wave: int) -> void:
+	# scale speed and shot cooldown gently with wave number
+	var speed_inc: float = float(clamp(wave * 0.02, 0.0, max_speed_multiplier - 1.0))
+	var target_speed: float = base_speed * (1.0 + speed_inc)
+	var cooldown_red: float = float(clamp(wave * 0.01, 0.0, max_cooldown_reduction))
+	var target_cooldown: float = max(base_shot_cooldown * (1.0 - cooldown_red), 0.05)
+
+	# apply smoothing so values don't jump too quickly
+	speed = lerp(speed, target_speed, 0.25)
+	shot_cooldown = lerp(shot_cooldown, target_cooldown, 0.4)
+	# update timer interval
+	if _shot_timer:
+		_shot_timer.wait_time = shot_cooldown
 
 func destroy(spawn_drop, point_increase=0) -> void:
 	# Add animation
