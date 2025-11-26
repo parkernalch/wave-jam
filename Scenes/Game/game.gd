@@ -39,6 +39,7 @@ func _ready() -> void:
 	time_slow_timer.connect("timeout", _on_time_slow_timeout)
 	signal_bus.connect("time_slow_started", _start_time_slow)
 	signal_bus.connect("game_paused", _on_pause)
+	game_jolt_helper.connect("scores_fetched", _change_to_menu)
 
 
 func set_tint(color: Vector4) -> void:
@@ -64,7 +65,16 @@ func  on_enemy_destroyed() -> void:
 	$Audio/ExplosionPlayer.play()
 	ScoreLabel.text = str(score.score)
 
+func _change_to_menu(request_type: String, response_code: int) -> void:
+	print(request_type, response_code)
+	if request_type == "scores_fetched":
+		get_tree().change_scene_to_file("res://Scenes/Menus/menus.tscn")
+
 func _on_exit() -> void:
+	globals.high_scores_menu_visible = false
+	globals.settings_menu_visible = false
+	globals.main_menu_visible = true
+
 	globals.add_score(player_name_input)
 
 	clean_up_game()
@@ -141,13 +151,11 @@ func _on_play_again_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Game/game.tscn")
 
 func _on_high_scores_pressed() -> void:
-	if !globals.high_scores_menu_visible:
-		globals.high_scores_menu_visible = true
-		globals.settings_menu_visible = false
-		globals.main_menu_visible = false
-		globals.add_score(player_name_input)
-		clean_up_game()
-		get_tree().change_scene_to_file("res://Scenes/Menus/menus.tscn")
+	globals.add_score(player_name_input)
 
-		print("HIGH")
-	# Always connect to wait for add_score to complete
+	globals.high_scores_menu_visible = true
+	globals.settings_menu_visible = false
+	globals.main_menu_visible = false
+
+	clean_up_game()
+	get_tree().change_scene_to_file("res://Scenes/Menus/menus.tscn")

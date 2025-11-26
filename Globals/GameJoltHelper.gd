@@ -2,7 +2,6 @@ extends Node
 class_name GameJoltHelper
 
 signal scores_fetched(scores)
-signal request_finished(request_type, response_code)
 
 @export var game_id: int = 1032259
 @export var private_key: String = "18e050138157b1362afbfe1160582ceb"
@@ -11,21 +10,21 @@ var busy: bool = false
 var request_type: String = ""
 
 const BASE_URLS := {
-	auth = 'http://gamejolt.com/api/game/v1/users/auth/',
-	fetch_user = 'http://gamejolt.com/api/game/v1/users/',
-	session_open = 'http://gamejolt.com/api/game/v1/sessions/open/',
-	session_ping = 'http://gamejolt.com/api/game/v1/sessions/ping/',
-	session_close = 'http://gamejolt.com/api/game/v1/sessions/close/',
-	trophy = 'http://gamejolt.com/api/game/v1/trophies/',
-	trophy_add = 'http://gamejolt.com/api/game/v1/trophies/add-achieved/',
-	scores_fetch = 'http://gamejolt.com/api/game/v1/scores/',
-	scores_add = 'http://gamejolt.com/api/game/v1/scores/add/',
-	fetch_tables = 'http://gamejolt.com/api/game/v1/scores/tables/',
-	fetch_data = 'http://gamejolt.com/api/game/v1/data-store/',
-	set_data = 'http://gamejolt.com/api/game/v1/data-store/set/',
-	update_data = 'http://gamejolt.com/api/game/v1/data-store/update/',
-	remove_data = 'http://gamejolt.com/api/game/v1/data-store/remove/',
-	get_data_keys = 'http://gamejolt.com/api/game/v1/data-store/get-keys/'
+	auth = 'https://gamejolt.com/api/game/v1/users/auth/',
+	fetch_user = 'https://gamejolt.com/api/game/v1/users/',
+	session_open = 'https://gamejolt.com/api/game/v1/sessions/open/',
+	session_ping = 'https://gamejolt.com/api/game/v1/sessions/ping/',
+	session_close = 'https://gamejolt.com/api/game/v1/sessions/close/',
+	trophy = 'https://gamejolt.com/api/game/v1/trophies/',
+	trophy_add = 'https://gamejolt.com/api/game/v1/trophies/add-achieved/',
+	scores_fetch = 'https://gamejolt.com/api/game/v1/scores/',
+	scores_add = 'https://gamejolt.com/api/game/v1/scores/add/',
+	fetch_tables = 'https://gamejolt.com/api/game/v1/scores/tables/',
+	fetch_data = 'https://gamejolt.com/api/game/v1/data-store/',
+	set_data = 'https://gamejolt.com/api/game/v1/data-store/set/',
+	update_data = 'https://gamejolt.com/api/game/v1/data-store/update/',
+	remove_data = 'https://gamejolt.com/api/game/v1/data-store/remove/',
+	get_data_keys = 'https://gamejolt.com/api/game/v1/data-store/get-keys/'
 }
 
 const PARAMETERS := {
@@ -74,14 +73,12 @@ func _on_request_completed(_result, response_code, _headers, body) -> void:
 		# Use PackedByteArray.get_string_from_utf8() for proper decoding
 		out_body = body.get_string_from_utf8()
 
+
 	# Parse JSON response if this is a fetch_scores request
 	if request_type == 'scores_fetched':
 		var scores = _parse_scores_response(out_body)
 		scores_fetched.emit(scores)
 
-	emit_signal('request_completed', response_code, out_body)
-	# Emit generic request_finished signal so callers can chain requests
-	request_finished.emit(request_type, response_code)
 func _parse_scores_response(body_str: String) -> Array:
 	# Parse GameJolt API JSON response and extract scores
 	# Expected format: { "response": { "scores": [ { "score": "...", "sort": "...", "user": "...", "guest": "...", ... }, ... ], "success": true, ... } }

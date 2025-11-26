@@ -8,8 +8,10 @@ extends Control
 @onready var sfx_slider = $SettingsMenu/HBoxContainer/VBoxContainer/SFX/HSlider
 @onready var score_scene = preload("res://Scenes/Menus/score.tscn")
 
+var scores_loaded = false
+var score_index
+
 func _ready() -> void:
-	print("??")
 	game_jolt_helper.scores_fetched.connect(_on_scores_received)
 
 	get_scores()
@@ -24,8 +26,14 @@ func _ready() -> void:
 	music_value_label.text = str(int(round(globals.db_to_percent(globals.music_volume)))) + " %"
 	sfx_value_label.text = str(int(round(globals.db_to_percent(globals.sfx_volume)))) + " %"
 
+	TimerHelper.make_timer(self, 1, check_scores, false, true)
+
 func get_scores():
 	game_jolt_helper.fetch_scores('', '', 10, 1045389)
+
+func check_scores() -> void:
+	if !scores_loaded:
+		get_scores()
 
 func handle_button_press(main_menu, settings_menu, high_scores_menu, set_globals=true):
 	if set_globals:
@@ -69,8 +77,9 @@ func _on_sfx_slider_changed(value: float) -> void:
 func _on_scores_received(fetched_scores) -> void:
 	clear_list()
 	add_scores_to_list(fetched_scores)
+	scores_loaded = true
+	print("Scores loaded.")
 
-var score_index
 
 func add_scores_to_list(scores) -> void:
 	score_index = 1
@@ -82,6 +91,7 @@ func add_scores_to_list(scores) -> void:
 		score_instance.get_node("HBoxContainer3").get_node("HBoxContainer").get_node("Place").text = str(score_index)
 		score_index += 1
 		$HighScoresMenu/HBoxContainer/VBoxContainer/Scores.add_child(score_instance)
+
 
 func clear_list() -> void:
 	for child in $HighScoresMenu/HBoxContainer/VBoxContainer/Scores.get_children():
