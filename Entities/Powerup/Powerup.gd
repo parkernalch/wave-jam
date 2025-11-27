@@ -18,6 +18,7 @@ const POWER_UP_TYPES = [
 var powerup_type: String = ""
 var available_wave_forms
 var player: Player
+var entered: bool = false
 
 @onready var power_up_label = preload("res://Entities/PowerupText/powerup_label.tscn")
 
@@ -75,7 +76,10 @@ func label_text(powerup_type) -> String:
 	return powerup_type
 
 func _on_pickup(body) -> void:
+	if entered:
+		return
 	# Instantiate the label scene and add it to the UI at a non-overlapping position.
+	print("Powerup collected: %s" % powerup_type)
 	var label_instance = power_up_label.instantiate()
 	var ui = get_parent().get_node("UICanvas").get_node("UI")
 	var desired_pos = position
@@ -84,6 +88,7 @@ func _on_pickup(body) -> void:
 	ui.add_child(label_instance)
 	label_instance.text = label_text(powerup_type)
 	signal_bus.powerup_collected.emit(powerup_type)
+	entered = true
 	queue_free()
 
 

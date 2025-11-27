@@ -55,6 +55,7 @@ func show_game_over():
 
 	player_name_input.text = globals.player_name
 	death_score_label.text = "Score: " + str(score.score)
+	globals.time_slow_active = false
 
 	# Submit score as guest (no username/token needed for guest scores)
 	# Parameters: score, sort, username, token, guest_name, table_id
