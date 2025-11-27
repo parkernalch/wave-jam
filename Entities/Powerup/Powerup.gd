@@ -19,6 +19,8 @@ var powerup_type: String = ""
 var available_wave_forms
 var player: Player
 
+@onready var power_up_label = preload("res://Entities/PowerupText/powerup_label.tscn")
+
 func _ready() -> void:
 	player = get_tree().get_current_scene().get_node("Player")
 	randomize()
@@ -45,7 +47,37 @@ func _ready() -> void:
 	$Sprite2D.texture = load(powerup_image_path)
 	$Sprite2D.scale = Vector2(0.1, 0.1)
 
+func label_text(powerup_type) -> String:
+	if powerup_type == "ALL_WAVES":
+		return "ALL WAVES UNLOCKED"
+	elif powerup_type == "FIRE_RATE":
+		return "MAX FIRE RATE UP"
+	elif powerup_type == "DAMAGE":
+		return "DAMAGE INCREASED"
+	elif powerup_type == "SPEED":
+		return "MAX SPEED INCREASED"
+	elif powerup_type == "BULLET_SPREAD":
+		return "BULLET SPREAD INCREASED"
+	elif powerup_type == "BULLET_PIERCING":
+		return "BULLET PIERCING ENABLED"
+	elif powerup_type == "BULLET_SPEED":
+		return "MAX BULLET SPEED INCREASED"
+	elif powerup_type == "ABSORB_ALL_FORMS":
+		return "ABSORB ALL FORMS ENABLED"
+	elif powerup_type == "TIME_SLOW":
+		return "TIME SLOW ENABLED"
+
+	return powerup_type
+
 func _on_pickup(body) -> void:
+	var label_instance = power_up_label.instantiate()
+	get_parent().get_node("UICanvas").get_node("UI").add_child(label_instance)
+	label_instance.position = position
+	if label_instance.position.x > 200:
+		label_instance.position.x = 200
+	if label_instance.position.y > 750:
+		label_instance.position.y = 750
+	label_instance.text = label_text(powerup_type)
 	signal_bus.powerup_collected.emit(powerup_type)
 	queue_free()
 
