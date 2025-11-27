@@ -94,10 +94,10 @@ func spawn_enemy_wave() -> void:
 	display_wave_count_label_timer.start()
 	if (globals.current_wave == 5):
 		globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SAWTOOTH)
-		wave_count_label.text = "Wave: %d Sawtooth Form Added" % globals.current_wave
+		# wave_count_label.text = "Wave: %d Sawtooth Form Added" % globals.current_wave
 	elif (globals.current_wave == 10):
 		globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SQUARE)
-		wave_count_label.text = "Wave: %d Square Form Added" % globals.current_wave
+		# wave_count_label.text = "Wave: %d Square Form Added" % globals.current_wave
 	else:
 		wave_count_label.text = "Wave: %d" % globals.current_wave
 

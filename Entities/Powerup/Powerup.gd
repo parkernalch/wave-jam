@@ -101,7 +101,7 @@ func _find_non_overlapping_label_position(ui: Node, desired_pos: Vector2) -> Vec
 				scr = c.get_script()
 			if scr and typeof(scr.resource_path) == TYPE_STRING and scr.resource_path.ends_with("powerup_text.gd"):
 				# distance threshold to consider as overlapping
-				if c.position.distance_to(adjusted) < 100:
+				if c.position.distance_to(adjusted) < 300:
 					conflict = true
 					break
 		if not conflict:
