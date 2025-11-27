@@ -80,6 +80,7 @@ func _on_scores_received(fetched_scores) -> void:
 	scores_loaded = true
 
 
+var score_list_index = 1
 func add_scores_to_list(scores) -> void:
 	score_index = 1
 
@@ -89,9 +90,18 @@ func add_scores_to_list(scores) -> void:
 		score_instance.get_node("HBoxContainer3").get_node("HBoxContainer2").get_node("Score").text = str(score["score"])
 		score_instance.get_node("HBoxContainer3").get_node("HBoxContainer").get_node("Place").text = str(score_index)
 		score_index += 1
-		$HighScoresMenu/VBoxContainer/HBoxContainer/Scores.add_child(score_instance)
+
+		if score_index <= 31:
+			$HighScoresMenu/VBoxContainer/HBoxContainer/Scores1.add_child(score_instance)
+		elif score_index <= 61:
+			$HighScoresMenu/VBoxContainer/HBoxContainer/Scores2.add_child(score_instance)
+		else:
+			continue
+
 
 
 func clear_list() -> void:
-	for child in $HighScoresMenu/VBoxContainer/HBoxContainer/Scores.get_children():
+	for child in $HighScoresMenu/VBoxContainer/HBoxContainer/Scores1.get_children():
+		child.queue_free()
+	for child in $HighScoresMenu/VBoxContainer/HBoxContainer/Scores2.get_children():
 		child.queue_free()

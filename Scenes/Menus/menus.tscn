@@ -48,6 +48,7 @@ offset_right = 169.25
 offset_bottom = 107.25
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="PlayButton" type="Button" parent="MainMenu/VBoxContainer"]
@@ -171,17 +172,20 @@ grow_vertical = 2
 layout_mode = 0
 offset_top = 100.0
 offset_right = 600.0
-offset_bottom = 800.0
-theme_override_constants/separation = 100
+offset_bottom = 700.0
+theme_override_constants/separation = 60
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HighScoresMenu/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 300
 
-[node name="Scores" type="VBoxContainer" parent="HighScoresMenu/VBoxContainer/HBoxContainer"]
+[node name="Scores1" type="VBoxContainer" parent="HighScoresMenu/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
-alignment = 1
+
+[node name="Scores2" type="VBoxContainer" parent="HighScoresMenu/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
 
 [node name="BackButton2" type="Button" parent="HighScoresMenu/VBoxContainer"]
 layout_mode = 2
