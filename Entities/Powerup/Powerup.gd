@@ -47,6 +47,11 @@ func _ready() -> void:
 	$Sprite2D.texture = load(powerup_image_path)
 	$Sprite2D.scale = Vector2(0.1, 0.1)
 
+	# Ensure the Area2D is connected to the pickup handler so bodies trigger _on_pickup
+	if has_node("Area2D"):
+		var area = $Area2D
+		area.connect("body_entered", _on_pickup)
+
 func label_text(powerup_type) -> String:
 	if powerup_type == "ALL_WAVES":
 		return "ALL WAVES UNLOCKED"
@@ -70,16 +75,47 @@ func label_text(powerup_type) -> String:
 	return powerup_type
 
 func _on_pickup(body) -> void:
+	# Instantiate the label scene and add it to the UI at a non-overlapping position.
 	var label_instance = power_up_label.instantiate()
-	get_parent().get_node("UICanvas").get_node("UI").add_child(label_instance)
-	label_instance.position = position
-	if label_instance.position.x > 200:
-		label_instance.position.x = 200
-	if label_instance.position.y > 750:
-		label_instance.position.y = 750
+	var ui = get_parent().get_node("UICanvas").get_node("UI")
+	var desired_pos = position
+	var final_pos = _find_non_overlapping_label_position(ui, desired_pos)
+	label_instance.position = final_pos
+	ui.add_child(label_instance)
 	label_instance.text = label_text(powerup_type)
 	signal_bus.powerup_collected.emit(powerup_type)
 	queue_free()
+
+
+func _find_non_overlapping_label_position(ui: Node, desired_pos: Vector2) -> Vector2:
+	# Try stacking labels upward if there's an existing powerup label too close to desired_pos.
+	var adjusted := desired_pos
+	var offset := Vector2(0, -28)
+	var attempts := 0
+	var max_attempts := 8
+	while attempts < max_attempts:
+		var conflict := false
+		for c in ui.get_children():
+			var scr = null
+			if c.get_script() != null:
+				scr = c.get_script()
+			if scr and typeof(scr.resource_path) == TYPE_STRING and scr.resource_path.ends_with("powerup_text.gd"):
+				# distance threshold to consider as overlapping
+				if c.position.distance_to(adjusted) < 32:
+					conflict = true
+					break
+		if not conflict:
+			break
+		adjusted += offset
+		attempts += 1
+
+	# Clamp within UI bounds similar to original behavior
+	if adjusted.x > 100:
+		adjusted.x = 100
+	if adjusted.y > 750:
+		adjusted.y = 750
+
+	return adjusted
 
 func _physics_process(delta: float) -> void:
 	if globals.time_slow_active:
