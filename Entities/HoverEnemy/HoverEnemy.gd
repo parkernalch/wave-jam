@@ -51,6 +51,7 @@ func set_tint() -> void:
 		mat.shader = tint_shader
 		material = mat
 		mat.set_shader_parameter("tint_color", current_wave_form["color"])
+		mat.set_shader_parameter("tint_strength", float(current_wave_form["tint_strength"]) if current_wave_form.has("tint_strength") else 1.0)
 
 	# AnimatedSprite2D material
 	if has_node("AnimatedSprite2D"):
@@ -60,6 +61,7 @@ func set_tint() -> void:
 			amat.shader = tint_shader
 			anim.material = amat
 			amat.set_shader_parameter("tint_color", current_wave_form["color"])
+			amat.set_shader_parameter("tint_strength", float(current_wave_form["tint_strength"]) if current_wave_form.has("tint_strength") else 1.0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

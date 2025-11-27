@@ -98,8 +98,8 @@ func spawn_enemy_wave() -> void:
 	elif (globals.current_wave == 10):
 		globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SQUARE)
 		# wave_count_label.text = "Wave: %d Square Form Added" % globals.current_wave
-	else:
-		wave_count_label.text = "Wave: %d" % globals.current_wave
+	# else:
+	wave_count_label.text = "Wave: %d" % globals.current_wave
 
 	signal_bus.wave_changed.emit(globals.current_wave)
 	for i in range(0, enemy_count_per_wave + globals.current_wave - 1):

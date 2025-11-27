@@ -1,23 +1,23 @@
 [gd_scene load_steps=22 format=3 uid="uid://gf4gu3r0d4ub"]
 
-[ext_resource type="Script" uid="uid://do5cjrd0lo5k2" path="res://Scenes/Game/game.gd" id="1_ciybh"]
+[ext_resource type="Script" uid="uid://bduo2tx0wx2xp" path="res://Scenes/Game/game.gd" id="1_ciybh"]
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
 [ext_resource type="PackedScene" uid="uid://bjt85faac56m6" path="res://Scenes/Game/AmplitudeBar/AmplitudeBar.tscn" id="2_qikps"]
 [ext_resource type="PackedScene" uid="uid://rlp4rxc1x15o" path="res://Entities/EnemySpawner/EnemySpawner.tscn" id="3_qikps"]
 [ext_resource type="Texture2D" uid="uid://dnbslw7b0l7wv" path="res://Assets/Powerups/DAMAGE.png" id="3_xfil1"]
 [ext_resource type="FontFile" uid="uid://c8dj1jpbtrt8l" path="res://Assets/Fonts/KarmaticArcade-6Yrp1.ttf" id="3_yox4t"]
-[ext_resource type="Script" uid="uid://d1sfrucgjvunh" path="res://Entities/EnemySpawner/EnemySpawner.gd" id="4_i1e5p"]
+[ext_resource type="Script" uid="uid://r1wxwl14sbcy" path="res://Entities/EnemySpawner/EnemySpawner.gd" id="4_i1e5p"]
 [ext_resource type="Texture2D" uid="uid://lsw6rcrexnwr" path="res://Assets/Powerups/ALL_WAVES.png" id="5_xfil1"]
 [ext_resource type="Texture2D" uid="uid://c7k0f0b5syioq" path="res://Assets/Powerups/BULLET_SPREAD.png" id="6_7jvlm"]
 [ext_resource type="AudioStream" uid="uid://kyde7o3pfxli" path="res://Assets/Audio/explosion.wav" id="6_flgk0"]
 [ext_resource type="Texture2D" uid="uid://bewv84a04hanp" path="res://Assets/Powerups/BULLET_PIERCING.png" id="7_qtymf"]
 [ext_resource type="Texture2D" uid="uid://cb3fu4ouvb45s" path="res://Assets/Powerups/ABSORB_ALL_FORMS.png" id="8_oejk7"]
 [ext_resource type="Texture2D" uid="uid://007cga8nqdxa" path="res://Assets/Powerups/TIME_SLOW.png" id="8_upfqs"]
-[ext_resource type="Shader" uid="uid://bepaqe3k8xiln" path="res://Assets/Shaders/TintShader.gdshader" id="8_ypmwd"]
+[ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="8_ypmwd"]
 [ext_resource type="Texture2D" uid="uid://b1tfkif5bgkik" path="res://Assets/Ships/Player.png" id="11_2vowc"]
 [ext_resource type="FontFile" uid="uid://b8kcb3can5qi3" path="res://Assets/Fonts/Market_Deco.ttf" id="11_lemb1"]
 [ext_resource type="AudioStream" uid="uid://4j5yynnjlgqj" path="res://Assets/Audio/powerUp.wav" id="15_8e3kh"]
-[ext_resource type="Script" uid="uid://cqxbletmxc5me" path="res://Scenes/Game/pause_handler.gd" id="16_56qi8"]
+[ext_resource type="Script" uid="uid://ba7de2pleswen" path="res://Scenes/Game/pause_handler.gd" id="16_56qi8"]
 [ext_resource type="PackedScene" uid="uid://csy0uhmqoqbxq" path="res://Entities/PowerupText/powerup_label.tscn" id="17_yox4t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
@@ -26,6 +26,7 @@ font_size = 36
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_upfqs"]
 shader = ExtResource("8_ypmwd")
 shader_parameter/tint_color = Color(1, 0, 0, 1)
+shader_parameter/tint_strength = 1.0
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ciybh")
