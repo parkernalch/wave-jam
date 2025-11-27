@@ -32,6 +32,11 @@ script = ExtResource("1_ciybh")
 
 [node name="Player" parent="." instance=ExtResource("1_mv0hc")]
 position = Vector2(199.99997, 695.99994)
+shoot_cooldown = 0.5
+
+[node name="Player2" parent="." instance=ExtResource("1_mv0hc")]
+position = Vector2(199.99997, 695.99994)
+shoot_cooldown = 0.5
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 
