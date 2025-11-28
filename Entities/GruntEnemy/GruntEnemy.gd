@@ -44,7 +44,7 @@ var hit_stunned: bool = false
 func _ready() -> void:
 	randomize()
 	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
-	print("current wave form:", current_wave_form)
+
 	globals.set_tint(self, current_wave_form)
 	# Timer to handle shooting
 	# initialize base speed for wave-scaling

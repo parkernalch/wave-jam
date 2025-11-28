@@ -79,7 +79,6 @@ func _on_pickup(body) -> void:
 	if entered:
 		return
 	# Instantiate the label scene and add it to the UI at a non-overlapping position.
-	print("Powerup collected: %s" % powerup_type)
 	var label_instance = power_up_label.instantiate()
 	var ui = get_parent().get_node("UICanvas").get_node("UI")
 	var desired_pos = position

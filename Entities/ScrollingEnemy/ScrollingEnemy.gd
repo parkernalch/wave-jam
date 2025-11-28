@@ -208,6 +208,4 @@ func reset_stun() -> void:
 	hit_stunned = false
 
 func reset_tint() -> void:
-	print("resetting tint")
-	print(current_wave_form)
 	globals.set_tint(self, current_wave_form)

@@ -52,8 +52,6 @@ func add_score(player_name_input):
 			game_jolt_helper.add_score(str(score.score), str(score.score), '', '', player_name, 1045389)
 
 func set_tint(object, param) -> void:
-	print("Setting tint for object: ", object)
-	print("With param: ", param)
 	# Accept either a Color color or a wave-form Dictionary with `color` and `tint_strength`.
 	var color: Color
 	var strength: float = 1.0
@@ -72,11 +70,18 @@ func set_tint(object, param) -> void:
 		mat.set_shader_parameter("tint_color", color)
 		mat.set_shader_parameter("tint_strength", strength)
 
-	# AnimatedSprite2D material
-	if has_node("AnimatedSprite2D"):
-		var anim := $AnimatedSprite2D
-		if anim.material and anim.material is ShaderMaterial:
+	# AnimatedSprite2D or Sprite2D material on the object (use the passed object, not this Globals node)
+	if object and object.has_node("AnimatedSprite2D"):
+		var anim: AnimatedSprite2D = object.get_node("AnimatedSprite2D")
+		if anim and anim is CanvasItem and anim.material and anim.material is ShaderMaterial:
 			var amat := (anim.material as ShaderMaterial).duplicate(true) as ShaderMaterial
 			anim.material = amat
 			amat.set_shader_parameter("tint_color", color)
 			amat.set_shader_parameter("tint_strength", strength)
+	elif object and object.has_node("Sprite2D"):
+		var spr: Sprite2D = object.get_node("Sprite2D")
+		if spr and spr is CanvasItem and spr.material and spr.material is ShaderMaterial:
+			var smat := (spr.material as ShaderMaterial).duplicate(true) as ShaderMaterial
+			spr.material = smat
+			smat.set_shader_parameter("tint_color", color)
+			smat.set_shader_parameter("tint_strength", strength)
