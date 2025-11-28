@@ -50,7 +50,7 @@ func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
 
 
-	if Input.is_action_just_pressed("change_form"):
+	if Input.is_action_just_pressed("change_form") && !absorb_all_forms:
 		change_form()
 	elif Input.is_action_pressed("shoot"):
 		if bullet_spread:
@@ -180,6 +180,7 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "BULLET_SPEED":
 		bullet_speed += 100
 	elif powerup_type == "ABSORB_ALL_FORMS":
+		set_tint({"color": Vector4(0,0,0,1), "tint_strength": .9})
 		absorb_all_forms = true
 		absorb_all_forms_timer.start()
 	elif powerup_type == "TIME_SLOW":
@@ -204,3 +205,4 @@ func _on_bullet_piercing_timeout() -> void:
 
 func _on_absorb_all_forms_timeout() -> void:
 	absorb_all_forms = false
+	set_tint(current_form)

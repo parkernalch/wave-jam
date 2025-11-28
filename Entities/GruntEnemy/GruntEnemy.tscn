@@ -7,6 +7,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7s3rp"]
 shader = ExtResource("2_d2qmy")
 shader_parameter/tint_color = Color(1, 0, 0, 1)
+shader_parameter/tint_strength = 1.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xhe1s"]
 animations = [{
@@ -20,7 +21,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bkf3j"]
-size = Vector2(14.666668, 20.333334)
+size = Vector2(19.999996, 20.333334)
 
 [node name="GruntEnemy" type="CharacterBody2D"]
 z_index = 99
@@ -37,7 +38,7 @@ sprite_frames = SubResource("SpriteFrames_xhe1s")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2.2737368e-13, 20)
+position = Vector2(3.0517578e-05, 20)
 rotation = -3.1415925
 scale = Vector2(3, 3)
 shape = SubResource("RectangleShape2D_bkf3j")

@@ -7,6 +7,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7s3rp"]
 shader = ExtResource("2_salu8")
 shader_parameter/tint_color = Color(1, 0, 0, 1)
+shader_parameter/tint_strength = 1.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xhe1s"]
 animations = [{
@@ -20,7 +21,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bkf3j"]
-size = Vector2(14.666668, 14.666666)
+size = Vector2(18.333324, 17.66667)
 
 [node name="ScrollingEnemy" type="CharacterBody2D"]
 z_index = 99
@@ -37,7 +38,7 @@ sprite_frames = SubResource("SpriteFrames_xhe1s")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 21)
+position = Vector2(-1.5000305, 21.5)
 rotation = -3.1415925
 scale = Vector2(3, 3)
 shape = SubResource("RectangleShape2D_bkf3j")
