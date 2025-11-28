@@ -18,36 +18,10 @@ func shoot(bulletSpeed, waveForm, damage, all_waves, angle, bullet_piercing):
 	wave_form = waveForm
 	self.damage = damage
 	self.all_waves = all_waves
-	var color =  Vector4(0, 0, 0, 1) if all_waves else wave_form
-	set_tint(color)
+	var color =  Color.BLACK if all_waves else wave_form
+	globals.set_tint(self, color)
 	bullet_angle = angle
 	self.bullet_piercing = bullet_piercing
-
-func set_tint(param) -> void:
-	var color: Vector4
-	var strength: float = 1.0
-	if typeof(param) == TYPE_DICTIONARY:
-		var dict := param as Dictionary
-		color = dict["color"] if dict.has("color") else Vector4(1,1,1,1)
-		strength = float(dict["tint_strength"]) if dict.has("tint_strength") else 1.0
-	else:
-		color = param
-
-	# Root node material
-	if material and material is ShaderMaterial:
-		var mat := (material as ShaderMaterial).duplicate(true) as ShaderMaterial
-		material = mat
-		mat.set_shader_parameter("tint_color", color)
-		mat.set_shader_parameter("tint_strength", strength)
-
-	# AnimatedSprite2D material
-	if has_node("AnimatedSprite2D"):
-		var anim := $AnimatedSprite2D
-		if anim.material and anim.material is ShaderMaterial:
-			var amat := (anim.material as ShaderMaterial).duplicate(true) as ShaderMaterial
-			anim.material = amat
-			amat.set_shader_parameter("tint_color", color)
-			amat.set_shader_parameter("tint_strength", strength)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:

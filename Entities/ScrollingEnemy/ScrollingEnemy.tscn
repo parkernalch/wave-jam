@@ -1,8 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://bgq25fqnnfvvr"]
+[gd_scene load_steps=8 format=3 uid="uid://bgq25fqnnfvvr"]
 
 [ext_resource type="Script" uid="uid://bvjybf5ur05b8" path="res://Entities/ScrollingEnemy/ScrollingEnemy.gd" id="1_f8lqa"]
 [ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="2_salu8"]
 [ext_resource type="Texture2D" uid="uid://c1d71l5eqwjeg" path="res://Assets/Ships/Kla'ed - Scout - Base.png" id="3_f8lqa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f8lqa"]
+shader = ExtResource("2_salu8")
+shader_parameter/tint_color = Color(1, 0, 0, 1)
+shader_parameter/tint_strength = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7s3rp"]
 shader = ExtResource("2_salu8")
@@ -25,6 +30,7 @@ size = Vector2(18.333324, 17.66667)
 
 [node name="ScrollingEnemy" type="CharacterBody2D"]
 z_index = 99
+material = SubResource("ShaderMaterial_f8lqa")
 position = Vector2(427, 145)
 collision_layer = 2
 script = ExtResource("1_f8lqa")

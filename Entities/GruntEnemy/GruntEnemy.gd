@@ -40,30 +40,12 @@ var flash_shader = preload("res://Assets/Shaders/HitFlashShader.gdshader")
 var hit_stun_timer: Timer
 var hit_stunned: bool = false
 
-func set_tint() -> void:
-	# Root node material
-	if material and material is ShaderMaterial:
-		var mat := (material as ShaderMaterial).duplicate(true) as ShaderMaterial
-		mat.shader = tint_shader
-		material = mat
-		mat.set_shader_parameter("tint_color", current_wave_form["color"])
-		mat.set_shader_parameter("tint_strength", float(current_wave_form["tint_strength"]) if current_wave_form.has("tint_strength") else 1.0)
-
-	# AnimatedSprite2D material
-	if has_node("AnimatedSprite2D"):
-		var anim := $AnimatedSprite2D
-		if anim.material and anim.material is ShaderMaterial:
-			var amat := (anim.material as ShaderMaterial).duplicate(true) as ShaderMaterial
-			amat.shader = tint_shader
-			anim.material = amat
-			amat.set_shader_parameter("tint_color", current_wave_form["color"])
-			amat.set_shader_parameter("tint_strength", float(current_wave_form["tint_strength"]) if current_wave_form.has("tint_strength") else 1.0)
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
 	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
-	set_tint()
+
+	globals.set_tint(self, current_wave_form)
 	# Timer to handle shooting
 	# initialize base speed for wave-scaling
 	base_speed = speed
@@ -121,7 +103,7 @@ func on_hit(wave_form, damage, all_waves) -> void:
 				shader_material.set_shader_parameter("tint_color", current_wave_form["color"])
 
 		# switch back to tint shader after 0.06 seconds
-		TimerHelper.make_timer(self, 0.05, set_tint, true, true)
+		TimerHelper.make_timer(self, 0.05, reset_tint, true, true)
 
 
 func _apply_wave_scaling(wave: int) -> void:
@@ -190,3 +172,5 @@ func destroy(spawn_drop, point_increase=0) -> void:
 func reset_stun() -> void:
 	hit_stunned = false
 
+func reset_tint() -> void:
+	globals.set_tint(self, current_wave_form)
