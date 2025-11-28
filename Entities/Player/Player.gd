@@ -44,7 +44,7 @@ func _ready() -> void:
 	globals.available_wave_forms = FORMS.values().slice(0,2)
 	absorb_all_forms_timer = get_parent().find_child("AbsorbAllFormsTimer")
 	absorb_all_forms_timer.connect("timeout", _on_absorb_all_forms_timeout)
-	set_tint(current_form)
+	globals.set_tint(self, current_form)
 
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
@@ -68,35 +68,10 @@ func change_form():
 	# form_index = (form_index + 1) % FORMS.size()
 	form_index = (form_index + 1) % globals.available_wave_forms.size()
 	current_form = globals.available_wave_forms[form_index]
-	set_tint(current_form)
+	globals.set_tint(self, current_form)
 	signal_bus.form_changed.emit(form_index)
 
-func set_tint(param) -> void:
-	# Accept either a Vector4 color or a wave-form Dictionary with `color` and `tint_strength`.
-	var color: Vector4
-	var strength: float = 1.0
-	if typeof(param) == TYPE_DICTIONARY:
-		var dict := param as Dictionary
-		color = dict["color"] if dict.has("color") else Vector4(1,1,1,1)
-		strength = float(dict["tint_strength"]) if dict.has("tint_strength") else 1.0
-	else:
-		color = param
 
-	# Root node material
-	if material and material is ShaderMaterial:
-		var mat := (material as ShaderMaterial).duplicate(true) as ShaderMaterial
-		material = mat
-		mat.set_shader_parameter("tint_color", color)
-		mat.set_shader_parameter("tint_strength", strength)
-
-	# AnimatedSprite2D material
-	if has_node("AnimatedSprite2D"):
-		var anim := $AnimatedSprite2D
-		if anim.material and anim.material is ShaderMaterial:
-			var amat := (anim.material as ShaderMaterial).duplicate(true) as ShaderMaterial
-			anim.material = amat
-			amat.set_shader_parameter("tint_color", color)
-			amat.set_shader_parameter("tint_strength", strength)
 
 func shoot(angle=0) -> void:
 	var bullet = Bullet.instantiate()
@@ -180,7 +155,7 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "BULLET_SPEED":
 		bullet_speed += 100
 	elif powerup_type == "ABSORB_ALL_FORMS":
-		set_tint({"color": Vector4(0,0,0,1), "tint_strength": .9})
+		globals.set_tint(self, {"color": Color.BLACK, "tint_strength": .9})
 		absorb_all_forms = true
 		absorb_all_forms_timer.start()
 	elif powerup_type == "TIME_SLOW":
@@ -205,4 +180,4 @@ func _on_bullet_piercing_timeout() -> void:
 
 func _on_absorb_all_forms_timeout() -> void:
 	absorb_all_forms = false
-	set_tint(current_form)
+	globals.set_tint(self, current_form)

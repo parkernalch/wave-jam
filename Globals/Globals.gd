@@ -51,3 +51,32 @@ func add_score(player_name_input):
 	if player_name && score.score:
 			game_jolt_helper.add_score(str(score.score), str(score.score), '', '', player_name, 1045389)
 
+func set_tint(object, param) -> void:
+	print("Setting tint for object: ", object)
+	print("With param: ", param)
+	# Accept either a Color color or a wave-form Dictionary with `color` and `tint_strength`.
+	var color: Color
+	var strength: float = 1.0
+
+	if typeof(param) == TYPE_DICTIONARY:
+		var dict := param as Dictionary
+		color = dict["color"] if dict.has("color") else Color(1,1,1,1)
+		strength = float(dict["tint_strength"]) if dict.has("tint_strength") else 1.0
+	else:
+		color = param
+
+	# Root node material
+	if object.material and object.material is ShaderMaterial:
+		var mat := (object.material as ShaderMaterial).duplicate(true) as ShaderMaterial
+		object.material = mat
+		mat.set_shader_parameter("tint_color", color)
+		mat.set_shader_parameter("tint_strength", strength)
+
+	# AnimatedSprite2D material
+	if has_node("AnimatedSprite2D"):
+		var anim := $AnimatedSprite2D
+		if anim.material and anim.material is ShaderMaterial:
+			var amat := (anim.material as ShaderMaterial).duplicate(true) as ShaderMaterial
+			anim.material = amat
+			amat.set_shader_parameter("tint_color", color)
+			amat.set_shader_parameter("tint_strength", strength)

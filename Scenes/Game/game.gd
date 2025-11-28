@@ -35,31 +35,13 @@ func _ready() -> void:
 	damage_progress_bar.max_value = damage_timer.wait_time
 	signal_bus.connect("form_changed", _on_form_changed)
 	next_form_indicator = $UICanvas/UI/NextFormIndicator
-	set_tint(next_form)
+	globals.set_tint(next_form_indicator, next_form)
 	time_slow_timer.connect("timeout", _on_time_slow_timeout)
 	signal_bus.connect("time_slow_started", _start_time_slow)
 	signal_bus.connect("game_paused", _on_pause)
 	signal_bus.connect("game_resumed", _on_resume)
 	game_jolt_helper.connect("scores_fetched", _change_to_menu)
 
-
-func set_tint(param) -> void:
-	# Accept a wave-form dict or a raw color
-	var color: Vector4
-	var strength: float = 1.0
-	if typeof(param) == TYPE_DICTIONARY:
-		var dict := param as Dictionary
-		color = dict["color"] if dict.has("color") else Vector4(1,1,1,1)
-		strength = float(dict["tint_strength"]) if dict.has("tint_strength") else 1.0
-	else:
-		color = param
-
-	if next_form_indicator:
-		if next_form_indicator.material and next_form_indicator.material is ShaderMaterial:
-			var amat := (next_form_indicator.material as ShaderMaterial).duplicate(true) as ShaderMaterial
-			next_form_indicator.material = amat
-			amat.set_shader_parameter("tint_color", color)
-			amat.set_shader_parameter("tint_strength", strength)
 
 func show_game_over():
 	var panel = get_tree().get_current_scene().get_node("UICanvas/DeathUI")  # adjust path
@@ -140,7 +122,7 @@ func _on_powerup_collected(powerup_type):
 func _on_form_changed(form_index):
 	next_form_index = (form_index + 1) % globals.available_wave_forms.size()
 	next_form = globals.available_wave_forms[next_form_index]
-	set_tint(next_form)
+	globals.set_tint(next_form_indicator, next_form)
 
 func _on_time_slow_timeout() -> void:
 	globals.time_slow_active = false
