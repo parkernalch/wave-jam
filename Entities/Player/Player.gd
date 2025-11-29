@@ -81,7 +81,6 @@ func change_form():
 func shoot(angle=0) -> void:
 	var bullet = Bullet.instantiate()
 
-
 	if get_parent() && can_shoot:
 		get_parent().add_child(bullet)
 		bullet.global_position = bullet_spawn.global_position
