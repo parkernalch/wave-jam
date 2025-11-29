@@ -1,15 +1,33 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjt85faac56m6"]
+[gd_scene load_steps=6 format=3 uid="uid://bjt85faac56m6"]
 
 [ext_resource type="Texture2D" uid="uid://358ew66x0dje" path="res://Scenes/Game/AmplitudeBar/outlinetohealthbar.png" id="1_2egt3"]
-[ext_resource type="Script" uid="uid://qo5jixekmrfi" path="res://Scenes/Game/AmplitudeBar/AmplitudeBar.gd" id="1_hcs0h"]
+[ext_resource type="Script" uid="uid://cfcagu5yqde1c" path="res://Scenes/Game/AmplitudeBar/AmplitudeBar.gd" id="1_hcs0h"]
+[ext_resource type="Shader" uid="uid://bepaqe3k8xiln" path="res://Assets/Shaders/TintShader.gdshader" id="1_r5lmy"]
 [ext_resource type="Texture2D" uid="uid://06mly6vji3ws" path="res://Scenes/Game/AmplitudeBar/progress.png" id="2_r5lmy"]
 
-[node name="AmplitudeBar" type="TextureProgressBar"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r5lmy"]
+shader = ExtResource("1_r5lmy")
+shader_parameter/tint_color = Color(1, 0, 0, 1)
+shader_parameter/tint_strength = 1.0
+
+[node name="AmplitudeBar" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 600.0
 offset_bottom = 300.0
 rotation = -1.5707964
-value = 100.0
-texture_under = ExtResource("1_2egt3")
-texture_over = ExtResource("1_2egt3")
-texture_progress = ExtResource("2_r5lmy")
 script = ExtResource("1_hcs0h")
+
+[node name="Progress" type="TextureProgressBar" parent="."]
+material = SubResource("ShaderMaterial_r5lmy")
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+value = 100.0
+texture_progress = ExtResource("2_r5lmy")
+
+[node name="Over" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_over = ExtResource("1_2egt3")
