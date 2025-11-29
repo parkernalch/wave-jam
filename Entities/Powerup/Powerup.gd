@@ -42,8 +42,7 @@ func _ready() -> void:
 	if player.amplitude <= 30:
 		available_wave_forms = ["MAX_HEALTH"]
 
-	# powerup_type = available_wave_forms[randi() % available_wave_forms.size()]
-	powerup_type = "ABSORB_ALL_FORMS"
+	powerup_type = available_wave_forms[randi() % available_wave_forms.size()]
 
 	var powerup_image_path = "Assets/Powerups/%s.png" % powerup_type
 	$Sprite2D.texture = load(powerup_image_path)
