@@ -21,6 +21,7 @@ var player: Player
 var entered: bool = false
 
 @onready var power_up_label = preload("res://Entities/PowerupText/powerup_label.tscn")
+@onready var rainbow_shader = preload("res://Assets/Shaders/RainbowShader.gdshader")
 
 func _ready() -> void:
 	player = get_tree().get_current_scene().get_node("Player")
@@ -42,7 +43,26 @@ func _ready() -> void:
 	if player.amplitude <= 30:
 		available_wave_forms = ["MAX_HEALTH"]
 
+
 	powerup_type = available_wave_forms[randi() % available_wave_forms.size()]
+
+	if powerup_type == "ALL_WAVES":
+		if material and material is ShaderMaterial:
+			(material as ShaderMaterial).shader = rainbow_shader
+		if has_node("Sprite2D"):
+			var anim := $Sprite2D
+			if anim.material and anim.material is ShaderMaterial:
+				var shader_material = anim.material as ShaderMaterial
+				shader_material.shader = rainbow_shader
+	else:
+		if material and material is ShaderMaterial:
+			(material as ShaderMaterial).shader = null
+		if has_node("Sprite2D"):
+			var anim := $Sprite2D
+			if anim.material and anim.material is ShaderMaterial:
+				var shader_material = anim.material as ShaderMaterial
+				shader_material.shader = null
+
 
 	# powerup_type = "BULLET_SPEED"
 
@@ -57,7 +77,7 @@ func _ready() -> void:
 
 func label_text(powerup_type) -> String:
 	if powerup_type == "ALL_WAVES":
-		return "ALL WAVES UNLOCKED"
+		return "RAINBOW BULLETS UNLOCKED"
 	elif powerup_type == "FIRE_RATE":
 		return "MAX FIRE RATE UP"
 	elif powerup_type == "DAMAGE":
