@@ -14,7 +14,6 @@ func _ready() -> void:
 	set_color()
 	signal_bus.amplitude_changed.connect(update)
 
-
 func update(amplitude) -> void:
 	progress.value = amplitude
 	set_color()

@@ -44,9 +44,11 @@ func _ready() -> void:
 
 	powerup_type = available_wave_forms[randi() % available_wave_forms.size()]
 
+	# powerup_type = "BULLET_SPEED"
+
 	var powerup_image_path = "Assets/Powerups/%s.png" % powerup_type
 	$Sprite2D.texture = load(powerup_image_path)
-	$Sprite2D.scale = Vector2(0.1, 0.1)
+	$Sprite2D.scale = Vector2(2.0,2.0)
 
 	# Ensure the Area2D is connected to the pickup handler so bodies trigger _on_pickup
 	if has_node("Area2D"):
