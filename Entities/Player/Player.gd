@@ -28,6 +28,7 @@ var bullet_piercing = false
 var bullet_piercing_timer
 var absorb_all_forms = false
 var absorb_all_forms_timer
+var tint_intensity = 0.5
 
 func _ready() -> void:
 	signal_bus.enemy_destroyed.connect(_on_enemy_destroy)
@@ -44,7 +45,7 @@ func _ready() -> void:
 	globals.available_wave_forms = FORMS.values().slice(0,2)
 	absorb_all_forms_timer = get_parent().find_child("AbsorbAllFormsTimer")
 	absorb_all_forms_timer.connect("timeout", _on_absorb_all_forms_timeout)
-	globals.set_tint(self, current_form)
+	globals.set_tint(self, current_form["color"], tint_intensity)
 
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
@@ -68,13 +69,14 @@ func change_form():
 	# form_index = (form_index + 1) % FORMS.size()
 	form_index = (form_index + 1) % globals.available_wave_forms.size()
 	current_form = globals.available_wave_forms[form_index]
-	globals.set_tint(self, current_form)
+	globals.set_tint(self, current_form["color"], .5)
 	signal_bus.form_changed.emit(form_index)
 
 
 
 func shoot(angle=0) -> void:
 	var bullet = Bullet.instantiate()
+
 
 	if get_parent() && can_shoot:
 		get_parent().add_child(bullet)
@@ -155,7 +157,7 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "BULLET_SPEED":
 		bullet_speed += 100
 	elif powerup_type == "ABSORB_ALL_FORMS":
-		globals.set_tint(self, {"color": Color.BLACK, "tint_strength": .9})
+		globals.set_tint(self, Color.BLACK, .9)
 		absorb_all_forms = true
 		absorb_all_forms_timer.start()
 	elif powerup_type == "TIME_SLOW":
@@ -180,4 +182,4 @@ func _on_bullet_piercing_timeout() -> void:
 
 func _on_absorb_all_forms_timeout() -> void:
 	absorb_all_forms = false
-	globals.set_tint(self, current_form)
+	globals.set_tint(self, current_form["color"], tint_intensity)

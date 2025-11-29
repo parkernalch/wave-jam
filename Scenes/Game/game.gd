@@ -35,7 +35,7 @@ func _ready() -> void:
 	damage_progress_bar.max_value = damage_timer.wait_time
 	signal_bus.connect("form_changed", _on_form_changed)
 	next_form_indicator = $UICanvas/UI/NextFormIndicator
-	globals.set_tint(next_form_indicator, next_form)
+	globals.set_tint(next_form_indicator, next_form["color"], .5)
 	time_slow_timer.connect("timeout", _on_time_slow_timeout)
 	signal_bus.connect("time_slow_started", _start_time_slow)
 	signal_bus.connect("game_paused", _on_pause)
@@ -122,7 +122,7 @@ func _on_powerup_collected(powerup_type):
 func _on_form_changed(form_index):
 	next_form_index = (form_index + 1) % globals.available_wave_forms.size()
 	next_form = globals.available_wave_forms[next_form_index]
-	globals.set_tint(next_form_indicator, next_form)
+	globals.set_tint(next_form_indicator, next_form["color"], .5)
 
 func _on_time_slow_timeout() -> void:
 	globals.time_slow_active = false

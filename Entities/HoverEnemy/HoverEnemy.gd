@@ -43,6 +43,7 @@ var _last_applied_wave: int = 0
 # Hit flash shaders
 var tint_shader = preload("res://Assets/Shaders/TintShader.gdshader")
 var flash_shader = preload("res://Assets/Shaders/HitFlashShader.gdshader")
+var tint_intensity: float = 0.5
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -50,7 +51,7 @@ func _ready() -> void:
 	# make this node queryable by group for fast counting
 	add_to_group("HoverEnemy")
 	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
-	globals.set_tint(self, current_wave_form)
+	globals.set_tint(self, current_wave_form["color"], tint_intensity)
 	# initialize scaling bases
 	base_speed = speed
 	base_shot_cooldown = shot_cooldown
@@ -112,7 +113,7 @@ func on_hit(wave_form, damage, all_waves) -> void:
 			if anim.material and anim.material is ShaderMaterial:
 				var shader_material = anim.material as ShaderMaterial
 				shader_material.shader = flash_shader
-				shader_material.set_shader_parameter("flash_intensity", 1)
+				shader_material.set_shader_parameter("flash_intensity", 1.0)
 				shader_material.set_shader_parameter("tint_color", current_wave_form["color"])
 
 		# switch back to tint shader after 0.05 seconds
@@ -207,4 +208,4 @@ func destroy(spawn_drop, point_increase=0) -> void:
 
 
 func reset_tint() -> void:
-	globals.set_tint(self, current_wave_form)
+	globals.set_tint(self, current_wave_form["color"], tint_intensity)

@@ -13,6 +13,8 @@ var high_scores_menu_visible = false
 var current_wave: int = 0
 var is_paused: bool = false
 
+var tint_shader = preload("res://Assets/Shaders/TintShader.gdshader")
+
 # Map dB range [-50, 0] to percentage [0,100].
 # By default we use a linear mapping across the dB range so:
 #  -50 dB -> 0%
@@ -51,22 +53,13 @@ func add_score(player_name_input):
 	if player_name && score.score:
 			game_jolt_helper.add_score(str(score.score), str(score.score), '', '', player_name, 1045389)
 
-func set_tint(object, param) -> void:
-	# Accept either a Color color or a wave-form Dictionary with `color` and `tint_strength`.
-	var color: Color
-	var strength: float = 1.0
-
-	if typeof(param) == TYPE_DICTIONARY:
-		var dict := param as Dictionary
-		color = dict["color"] if dict.has("color") else Color(1,1,1,1)
-		strength = float(dict["tint_strength"]) if dict.has("tint_strength") else 1.0
-	else:
-		color = param
+func set_tint(object, color, strength) -> void:
 
 	# Root node material
 	if object.material and object.material is ShaderMaterial:
 		var mat := (object.material as ShaderMaterial).duplicate(true) as ShaderMaterial
 		object.material = mat
+		mat.shader = tint_shader
 		mat.set_shader_parameter("tint_color", color)
 		mat.set_shader_parameter("tint_strength", strength)
 
@@ -76,6 +69,7 @@ func set_tint(object, param) -> void:
 		if anim and anim is CanvasItem and anim.material and anim.material is ShaderMaterial:
 			var amat := (anim.material as ShaderMaterial).duplicate(true) as ShaderMaterial
 			anim.material = amat
+			amat.shader = tint_shader
 			amat.set_shader_parameter("tint_color", color)
 			amat.set_shader_parameter("tint_strength", strength)
 	elif object and object.has_node("Sprite2D"):
@@ -83,5 +77,6 @@ func set_tint(object, param) -> void:
 		if spr and spr is CanvasItem and spr.material and spr.material is ShaderMaterial:
 			var smat := (spr.material as ShaderMaterial).duplicate(true) as ShaderMaterial
 			spr.material = smat
+			smat.shader = tint_shader
 			smat.set_shader_parameter("tint_color", color)
 			smat.set_shader_parameter("tint_strength", strength)

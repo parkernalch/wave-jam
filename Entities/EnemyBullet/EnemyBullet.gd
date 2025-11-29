@@ -13,7 +13,7 @@ func _ready() -> void:
 func shoot(bulletSpeed, wave_form):
 	current_wave_form = wave_form
 	bullet_speed = bulletSpeed
-	globals.set_tint(self, current_wave_form)
+	globals.set_tint(self, current_wave_form["color"], 1)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:

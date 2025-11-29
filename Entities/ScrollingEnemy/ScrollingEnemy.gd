@@ -43,11 +43,13 @@ var flash_shader = preload("res://Assets/Shaders/HitFlashShader.gdshader")
 var hit_stun_timer: Timer
 var hit_stunned: bool = false
 
+var tint_intensity: float = 0.5
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
 	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
-	globals.set_tint(self, current_wave_form)
+	globals.set_tint(self, current_wave_form["color"], tint_intensity)
 	# initialize scaling bases
 	base_speed = speed
 	base_shot_cooldown = shot_cooldown
@@ -102,6 +104,7 @@ func on_hit(wave_form, damage, all_waves) -> void:
 		hit_stunned = true
 		hit_stun_timer.start()
 		health -= damage
+		tint_intensity -= 0.2
 		# trigger hit flash by switching to flash shader for 0.3 seconds
 		if material and material is ShaderMaterial:
 			(material as ShaderMaterial).shader = flash_shader
@@ -208,4 +211,4 @@ func reset_stun() -> void:
 	hit_stunned = false
 
 func reset_tint() -> void:
-	globals.set_tint(self, current_wave_form)
+	globals.set_tint(self, current_wave_form["color"], tint_intensity)
