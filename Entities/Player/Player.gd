@@ -29,6 +29,9 @@ var bullet_piercing_timer
 var absorb_all_forms = false
 var absorb_all_forms_timer
 var tint_intensity = 0.5
+var blink_timer
+var blink_count = 0
+var blink_start_timer
 
 func _ready() -> void:
 	signal_bus.enemy_destroyed.connect(_on_enemy_destroy)
@@ -46,12 +49,13 @@ func _ready() -> void:
 	absorb_all_forms_timer = get_parent().find_child("AbsorbAllFormsTimer")
 	absorb_all_forms_timer.connect("timeout", _on_absorb_all_forms_timeout)
 	globals.set_tint(self, current_form["color"], tint_intensity)
+	blink_timer = TimerHelper.make_timer(self, 0.1, _on_absorb_all_forms_timeout, false, false)
+	blink_start_timer = TimerHelper.make_timer(self, 2.0, blink_timer.start, false, false)
 
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())
 
-
-	if Input.is_action_just_pressed("change_form") && !absorb_all_forms:
+	if Input.is_action_just_pressed("change_form"):
 		change_form()
 	elif Input.is_action_pressed("shoot"):
 		if bullet_spread:
@@ -65,13 +69,13 @@ func _physics_process(delta: float) -> void:
 		die()
 		return
 
+
 func change_form():
 	# form_index = (form_index + 1) % FORMS.size()
 	form_index = (form_index + 1) % globals.available_wave_forms.size()
 	current_form = globals.available_wave_forms[form_index]
 	globals.set_tint(self, current_form["color"], .5)
 	signal_bus.form_changed.emit(form_index)
-
 
 
 func shoot(angle=0) -> void:
@@ -157,9 +161,11 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "BULLET_SPEED":
 		bullet_speed += 100
 	elif powerup_type == "ABSORB_ALL_FORMS":
-		globals.set_tint(self, Color.BLACK, .9)
+		$ShieldSprite.visible = true
+		$ShieldSprite.play("default")
 		absorb_all_forms = true
 		absorb_all_forms_timer.start()
+		blink_start_timer.start()
 	elif powerup_type == "TIME_SLOW":
 		globals.time_slow_active = true
 		signal_bus.time_slow_started.emit()
@@ -181,5 +187,19 @@ func _on_bullet_piercing_timeout() -> void:
 	bullet_piercing = false
 
 func _on_absorb_all_forms_timeout() -> void:
-	absorb_all_forms = false
-	globals.set_tint(self, current_form["color"], tint_intensity)
+	blink_count += 1
+
+	if blink_count % 2 == 0:
+		$ShieldSprite.visible = false
+	else:
+		$ShieldSprite.visible = true
+
+	if blink_count >= 11:
+		blink_timer.stop()
+		blink_start_timer.stop()
+		blink_count = 0
+		absorb_all_forms = false
+		$ShieldSprite.visible = false
+		$ShieldSprite.stop()
+		return
+	blink_timer.start()
