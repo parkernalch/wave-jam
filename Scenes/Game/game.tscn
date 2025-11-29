@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://gf4gu3r0d4ub"]
+[gd_scene load_steps=27 format=3 uid="uid://gf4gu3r0d4ub"]
 
 [ext_resource type="Script" uid="uid://bduo2tx0wx2xp" path="res://Scenes/Game/game.gd" id="1_ciybh"]
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
@@ -17,8 +17,11 @@
 [ext_resource type="Shader" uid="uid://d07s5v2j81y7u" path="res://Assets/Shaders/TintShader.gdshader" id="8_ypmwd"]
 [ext_resource type="Texture2D" uid="uid://b1tfkif5bgkik" path="res://Assets/Ships/Player.png" id="11_2vowc"]
 [ext_resource type="FontFile" uid="uid://b8kcb3can5qi3" path="res://Assets/Fonts/Market_Deco.ttf" id="11_lemb1"]
+[ext_resource type="Texture2D" uid="uid://nr6xcog4l85m" path="res://Assets/Powerups/BULLET_SPEED.png" id="15_2lc0x"]
 [ext_resource type="AudioStream" uid="uid://4j5yynnjlgqj" path="res://Assets/Audio/powerUp.wav" id="15_8e3kh"]
+[ext_resource type="Texture2D" uid="uid://b5drgcbfrwtqj" path="res://Assets/Powerups/FIRE_RATE.png" id="16_4ti5a"]
 [ext_resource type="Script" uid="uid://ba7de2pleswen" path="res://Scenes/Game/pause_handler.gd" id="16_56qi8"]
+[ext_resource type="Texture2D" uid="uid://c1vv5m8hxgqbq" path="res://Assets/Powerups/SPEED.png" id="17_pmm7v"]
 [ext_resource type="PackedScene" uid="uid://csy0uhmqoqbxq" path="res://Entities/PowerupText/powerup_label.tscn" id="17_yox4t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
@@ -26,6 +29,7 @@ font_size = 36
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nxex1"]
 shader = ExtResource("7_a6ftd")
+shader_parameter/time_mult = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_upfqs"]
 shader = ExtResource("8_ypmwd")
@@ -149,7 +153,7 @@ offset_right = 109.0
 offset_bottom = 6.0
 theme_override_fonts/font = ExtResource("11_lemb1")
 theme_override_font_sizes/font_size = 13
-text = "Bullet All Forms"
+text = "Rainbow Bullet"
 
 [node name="BulletSpreadBar" type="ProgressBar" parent="UICanvas/UI"]
 layout_mode = 0
@@ -284,6 +288,86 @@ offset_right = 217.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 28
 text = "Next Form"
+
+[node name="BULLET_SPEED" type="ColorRect" parent="UICanvas/UI"]
+visible = false
+layout_mode = 0
+offset_left = 488.0
+offset_top = 189.0
+offset_right = 528.0
+offset_bottom = 229.0
+scale = Vector2(0.9, 0.9)
+color = Color(0.7162962, 0.7162962, 0.7162962, 1)
+
+[node name="Label" type="Label" parent="UICanvas/UI/BULLET_SPEED"]
+z_index = 50
+layout_mode = 0
+offset_left = 3.0
+offset_top = 40.0
+offset_right = 42.0
+offset_bottom = 59.0
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/BULLET_SPEED"]
+z_index = 6
+layout_mode = 0
+offset_top = 1.0
+offset_right = 40.0
+offset_bottom = 41.0
+texture = ExtResource("15_2lc0x")
+
+[node name="FIRE_RATE" type="ColorRect" parent="UICanvas/UI"]
+visible = false
+layout_mode = 0
+offset_left = 526.00006
+offset_top = 189.00002
+offset_right = 566.00006
+offset_bottom = 229.00002
+scale = Vector2(0.9, 0.9)
+color = Color(0.7162962, 0.7162962, 0.7162962, 1)
+
+[node name="Label" type="Label" parent="UICanvas/UI/FIRE_RATE"]
+z_index = 50
+layout_mode = 0
+offset_left = 3.0
+offset_top = 40.0
+offset_right = 42.0
+offset_bottom = 59.0
+text = "x2"
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/FIRE_RATE"]
+z_index = 6
+layout_mode = 0
+offset_top = 1.0
+offset_right = 40.0
+offset_bottom = 41.0
+texture = ExtResource("16_4ti5a")
+
+[node name="SPEED" type="ColorRect" parent="UICanvas/UI"]
+visible = false
+layout_mode = 0
+offset_left = 564.00006
+offset_top = 189.00002
+offset_right = 604.00006
+offset_bottom = 229.00002
+scale = Vector2(0.9, 0.9)
+color = Color(0.7162962, 0.7162962, 0.7162962, 1)
+
+[node name="Label" type="Label" parent="UICanvas/UI/SPEED"]
+z_index = 50
+layout_mode = 0
+offset_left = 3.0
+offset_top = 40.0
+offset_right = 42.0
+offset_bottom = 59.0
+text = "x2"
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/SPEED"]
+z_index = 6
+layout_mode = 0
+offset_top = 1.0
+offset_right = 40.0
+offset_bottom = 41.0
+texture = ExtResource("17_pmm7v")
 
 [node name="DeathUI" type="Control" parent="UICanvas"]
 process_mode = 3

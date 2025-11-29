@@ -23,6 +23,9 @@ var next_form
 var next_form_indicator
 var next_form_index
 
+var bullet_speed_count
+var fire_rate_count
+var speed_count
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -41,6 +44,9 @@ func _ready() -> void:
 	signal_bus.connect("game_paused", _on_pause)
 	signal_bus.connect("game_resumed", _on_resume)
 	game_jolt_helper.connect("scores_fetched", _change_to_menu)
+	bullet_speed_count = 0
+	fire_rate_count = 0
+	speed_count = 0
 
 
 func show_game_over():
@@ -117,7 +123,25 @@ func _on_powerup_collected(powerup_type):
 	elif powerup_type == "TIME_SLOW":
 		time_slow_timer.start()
 		time_slow_progress_bar.visible = true
+	elif powerup_type == "SPEED":
+		if speed_count == 0:
+			$UICanvas/UI/SPEED.visible = true
+		speed_count += 1
+		update_stacking_count(powerup_type, speed_count)
+	elif powerup_type == "FIRE_RATE":
+		if fire_rate_count == 0:
+			$UICanvas/UI/FIRE_RATE.visible = true
+		fire_rate_count += 1
+		update_stacking_count(powerup_type, fire_rate_count)
+	elif powerup_type == "BULLET_SPEED":
+		if bullet_speed_count == 0:
+			$UICanvas/UI/BULLET_SPEED.visible = true
+		bullet_speed_count += 1
+		update_stacking_count(powerup_type, bullet_speed_count)
 
+
+func update_stacking_count(powerup_type, count):
+	$UICanvas/UI.get_node(powerup_type).get_node("Label").text = "x" + str(count);
 
 func _on_form_changed(form_index):
 	next_form_index = (form_index + 1) % globals.available_wave_forms.size()
