@@ -26,5 +26,3 @@ shape = SubResource("RectangleShape2D_ao0ia")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ocygj")
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_pickup"]

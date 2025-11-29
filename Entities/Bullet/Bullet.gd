@@ -11,7 +11,6 @@ var bullet_piercing
 
 @onready var rainbow_shader = preload("res://Assets/Shaders/RainbowShader.gdshader")
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -21,20 +20,8 @@ func shoot(bulletSpeed, waveForm, damage, all_waves, angle, bullet_piercing):
 	wave_form = waveForm
 	self.damage = damage
 	self.all_waves = all_waves
-	# var color =  Color.BLACK if all_waves else wave_form["color"]
-	if all_waves:
-		if material and material is ShaderMaterial:
-			(material as ShaderMaterial).shader = rainbow_shader
-			(material as ShaderMaterial).set_shader_parameter("time_mult", 20)
-
-		if has_node("AnimatedSprite2D"):
-			var anim := $AnimatedSprite2D
-			if anim.material and anim.material is ShaderMaterial:
-				var shader_material = anim.material as ShaderMaterial
-				shader_material.set_shader_parameter("time_mult", 20)
-				shader_material.shader = rainbow_shader
-	else:
-		globals.set_tint(self,  wave_form["color"], 1)
+	var color =  Color.WHITE if all_waves else wave_form["color"]
+	globals.set_tint(self,  color, 1)
 	bullet_angle = angle
 	self.bullet_piercing = bullet_piercing
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://gf4gu3r0d4ub"]
+[gd_scene load_steps=26 format=3 uid="uid://gf4gu3r0d4ub"]
 
 [ext_resource type="Script" uid="uid://do5cjrd0lo5k2" path="res://Scenes/Game/game.gd" id="1_ciybh"]
 [ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="1_mv0hc"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://lsw6rcrexnwr" path="res://Assets/Powerups/ALL_WAVES.png" id="5_xfil1"]
 [ext_resource type="Texture2D" uid="uid://c7k0f0b5syioq" path="res://Assets/Powerups/BULLET_SPREAD.png" id="6_7jvlm"]
 [ext_resource type="AudioStream" uid="uid://kyde7o3pfxli" path="res://Assets/Audio/explosion.wav" id="6_flgk0"]
-[ext_resource type="Shader" uid="uid://bwnxpmrhwk17q" path="res://Assets/Shaders/RainbowShader.gdshader" id="7_a6ftd"]
 [ext_resource type="Texture2D" uid="uid://bewv84a04hanp" path="res://Assets/Powerups/BULLET_PIERCING.png" id="7_qtymf"]
 [ext_resource type="Texture2D" uid="uid://iya4gc1di0t3" path="res://Assets/Powerups/ABSORB_ALL_FORMS.png" id="8_oejk7"]
 [ext_resource type="Texture2D" uid="uid://007cga8nqdxa" path="res://Assets/Powerups/TIME_SLOW.png" id="8_upfqs"]
@@ -27,10 +26,6 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_ev4jc"]
 font_size = 36
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nxex1"]
-shader = ExtResource("7_a6ftd")
-shader_parameter/time_mult = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_upfqs"]
 shader = ExtResource("8_ypmwd")
@@ -192,23 +187,22 @@ value = 4.0
 show_percentage = false
 
 [node name="TextureRect" type="TextureRect" parent="UICanvas/UI/AllWavesBar"]
-material = SubResource("ShaderMaterial_nxex1")
 layout_mode = 0
 offset_left = 72.0
-offset_top = 2.0
 offset_right = 498.0
-offset_bottom = 472.0
+offset_bottom = 470.0
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("5_xfil1")
 
 [node name="Label" type="Label" parent="UICanvas/UI/AllWavesBar"]
 layout_mode = 0
+offset_left = -6.0
 offset_top = -17.0
-offset_right = 109.0
+offset_right = 104.0
 offset_bottom = 6.0
 theme_override_fonts/font = ExtResource("11_lemb1")
 theme_override_font_sizes/font_size = 13
-text = "Rainbow Bullet"
+text = "All COlOR BULLET"
 
 [node name="BulletSpreadBar" type="ProgressBar" parent="UICanvas/UI"]
 layout_mode = 0

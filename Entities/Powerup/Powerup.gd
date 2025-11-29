@@ -55,19 +55,19 @@ func _ready() -> void:
 
 func label_text(powerup_type) -> String:
 	if powerup_type == "ALL_WAVES":
-		return "ALL WAVES UNLOCKED"
+		return "ALL COLOR BULLET ENABLED"
 	elif powerup_type == "FIRE_RATE":
 		return "MAX FIRE RATE UP"
 	elif powerup_type == "DAMAGE":
-		return "DAMAGE INCREASED"
+		return "DAMAGE BOOST ENABLED"
 	elif powerup_type == "SPEED":
 		return "MAX SPEED UP"
 	elif powerup_type == "BULLET_SPREAD":
-		return "BULLET SPREAD INCREASED"
+		return "BULLET SPREAD ENABLED"
 	elif powerup_type == "BULLET_PIERCING":
 		return "BULLET PIERCING ENABLED"
 	elif powerup_type == "BULLET_SPEED":
-		return "MAX BULLET SPEED INCREASED"
+		return "MAX BULLET SPEED UP"
 	elif powerup_type == "ABSORB_ALL_FORMS":
 		return "ABSORB ALL COLORS ENABLED"
 	elif powerup_type == "TIME_SLOW":
