@@ -50,7 +50,7 @@ func _ready() -> void:
 	absorb_all_forms_timer.connect("timeout", _on_absorb_all_forms_timeout)
 	globals.set_tint(self, current_form["color"], tint_intensity)
 	blink_timer = TimerHelper.make_timer(self, 0.1, _on_absorb_all_forms_timeout, false, false)
-	blink_start_timer = TimerHelper.make_timer(self, 2.0, blink_timer.start, false, false)
+	blink_start_timer = TimerHelper.make_timer(self, 3.0, blink_timer.start, false, false)
 
 func _physics_process(delta: float) -> void:
 	spatial_hash.update(self, get_aabb())

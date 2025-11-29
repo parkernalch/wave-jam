@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bkpgwb0eeogs3"]
+[gd_scene load_steps=5 format=3 uid="uid://bkpgwb0eeogs3"]
 
-[ext_resource type="Script" uid="uid://cc3kelsqrvc6" path="res://Entities/Powerup/Powerup.gd" id="1_ao0ia"]
+[ext_resource type="Script" uid="uid://cg6whak4qeoqp" path="res://Entities/Powerup/Powerup.gd" id="1_ao0ia"]
+[ext_resource type="Texture2D" uid="uid://dmm11pp026c3" path="res://Assets/Images/pixil-frame-0(1).png" id="2_ao0ia"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ao0ia"]
 size = Vector2(60, 60)
@@ -11,6 +12,10 @@ size = Vector2(60, 60)
 scale = Vector2(0.3, 0.3)
 gravity_scale = 0.0
 script = ExtResource("1_ao0ia")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("2_ao0ia")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2
