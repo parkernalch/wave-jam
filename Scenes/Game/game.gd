@@ -27,6 +27,8 @@ var bullet_speed_count
 var fire_rate_count
 var speed_count
 
+var game_over
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	next_form_index = globals.available_wave_forms.size()-1
@@ -47,6 +49,10 @@ func _ready() -> void:
 	bullet_speed_count = 0
 	fire_rate_count = 0
 	speed_count = 0
+	player_name_input.draw_tabs = false
+	player_name_input.draw_spaces = false
+	game_over = false
+
 
 
 func show_game_over():
@@ -61,6 +67,7 @@ func show_game_over():
 
 	panel.visible = true
 	get_tree().paused = true
+	game_over = true
 
 func  on_enemy_destroyed() -> void:
 	$Audio/ExplosionPlayer.play()
@@ -152,15 +159,18 @@ func _on_time_slow_timeout() -> void:
 	globals.time_slow_active = false
 
 func _on_resume() -> void:
+	if game_over:
+		return
 	globals.is_paused = false
 	get_tree().paused = false
 	pause_menu.visible = false
 
 func _on_pause() -> void:
+	if game_over:
+		return
 	globals.is_paused = true
 	pause_menu.visible = true
 	get_tree().paused = true
-
 
 func clean_up_game() -> void:
 	globals.current_wave = 0
@@ -184,3 +194,8 @@ func _on_high_scores_pressed() -> void:
 
 	clean_up_game()
 	get_tree().change_scene_to_file("res://Scenes/Menus/menus.tscn")
+
+
+func _on_text_edit_text_changed() -> void:
+	if player_name_input.text.length() > 9:
+		player_name_input.backspace()

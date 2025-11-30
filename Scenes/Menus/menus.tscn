@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkuvjgsgfd3xb"]
+[gd_scene load_steps=6 format=3 uid="uid://dkuvjgsgfd3xb"]
 
 [ext_resource type="Script" uid="uid://c4pbxw5b7p6mp" path="res://Scenes/Menus/menus.gd" id="1_goel8"]
+[ext_resource type="Texture2D" uid="uid://c6s8grqyujcfm" path="res://Assets/Images/HighScore.png" id="2_drhv0"]
+[ext_resource type="Texture2D" uid="uid://bw2alwiyilf08" path="res://Assets/Images/mainmenu.png" id="2_mfmg2"]
+[ext_resource type="Texture2D" uid="uid://dytofeti58lu2" path="res://Assets/Images/settings.png" id="3_nn8fo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_goel8"]
 font_size = 70
@@ -15,13 +18,18 @@ grow_vertical = 2
 script = ExtResource("1_goel8")
 
 [node name="MainMenu" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="MainMenu"]
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 1007.0
+texture = ExtResource("2_mfmg2")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu"]
 layout_mode = 0
@@ -53,24 +61,35 @@ alignment = 1
 
 [node name="PlayButton" type="Button" parent="MainMenu/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
 text = "Play Game"
 
 [node name="SettingsButton" type="Button" parent="MainMenu/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
 text = "Settings"
 
 [node name="HighScoresButton" type="Button" parent="MainMenu/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
 text = "High Scores"
 
 [node name="SettingsMenu" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="SettingsMenu"]
+layout_mode = 0
+offset_right = 601.0
+offset_bottom = 1007.0
+texture = ExtResource("3_nn8fo")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="SettingsMenu"]
 layout_mode = 0
@@ -93,7 +112,7 @@ alignment = 1
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsMenu/HBoxContainer"]
 custom_minimum_size = Vector2(600, 800)
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 18
 alignment = 1
 
 [node name="Master" type="HBoxContainer" parent="SettingsMenu/HBoxContainer/VBoxContainer"]
@@ -102,6 +121,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/Master"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Master Volume"
 
 [node name="HSlider" type="HSlider" parent="SettingsMenu/HBoxContainer/VBoxContainer/Master"]
@@ -113,6 +133,7 @@ tick_count = 20
 
 [node name="Value" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/Master"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "100%"
 
 [node name="Music" type="HBoxContainer" parent="SettingsMenu/HBoxContainer/VBoxContainer"]
@@ -121,6 +142,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/Music"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Music Volume"
 
 [node name="HSlider" type="HSlider" parent="SettingsMenu/HBoxContainer/VBoxContainer/Music"]
@@ -132,6 +154,7 @@ tick_count = 20
 
 [node name="Value" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/Music"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "100%"
 
 [node name="SFX" type="HBoxContainer" parent="SettingsMenu/HBoxContainer/VBoxContainer"]
@@ -140,6 +163,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/SFX"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "SFX Volume"
 
 [node name="HSlider" type="HSlider" parent="SettingsMenu/HBoxContainer/VBoxContainer/SFX"]
@@ -151,11 +175,14 @@ tick_count = 20
 
 [node name="Value" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/SFX"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "100%"
 
 [node name="BackButton" type="Button" parent="SettingsMenu/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
 text = "Back"
 
 [node name="HighScoresMenu" type="Control" parent="."]
@@ -168,6 +195,12 @@ offset_bottom = -800.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="TextureRect" type="TextureRect" parent="HighScoresMenu"]
+layout_mode = 0
+offset_right = 601.0
+offset_bottom = 1010.0
+texture = ExtResource("2_drhv0")
+
 [node name="VBoxContainer" type="VBoxContainer" parent="HighScoresMenu"]
 layout_mode = 0
 offset_top = 100.0
@@ -177,7 +210,7 @@ theme_override_constants/separation = 60
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HighScoresMenu/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 300
+theme_override_constants/separation = 291
 
 [node name="Scores1" type="VBoxContainer" parent="HighScoresMenu/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -189,6 +222,8 @@ theme_override_constants/separation = 20
 
 [node name="BackButton2" type="Button" parent="HighScoresMenu/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
 text = "Back"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HighScoresMenu"]
