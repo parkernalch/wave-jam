@@ -12,7 +12,7 @@ var settings_menu_visible = false
 var high_scores_menu_visible = false
 var current_wave: int = 0
 var is_paused: bool = false
-
+var powerup_count = 0
 var tint_shader = preload("res://Assets/Shaders/TintShader.gdshader")
 
 # Map dB range [-50, 0] to percentage [0,100].
@@ -54,7 +54,6 @@ func add_score(player_name_input):
 			game_jolt_helper.add_score(str(score.score), str(score.score), '', '', player_name, 1045389)
 
 func set_tint(object, color, strength) -> void:
-
 	# Root node material
 	if object.material and object.material is ShaderMaterial:
 		var mat := (object.material as ShaderMaterial).duplicate(true) as ShaderMaterial

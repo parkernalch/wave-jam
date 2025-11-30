@@ -160,7 +160,7 @@ func destroy(spawn_drop, point_increase=0) -> void:
 
 	randomize()
 
-	if randi() % 5 == 0 && spawn_drop:
+	if randi() % 5 == 0 && spawn_drop && globals.powerup_count < constants.MAX_POWERUPS:
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)
@@ -175,3 +175,4 @@ func reset_stun() -> void:
 
 func reset_tint() -> void:
 	globals.set_tint(self, current_wave_form["color"], tint_intensity)
+

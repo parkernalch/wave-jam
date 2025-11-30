@@ -11,3 +11,4 @@ const DEFAULT_WAVE_FORMS := {
 
 # editable copy exposed to the inspector; initialized from the constant
 @export var WAVE_FORMS: Dictionary = DEFAULT_WAVE_FORMS.duplicate(true)
+const MAX_POWERUPS = 5;
