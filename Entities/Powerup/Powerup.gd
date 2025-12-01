@@ -45,8 +45,6 @@ func _ready() -> void:
 	if !available_powerups.filter(check_type).size() == 0:
 		available_powerups = available_powerups.filter(check_type)
 
-	print(globals.powerup_types.size())
-
 	powerup_type = available_powerups[randi() % available_powerups.size()]
 
 	var powerup_image_path = "Assets/Powerups/%s.png" % powerup_type
@@ -88,13 +86,14 @@ func _on_pickup(body) -> void:
 	if entered:
 		return
 	# Instantiate the label scene and add it to the UI at a non-overlapping position.
-	var label_instance = power_up_label.instantiate()
-	var ui = get_parent().get_node("UICanvas").get_node("UI")
-	var desired_pos = position
-	var final_pos = _find_non_overlapping_label_position(ui, desired_pos)
-	label_instance.position = final_pos
-	ui.add_child(label_instance)
-	label_instance.text = label_text(powerup_type)
+	if !globals.hide_powerup_popups:
+		var label_instance = power_up_label.instantiate()
+		var ui = get_parent().get_node("UICanvas").get_node("UI")
+		var desired_pos = position
+		var final_pos = _find_non_overlapping_label_position(ui, desired_pos)
+		label_instance.position = final_pos
+		ui.add_child(label_instance)
+		label_instance.text = label_text(powerup_type)
 	signal_bus.powerup_collected.emit(powerup_type)
 	entered = true
 	globals.powerup_types = globals.powerup_types.filter(check_global_type)

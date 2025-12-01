@@ -7,6 +7,7 @@ extends Control
 @onready var music_slider = $SettingsMenu/HBoxContainer/VBoxContainer/Music/HSlider
 @onready var sfx_slider = $SettingsMenu/HBoxContainer/VBoxContainer/SFX/HSlider
 @onready var score_scene = preload("res://Scenes/Menus/score.tscn")
+@onready var powerup_popup_checkbox = $SettingsMenu/HBoxContainer/VBoxContainer/HBoxContainer/CheckBox
 
 var scores_loaded = false
 var score_index
@@ -28,6 +29,9 @@ func _ready() -> void:
 
 	TimerHelper.make_timer(self, 1, check_scores, false, true)
 
+	powerup_popup_checkbox.button_pressed = globals.hide_powerup_popups
+
+
 func get_scores():
 	game_jolt_helper.fetch_scores('', '', 99999, 1045389)
 
@@ -35,25 +39,30 @@ func check_scores() -> void:
 	if !scores_loaded:
 		get_scores()
 
-func handle_button_press(main_menu, settings_menu, high_scores_menu, set_globals=true):
+func handle_button_press(main_menu, settings_menu, high_scores_menu, credits_menu, set_globals=true):
 	if set_globals:
 		globals.main_menu_visible = main_menu
 		globals.settings_menu_visible = settings_menu
 		globals.high_scores_menu_visible = high_scores_menu
+		globals.credits_menu_visible = credits_menu
 
 	$MainMenu.visible = globals.main_menu_visible
 	$SettingsMenu.visible = globals.settings_menu_visible
 	$HighScoresMenu.visible = globals.high_scores_menu_visible
+	$CreditsMenu.visible = globals.credits_menu_visible
 
 func handle_menu_press():
-	handle_button_press(true, false, false)
+	handle_button_press(true, false, false, false)
 
 func handle_settings_press():
-	handle_button_press(false, true, false)
+	handle_button_press(false, true, false, false)
 
 func handle_high_scores_press():
 	get_scores()
-	handle_button_press(false, false, true)
+	handle_button_press(false, false, true, false)
+
+func _on_credits_pressed() -> void:
+	handle_button_press(false, false, false, true)
 
 func handle_start_game():
 	get_tree().change_scene_to_file("res://Scenes/Game/game.tscn")
@@ -98,10 +107,12 @@ func add_scores_to_list(scores) -> void:
 		else:
 			continue
 
-
-
 func clear_list() -> void:
 	for child in $HighScoresMenu/VBoxContainer/HBoxContainer/Scores1.get_children():
 		child.queue_free()
 	for child in $HighScoresMenu/VBoxContainer/HBoxContainer/Scores2.get_children():
 		child.queue_free()
+
+
+func _on_check_box_toggled(toggled_on: bool) -> void:
+	globals.hide_powerup_popups = toggled_on

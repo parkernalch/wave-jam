@@ -1,12 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://dkuvjgsgfd3xb"]
+[gd_scene load_steps=7 format=3 uid="uid://dkuvjgsgfd3xb"]
 
 [ext_resource type="Script" uid="uid://c4pbxw5b7p6mp" path="res://Scenes/Menus/menus.gd" id="1_goel8"]
 [ext_resource type="Texture2D" uid="uid://c6s8grqyujcfm" path="res://Assets/Images/HighScore.png" id="2_drhv0"]
 [ext_resource type="Texture2D" uid="uid://bw2alwiyilf08" path="res://Assets/Images/mainmenu.png" id="2_mfmg2"]
 [ext_resource type="Texture2D" uid="uid://dytofeti58lu2" path="res://Assets/Images/settings.png" id="3_nn8fo"]
+[ext_resource type="Texture2D" uid="uid://b5ps7x4l4s3ep" path="res://Assets/Images/Credits.png" id="5_v8xre"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_goel8"]
-font_size = 70
+font_size = 62
 
 [node name="Menus" type="Control"]
 layout_mode = 3
@@ -18,6 +19,7 @@ grow_vertical = 2
 script = ExtResource("1_goel8")
 
 [node name="MainMenu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,13 +35,13 @@ texture = ExtResource("2_mfmg2")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu"]
 layout_mode = 0
-offset_right = 600.0
+offset_right = 599.0
 offset_bottom = 200.0
 alignment = 1
 
 [node name="GameTitle" type="Label" parent="MainMenu/HBoxContainer"]
 layout_mode = 2
-text = "Wave Game"
+text = "Color Waves"
 label_settings = SubResource("LabelSettings_goel8")
 horizontal_alignment = 1
 
@@ -77,7 +79,14 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 22
 text = "High Scores"
 
+[node name="Credits" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "Credits"
+
 [node name="SettingsMenu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -90,6 +99,14 @@ layout_mode = 0
 offset_right = 601.0
 offset_bottom = 1007.0
 texture = ExtResource("3_nn8fo")
+
+[node name="ColorRect" type="ColorRect" parent="SettingsMenu"]
+layout_mode = 0
+offset_left = 432.0
+offset_top = 427.0
+offset_right = 452.0
+offset_bottom = 447.0
+color = Color(1, 1, 1, 0.5294118)
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="SettingsMenu"]
 layout_mode = 0
@@ -178,6 +195,18 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "100%"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="SettingsMenu/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Disable Powerup popups"
+
+[node name="CheckBox" type="CheckBox" parent="SettingsMenu/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
 [node name="BackButton" type="Button" parent="SettingsMenu/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
@@ -186,6 +215,7 @@ theme_override_font_sizes/font_size = 22
 text = "Back"
 
 [node name="HighScoresMenu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -238,11 +268,77 @@ text = "High Scores"
 label_settings = SubResource("LabelSettings_goel8")
 horizontal_alignment = 1
 
+[node name="CreditsMenu" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="CreditsMenu"]
+layout_mode = 0
+offset_left = -60.0
+offset_right = 623.0
+offset_bottom = 805.0
+texture = ExtResource("5_v8xre")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CreditsMenu"]
+layout_mode = 0
+offset_left = -60.0
+offset_top = 148.0
+offset_right = 622.0
+offset_bottom = 683.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreditsMenu/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="CreditsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Music:"
+
+[node name="Label2" type="Label" parent="CreditsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Owen Levin"
+
+[node name="Label3" type="Label" parent="CreditsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Code"
+
+[node name="Label4" type="Label" parent="CreditsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Owen Levin
+Parker nalchajian
+troy lonie"
+
+[node name="Label5" type="Label" parent="CreditsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Beta Tester High score"
+
+[node name="Label6" type="Label" parent="CreditsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Horchata - 1925200"
+
+[node name="BackButton" type="Button" parent="CreditsMenu/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "Back"
+
 [connection signal="pressed" from="MainMenu/VBoxContainer/PlayButton" to="." method="handle_start_game"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/SettingsButton" to="." method="handle_settings_press"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/HighScoresButton" to="." method="handle_high_scores_press"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
 [connection signal="value_changed" from="SettingsMenu/HBoxContainer/VBoxContainer/Master/HSlider" to="." method="_on_master_slider_drag_ended"]
 [connection signal="value_changed" from="SettingsMenu/HBoxContainer/VBoxContainer/Music/HSlider" to="." method="_on_music_slider_changed"]
 [connection signal="value_changed" from="SettingsMenu/HBoxContainer/VBoxContainer/SFX/HSlider" to="." method="_on_sfx_slider_changed"]
+[connection signal="toggled" from="SettingsMenu/HBoxContainer/VBoxContainer/HBoxContainer/CheckBox" to="." method="_on_check_box_toggled"]
 [connection signal="pressed" from="SettingsMenu/HBoxContainer/VBoxContainer/BackButton" to="." method="handle_menu_press"]
 [connection signal="pressed" from="HighScoresMenu/VBoxContainer/BackButton2" to="." method="handle_menu_press"]
+[connection signal="pressed" from="CreditsMenu/HBoxContainer/VBoxContainer/BackButton" to="." method="handle_menu_press"]

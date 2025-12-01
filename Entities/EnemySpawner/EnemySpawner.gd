@@ -40,13 +40,13 @@ func _ready() -> void:
 
 	if FileAccess.file_exists(path):
 		var file = FileAccess.open(path, FileAccess.READ)
-		var test = str(file.get_var())
-		print(test == "yellow")
+		var cur_color = str(file.get_var())
+
 		globals.available_wave_forms = constants.WAVE_FORMS.values().slice(0,2)
 
-		if (test == "green"):
+		if (cur_color == "green"):
 			globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SAWTOOTH)
-		elif (test == "yellow"):
+		elif (cur_color == "yellow"):
 			globals.available_wave_forms = constants.WAVE_FORMS.values()
 
 		file.close()
