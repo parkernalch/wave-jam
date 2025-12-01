@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmm11pp026c3"
-path="res://.godot/imported/pixil-frame-0(1).png-25f49ab084c8cbd31a3c582342830a8e.ctex"
+uid="uid://dugmxo7id48jk"
+path="res://.godot/imported/controller_digi_left.png-382cefeafa85d90f34db38df3dc332d4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Images/pixil-frame-0(1).png"
-dest_files=["res://.godot/imported/pixil-frame-0(1).png-25f49ab084c8cbd31a3c582342830a8e.ctex"]
+source_file="res://Assets/Images/ControllerIcons/controller_digi_left.png"
+dest_files=["res://.godot/imported/controller_digi_left.png-382cefeafa85d90f34db38df3dc332d4.ctex"]
 
 [params]
 
@@ -37,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

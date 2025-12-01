@@ -1,0 +1,264 @@
+[gd_scene load_steps=18 format=3 uid="uid://d1m85ihbbpong"]
+
+[ext_resource type="Texture2D" uid="uid://cbl3oqtyfy1ac" path="res://Assets/Images/background.png" id="1_gycof"]
+[ext_resource type="Script" uid="uid://badd3ytoo6g1d" path="res://Scenes/Tutorial/tutorial.gd" id="1_n1m62"]
+[ext_resource type="PackedScene" uid="uid://cgbo4s8g2xsx7" path="res://Entities/Player/Player.tscn" id="2_n1m62"]
+[ext_resource type="PackedScene" uid="uid://df711m0xd2tdd" path="res://Entities/GruntEnemy/GruntEnemy.tscn" id="4_cdp5x"]
+[ext_resource type="Texture2D" uid="uid://esqf70t0gsn4" path="res://Assets/Images/ControllerIcons/controller_RT.png" id="4_n7yiw"]
+[ext_resource type="Texture2D" uid="uid://bmtfjhlbf5hvp" path="res://Assets/Images/ControllerIcons/controller_LT.png" id="5_tnu2s"]
+[ext_resource type="Texture2D" uid="uid://cmpwe0mbcen4d" path="res://Assets/Images/ControllerIcons/controller_stick_left.png" id="6_mr02u"]
+[ext_resource type="Texture2D" uid="uid://baatwopqaiq1e" path="res://Assets/Images/ControllerIcons/controller_button_A.png" id="7_41rtk"]
+[ext_resource type="Texture2D" uid="uid://bdfl2hrk7r6rt" path="res://Assets/Images/KeyboardIcons/Keyboard Letters and Symbols.png" id="8_k8dxt"]
+[ext_resource type="Texture2D" uid="uid://te8erwfd27ud" path="res://Assets/Images/KeyboardIcons/Keyboard Extras.png" id="9_48x6o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bylec"]
+atlas = ExtResource("8_k8dxt")
+region = Rect2(32, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uso4a"]
+atlas = ExtResource("8_k8dxt")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ukv6"]
+atlas = ExtResource("8_k8dxt")
+region = Rect2(96, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_by5v1"]
+atlas = ExtResource("8_k8dxt")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjc3v"]
+atlas = ExtResource("8_k8dxt")
+region = Rect2(32, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3i08"]
+atlas = ExtResource("8_k8dxt")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1n4ff"]
+atlas = ExtResource("9_48x6o")
+region = Rect2(0, 16, 32, 16)
+
+[node name="Tutorial" type="Node2D"]
+script = ExtResource("1_n1m62")
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -4096
+z_as_relative = false
+offset_right = 1197.0
+offset_bottom = 2079.0
+scale = Vector2(0.357, 0.4)
+texture = ExtResource("1_gycof")
+
+[node name="Player" parent="." instance=ExtResource("2_n1m62")]
+position = Vector2(216.00003, 778.0001)
+shoot_cooldown = 0.5
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 360.0
+offset_top = -2.0
+offset_right = 560.0
+offset_bottom = 774.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 406.0
+offset_top = 36.0
+offset_right = 694.0
+offset_bottom = 836.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/separation = 200
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_n7yiw")
+
+[node name="Label4" type="Label" parent="CanvasLayer/UI/VBoxContainer/TextureRect"]
+layout_mode = 0
+offset_left = 106.0
+offset_top = 222.0
+offset_right = 252.0
+offset_bottom = 261.0
+theme_override_font_sizes/font_size = 34
+text = "Shoot"
+
+[node name="Sprite2D" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer/TextureRect"]
+layout_mode = 0
+offset_left = 298.0
+offset_top = 64.0
+offset_right = 314.0
+offset_bottom = 80.0
+scale = Vector2(6, 6)
+texture = SubResource("AtlasTexture_bylec")
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_tnu2s")
+
+[node name="Label3" type="Label" parent="CanvasLayer/UI/VBoxContainer/TextureRect2"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 224.0
+offset_right = 349.0
+offset_bottom = 263.0
+theme_override_font_sizes/font_size = 34
+text = "Change Color"
+
+[node name="Sprite2D2" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer/TextureRect2"]
+layout_mode = 0
+offset_left = 294.0
+offset_top = 70.0
+offset_right = 310.0
+offset_bottom = 86.0
+scale = Vector2(6, 6)
+texture = SubResource("AtlasTexture_uso4a")
+
+[node name="TextureRect3" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_mr02u")
+
+[node name="Label2" type="Label" parent="CanvasLayer/UI/VBoxContainer/TextureRect3"]
+layout_mode = 0
+offset_left = 86.0
+offset_top = 216.0
+offset_right = 206.0
+offset_bottom = 255.0
+theme_override_font_sizes/font_size = 34
+text = "Move"
+
+[node name="Sprite2D3" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer/TextureRect3"]
+layout_mode = 0
+offset_left = 218.0
+offset_top = 214.00006
+offset_right = 234.0
+offset_bottom = 230.00006
+scale = Vector2(6, 6)
+texture = SubResource("AtlasTexture_4ukv6")
+
+[node name="Sprite2D4" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer/TextureRect3"]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 284.0
+offset_right = 152.0
+offset_bottom = 300.0
+scale = Vector2(6, 6)
+texture = SubResource("AtlasTexture_by5v1")
+
+[node name="Sprite2D5" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer/TextureRect3"]
+layout_mode = 0
+offset_left = 216.0
+offset_top = 284.0
+offset_right = 232.0
+offset_bottom = 300.0
+scale = Vector2(6, 6)
+texture = SubResource("AtlasTexture_fjc3v")
+
+[node name="Sprite2D6" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer/TextureRect3"]
+layout_mode = 0
+offset_left = 296.0
+offset_top = 286.0
+offset_right = 312.0
+offset_bottom = 302.0
+scale = Vector2(6, 6)
+texture = SubResource("AtlasTexture_p3i08")
+
+[node name="TextureRect4" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("7_41rtk")
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/VBoxContainer/TextureRect4"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 238.0
+offset_right = 385.0
+offset_bottom = 319.0
+theme_override_font_sizes/font_size = 34
+text = "Boost
+- Drains Health"
+
+[node name="Sprite2D3" type="TextureRect" parent="CanvasLayer/UI/VBoxContainer/TextureRect4"]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 186.0
+offset_right = 222.0
+offset_bottom = 202.0
+scale = Vector2(6, 6)
+texture = SubResource("AtlasTexture_1n4ff")
+
+[node name="Label" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 170.0
+offset_right = 345.0
+offset_bottom = 211.0
+text = "Destroy All thE ENemies
+"
+
+[node name="Label2" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 210.0
+offset_right = 590.0
+offset_bottom = 251.0
+text = "You must be the same color
+to damage an enemy"
+
+[node name="GruntEnemy" parent="." instance=ExtResource("4_cdp5x")]
+position = Vector2(68, 40)
+tutorial_enemy = true
+manual_form = 1
+
+[node name="GruntEnemy2" parent="." instance=ExtResource("4_cdp5x")]
+position = Vector2(161, 41)
+tutorial_enemy = true
+manual_form = 2
+
+[node name="GruntEnemy4" parent="." instance=ExtResource("4_cdp5x")]
+position = Vector2(259, 42)
+tutorial_enemy = true
+manual_form = 3
+
+[node name="GruntEnemy3" parent="." instance=ExtResource("4_cdp5x")]
+position = Vector2(355, 40)
+tutorial_enemy = true
+manual_form = 4
+
+[node name="AllWavesTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="DamageBoostTimer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
+[node name="BulletPiercingTimer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
+[node name="BulletSpreadTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="TimeSlowTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="AbsorbAllFormsTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true

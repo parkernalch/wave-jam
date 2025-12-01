@@ -38,16 +38,21 @@ func _ready() -> void:
 	signal_bus.amplitude_changed.emit(100)
 	shoot_cooldown_timer = TimerHelper.make_timer(self, shoot_cooldown, _reset_shoot_cooldown, false, false)
 	signal_bus.powerup_collected.connect(_on_powerup_collected)
-	get_parent().find_child("DamageBoostTimer").connect("timeout", _on_damage_boost_timeout)
+	if get_parent().find_child("DamageBoostTimer"):
+		get_parent().find_child("DamageBoostTimer").connect("timeout", _on_damage_boost_timeout)
 	all_waves_timer = get_parent().find_child("AllWavesTimer")
-	all_waves_timer.connect("timeout", _on_all_waves_timeout)
+	if all_waves_timer:
+		all_waves_timer.connect("timeout", _on_all_waves_timeout)
 	bullet_spread_timer = get_parent().find_child("BulletSpreadTimer")
-	bullet_spread_timer.connect("timeout", _on_bullet_spread_timeout)
+	if bullet_spread_timer:
+		bullet_spread_timer.connect("timeout", _on_bullet_spread_timeout)
 	bullet_piercing_timer = get_parent().find_child("BulletPiercingTimer")
-	bullet_piercing_timer.connect("timeout", _on_bullet_piercing_timeout)
+	if bullet_piercing_timer:
+		bullet_piercing_timer.connect("timeout", _on_bullet_piercing_timeout)
 	globals.available_wave_forms = FORMS.values().slice(0,2)
 	absorb_all_forms_timer = get_parent().find_child("AbsorbAllFormsTimer")
-	absorb_all_forms_timer.connect("timeout", _on_absorb_all_forms_timeout)
+	if absorb_all_forms_timer:
+		absorb_all_forms_timer.connect("timeout", _on_absorb_all_forms_timeout)
 	globals.set_tint(self, current_form["color"], tint_intensity)
 	blink_timer = TimerHelper.make_timer(self, 0.1, _on_absorb_all_forms_timeout, false, false)
 	blink_start_timer = TimerHelper.make_timer(self, 3.0, blink_timer.start, false, false)

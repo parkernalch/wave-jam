@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=3 uid="uid://bkpgwb0eeogs3"]
 
-[ext_resource type="Script" uid="uid://cg6whak4qeoqp" path="res://Entities/Powerup/Powerup.gd" id="1_ao0ia"]
+[ext_resource type="Script" uid="uid://cc3kelsqrvc6" path="res://Entities/Powerup/Powerup.gd" id="1_ao0ia"]
 [ext_resource type="Texture2D" uid="uid://dmm11pp026c3" path="res://Assets/Images/pixil-frame-0(1).png" id="2_ao0ia"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ao0ia"]
-size = Vector2(60, 60)
+size = Vector2(53.333332, 53.333332)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ocygj"]
 
@@ -14,15 +14,16 @@ gravity_scale = 0.0
 script = ExtResource("1_ao0ia")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
-scale = Vector2(3, 3)
+scale = Vector2(2, 2)
 texture = ExtResource("2_ao0ia")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-3.973643e-07, 0)
+position = Vector2(5.9604645e-07, 9.934107e-07)
 shape = SubResource("RectangleShape2D_ao0ia")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ocygj")
+scale = Vector2(0.8, 0.8)

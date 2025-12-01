@@ -9,3 +9,4 @@ signal form_changed(form_index)
 signal time_slow_started()
 signal game_paused()
 signal game_resumed()
+signal tutorial_enemy_killed

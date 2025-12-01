@@ -198,7 +198,7 @@ func destroy(spawn_drop, point_increase=0) -> void:
 		signal_bus.enemy_destroyed.emit()
 
 	# 33% chance to drop a powerup
-	if randi() % 3 == 0 && spawn_drop && globals.powerup_count < constants.MAX_POWERUPS:
+	if randi() % 3 == 0 && spawn_drop && globals.powerup_types.size() < constants.MAX_POWERUPS:
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)

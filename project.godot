@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Nov 25 Game Off - Waves"
-run/main_scene="uid://dkuvjgsgfd3xb"
+run/main_scene="uid://d1m85ihbbpong"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 

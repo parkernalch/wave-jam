@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmm11pp026c3"
-path="res://.godot/imported/pixil-frame-0(1).png-25f49ab084c8cbd31a3c582342830a8e.ctex"
+uid="uid://bdfl2hrk7r6rt"
+path="res://.godot/imported/Keyboard Letters and Symbols.png-7567479091c6c259f1e32ba715bfd8a6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Images/pixil-frame-0(1).png"
-dest_files=["res://.godot/imported/pixil-frame-0(1).png-25f49ab084c8cbd31a3c582342830a8e.ctex"]
+source_file="res://Assets/Images/KeyboardIcons/Keyboard Letters and Symbols.png"
+dest_files=["res://.godot/imported/Keyboard Letters and Symbols.png-7567479091c6c259f1e32ba715bfd8a6.ctex"]
 
 [params]
 
@@ -37,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

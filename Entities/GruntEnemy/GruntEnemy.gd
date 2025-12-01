@@ -10,6 +10,8 @@ extends CharacterBody2D
 @export var amplitude: float = 60.0
 @export var freq: float = 3.0
 @export var screen_margin: float = 16.0
+@export var tutorial_enemy = false
+@export var manual_form = 0
 var current_speed
 
 # explicit spawn/movement bounds (use these instead of viewport)
@@ -43,7 +45,11 @@ var tint_intensity: float = 0.6
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
-	current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
+
+	if manual_form > 0:
+		current_wave_form = constants.WAVE_FORMS.values()[manual_form-1]
+	else:
+		current_wave_form = globals.available_wave_forms[randi() % globals.available_wave_forms.size()]
 
 	globals.set_tint(self, current_wave_form["color"], tint_intensity)
 	# Timer to handle shooting
@@ -65,22 +71,23 @@ func _physics_process(delta: float) -> void:
 
 	detect_player_collision()
 
-	vector_to_player = (player.global_position - global_position).normalized()
-	if global_position.y > player.global_position.y:
-		move_vector = Vector2(0, 1).normalized()
-	else:
-		move_vector = Vector2(vector_to_player.x, 1).normalized()
+	if !tutorial_enemy:
+		vector_to_player = (player.global_position - global_position).normalized()
+		if global_position.y > player.global_position.y:
+			move_vector = Vector2(0, 1).normalized()
+		else:
+			move_vector = Vector2(vector_to_player.x, 1).normalized()
 
-	if globals.time_slow_active:
-		current_speed = speed * 0.25
-	else:
-		current_speed = speed
+		if globals.time_slow_active:
+			current_speed = speed * 0.25
+		else:
+			current_speed = speed
 
-	if not hit_stunned:
-		global_position += move_vector * current_speed * delta
+		if not hit_stunned:
+			global_position += move_vector * current_speed * delta
 
-	if (global_position.y > bounds_bottom + 100):
-		destroy(false)
+		if (global_position.y > bounds_bottom + 100):
+			destroy(false)
 
 	if (health <= 0):
 		destroy(true, 100)
@@ -152,6 +159,8 @@ func get_aabb() -> Rect2:
 func destroy(spawn_drop, point_increase=0) -> void:
 	# Add animation
 	spatial_hash.remove(self)
+	if tutorial_enemy:
+		signal_bus.tutorial_enemy_killed.emit()
 
 	if point_increase:
 		score.add_points(point_increase)
@@ -160,7 +169,7 @@ func destroy(spawn_drop, point_increase=0) -> void:
 
 	randomize()
 
-	if randi() % 5 == 0 && spawn_drop && globals.powerup_count < constants.MAX_POWERUPS:
+	if randi() % 5 == 0 && spawn_drop && globals.powerup_types.size() < constants.MAX_POWERUPS && !tutorial_enemy:
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)
@@ -175,4 +184,3 @@ func reset_stun() -> void:
 
 func reset_tint() -> void:
 	globals.set_tint(self, current_wave_form["color"], tint_intensity)
-

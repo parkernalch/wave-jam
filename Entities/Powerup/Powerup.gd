@@ -16,7 +16,7 @@ const POWER_UP_TYPES = [
 ]
 
 var powerup_type: String = ""
-var available_wave_forms
+var available_powerups
 var player: Player
 var entered: bool = false
 
@@ -25,50 +25,58 @@ var entered: bool = false
 func _ready() -> void:
 	player = get_tree().get_current_scene().get_node("Player")
 	randomize()
-	available_wave_forms = POWER_UP_TYPES.duplicate()
+	available_powerups = POWER_UP_TYPES.duplicate()
 
 	if player.speed >= player.max_speed:
-		available_wave_forms = POWER_UP_TYPES.filter(func(t): return t != "SPEED")
+		available_powerups = POWER_UP_TYPES.filter(func(t): return t != "SPEED")
 
 	if player.bullet_speed >= player.max_bullet_speed:
-		available_wave_forms = available_wave_forms.filter(func(t): return t != "BULLET_SPEED")
+		available_powerups = available_powerups.filter(func(t): return t != "BULLET_SPEED")
 
 	if player.shoot_cooldown == 0:
-		available_wave_forms = available_wave_forms.filter(func(t): return t != "FIRE_RATE")
+		available_powerups = available_powerups.filter(func(t): return t != "FIRE_RATE")
 
 	if player.shoot_cooldown >= .20 && randi() % 6 == 0:
-		available_wave_forms = ["FIRE_RATE"]
+		available_powerups = ["FIRE_RATE"]
 
 	if player.amplitude <= 30:
-		available_wave_forms = ["MAX_HEALTH"]
+		available_powerups = ["MAX_HEALTH"]
 
-	powerup_type = available_wave_forms[randi() % available_wave_forms.size()]
+	if !available_powerups.filter(check_type).size() == 0:
+		available_powerups = available_powerups.filter(check_type)
+
+	print(globals.powerup_types.size())
+
+	powerup_type = available_powerups[randi() % available_powerups.size()]
 
 	var powerup_image_path = "Assets/Powerups/%s.png" % powerup_type
 	$Sprite2D.texture = load(powerup_image_path)
-	$Sprite2D.scale = Vector2(2.0,2.0)
-	globals.powerup_count += 1
+	$Sprite2D.scale = Vector2(1.5, 1.5)
+	globals.powerup_types.append(powerup_type)
 
 	# Ensure the Area2D is connected to the pickup handler so bodies trigger _on_pickup
 	if has_node("Area2D"):
 		var area = $Area2D
 		area.connect("body_entered", _on_pickup)
 
+func check_type(type) -> bool:
+	return globals.powerup_types.find(type) == -1
+
 func label_text(powerup_type) -> String:
 	if powerup_type == "ALL_WAVES":
 		return "ALL COLOR BULLET ENABLED"
 	elif powerup_type == "FIRE_RATE":
-		return "MAX FIRE RATE UP"
+		return "FIRE RATE UP"
 	elif powerup_type == "DAMAGE":
 		return "DAMAGE BOOST ENABLED"
 	elif powerup_type == "SPEED":
-		return "MAX SPEED UP"
+		return "SPEED UP"
 	elif powerup_type == "BULLET_SPREAD":
 		return "BULLET SPREAD ENABLED"
 	elif powerup_type == "BULLET_PIERCING":
 		return "BULLET PIERCING ENABLED"
 	elif powerup_type == "BULLET_SPEED":
-		return "MAX BULLET SPEED UP"
+		return "BULLET SPEED UP"
 	elif powerup_type == "ABSORB_ALL_FORMS":
 		return "ABSORB ALL COLORS ENABLED"
 	elif powerup_type == "TIME_SLOW":
@@ -89,17 +97,23 @@ func _on_pickup(body) -> void:
 	label_instance.text = label_text(powerup_type)
 	signal_bus.powerup_collected.emit(powerup_type)
 	entered = true
-	globals.powerup_count -= 1
+	globals.powerup_types = globals.powerup_types.filter(check_global_type)
 	queue_free()
+
+func check_global_type(type) -> bool:
+	return type == powerup_type
 
 
 func _find_non_overlapping_label_position(ui: Node, desired_pos: Vector2) -> Vector2:
 	# Try stacking labels upward if there's an existing powerup label too close to desired_pos.
 	var adjusted := desired_pos
-	var offset := Vector2(0, -28)
+	var offset
 	var attempts := 0
-	var max_attempts := 8
+	var max_attempts := 20
 	while attempts < max_attempts:
+		randomize()
+		var offset_x = randi() % 600;
+
 		var conflict := false
 		for c in ui.get_children():
 			var scr = null
@@ -112,7 +126,7 @@ func _find_non_overlapping_label_position(ui: Node, desired_pos: Vector2) -> Vec
 					break
 		if not conflict:
 			break
-		adjusted += offset
+		adjusted = Vector2(desired_pos.y, offset_x)
 		attempts += 1
 
 	# Clamp within UI bounds similar to original behavior
