@@ -169,7 +169,7 @@ func destroy(spawn_drop, point_increase=0) -> void:
 
 	randomize()
 
-	if randi() % 5 == 0 && spawn_drop && globals.powerup_types.size() < constants.MAX_POWERUPS && !tutorial_enemy:
+	if randi() % 5 == 0 && spawn_drop && globals.powerup_count < constants.MAX_POWERUPS && !tutorial_enemy:
 		var powerup_instance = Powerup.instantiate()
 		if get_parent():
 			get_parent().add_child(powerup_instance)

@@ -14,6 +14,7 @@ var credits_menu_visible = false
 var current_wave: int = 0
 var is_paused: bool = false
 var powerup_types = []
+var powerup_count = 0
 var tint_shader = preload("res://Assets/Shaders/TintShader.gdshader")
 var hide_powerup_popups = false
 

@@ -51,6 +51,7 @@ func _ready() -> void:
 	$Sprite2D.texture = load(powerup_image_path)
 	$Sprite2D.scale = Vector2(1.5, 1.5)
 	globals.powerup_types.append(powerup_type)
+	globals.powerup_count += 1
 
 	# Ensure the Area2D is connected to the pickup handler so bodies trigger _on_pickup
 	if has_node("Area2D"):
@@ -97,6 +98,7 @@ func _on_pickup(body) -> void:
 	signal_bus.powerup_collected.emit(powerup_type)
 	entered = true
 	globals.powerup_types = globals.powerup_types.filter(check_global_type)
+	globals.powerup_count -= 1
 	queue_free()
 
 func check_global_type(type) -> bool:
