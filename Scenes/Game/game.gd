@@ -53,6 +53,7 @@ func _ready() -> void:
 	player_name_input.draw_tabs = false
 	player_name_input.draw_spaces = false
 	game_over = false
+	globals.powerup_count = 0
 
 
 
