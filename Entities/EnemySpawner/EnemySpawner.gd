@@ -36,6 +36,22 @@ func _ready() -> void:
 	wave_count_label = get_parent().find_child("UICanvas").find_child("UI").find_child("WaveCounter")
 	display_wave_count_label_timer = TimerHelper.make_timer(self, display_wave_count_duration, hide_wave_count_label, true, false)
 
+	var path = "user://save_file.dat"
+
+	if FileAccess.file_exists(path):
+		var file = FileAccess.open(path, FileAccess.READ)
+		var test = str(file.get_var())
+		print(test == "yellow")
+		globals.available_wave_forms = constants.WAVE_FORMS.values().slice(0,2)
+
+		if (test == "green"):
+			globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SAWTOOTH)
+		elif (test == "yellow"):
+			globals.available_wave_forms = constants.WAVE_FORMS.values()
+
+		file.close()
+
+
 func get_spawn_point() -> Vector2:
 	# Try to find a spawn X that is at least `spawn_min_distance` away
 	# from any existing enemy. After MAX_TRIES we fall back to a random
@@ -88,15 +104,28 @@ func get_hover_enemy_count() -> int:
 
 	return count
 
+
+func save_to_file(input) -> void:
+	var path = "user://save_file.dat"
+
+	var file = FileAccess.open(path, FileAccess.WRITE)
+
+	if file:
+		file.store_var(input)
+		file.close()
+
 func spawn_enemy_wave() -> void:
 	globals.current_wave += 1
 	enemy_count_per_wave += 1
 	display_wave_count_label_timer.start()
-	if (globals.current_wave == 5):
+
+	if (globals.current_wave == 5 && globals.available_wave_forms.size() == 2):
 		globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SAWTOOTH)
+		save_to_file("green")
 		# wave_count_label.text = "Wave: %d Sawtooth Form Added" % globals.current_wave
-	elif (globals.current_wave == 10):
+	elif (globals.current_wave == 15 && globals.available_wave_forms.size() == 3):
 		globals.available_wave_forms.append(CONSTANTS.DEFAULT_WAVE_FORMS.SQUARE)
+		save_to_file("yellow")
 		# wave_count_label.text = "Wave: %d Square Form Added" % globals.current_wave
 	# else:
 	wave_count_label.text = "Wave: %d" % globals.current_wave

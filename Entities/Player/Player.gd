@@ -49,7 +49,6 @@ func _ready() -> void:
 	bullet_piercing_timer = get_parent().find_child("BulletPiercingTimer")
 	if bullet_piercing_timer:
 		bullet_piercing_timer.connect("timeout", _on_bullet_piercing_timeout)
-	globals.available_wave_forms = FORMS.values().slice(0,2)
 	absorb_all_forms_timer = get_parent().find_child("AbsorbAllFormsTimer")
 	if absorb_all_forms_timer:
 		absorb_all_forms_timer.connect("timeout", _on_absorb_all_forms_timeout)

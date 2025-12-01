@@ -31,6 +31,7 @@ var game_over
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	spatial_hash.clear()
 	next_form_index = globals.available_wave_forms.size()-1
 	next_form = globals.available_wave_forms[next_form_index]
 	signal_bus.connect("enemy_destroyed", on_enemy_destroyed)
@@ -40,7 +41,7 @@ func _ready() -> void:
 	damage_progress_bar.max_value = damage_timer.wait_time
 	signal_bus.connect("form_changed", _on_form_changed)
 	next_form_indicator = $UICanvas/UI/NextFormIndicator
-	globals.set_tint(next_form_indicator, next_form["color"], .5)
+	globals.set_tint(next_form_indicator, Color.BLUE, .5)
 	time_slow_timer.connect("timeout", _on_time_slow_timeout)
 	signal_bus.connect("time_slow_started", _start_time_slow)
 	signal_bus.connect("game_paused", _on_pause)

@@ -219,6 +219,15 @@ offset_bottom = 251.0
 text = "You must be the same color
 to damage an enemy"
 
+[node name="Label3" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 279.0
+offset_right = 397.0
+offset_bottom = 320.0
+text = "Enemies and enemy bullets
+heal you if you match their color"
+
 [node name="GruntEnemy" parent="." instance=ExtResource("4_cdp5x")]
 position = Vector2(68, 40)
 tutorial_enemy = true
