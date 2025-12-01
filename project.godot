@@ -29,7 +29,7 @@ game_jolt_helper="*res://Globals/GameJoltHelper.gd"
 
 window/size/viewport_width=600
 window/size/viewport_height=800
-window/size/resizable=false
+window/stretch/mode="canvas_items"
 
 [gui]
 
